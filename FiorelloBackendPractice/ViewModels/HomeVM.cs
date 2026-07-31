@@ -8,8 +8,7 @@ namespace FiorelloBackendPractice.ViewModels;
 
 public class HomeVM
 {
-    public IEnumerable<Slider>Sliders{get; set; }
-    public SliderInfo SliderInfo { get; set; }
+    
     public IEnumerable<BlogUIVM> Blogs { get; set; }
     public IEnumerable<CategoryUIVM> Categories { get; set; }
     public IEnumerable<ProductUIVM> Products { get; set; }

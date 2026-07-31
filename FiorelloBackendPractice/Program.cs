@@ -15,6 +15,7 @@ builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICategoryService, CategoyService>();
  builder.Services.AddScoped<IProductService, ProductService>();
+ builder.Services.AddScoped<ISettingService, SettingService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

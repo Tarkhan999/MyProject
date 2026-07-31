@@ -9,89 +9,13 @@
     <main>
 
         <!-- SLIDER START -->
-
-        <section id="slider">
-            <div class="owl-carousel slider">
-             @foreach (var item in Model.Sliders)
-             {
-                 <div> <img src="img/@item.Image" alt=""> </div>
-             }
-            </div>
-            <div class="container context pl-lg-5 ml-lg-3">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class="text">
-                            <h1>@Model.SliderInfo.Title</h1>
-                           
-                            <p class="text-black-50 d-none d-sm-block">@Model.SliderInfo.Description </p>
-                        </div>
-                        <div class="img">
-                            <img src="img/@Model.SliderInfo.SignImage" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+@await Component.InvokeAsync("Slider")
 
         <!-- SLIDER END -->
 
          <!-- PRODUCTS START -->
 
-        <section id="products">
-            <div class="container">
-                <div class="row pt-5">
-                    <div class="col-12 d-flex justify-content-between">
-                        <ul class="category-mobile d-md-none list-unstyled">
-                            <li>
-                                <a href="" class="categories mr-2">Categories</a>
-                                <i class="fas fa-caret-down"></i>
-                                <ul class="category list-unstyled" style="display: none;">
-                                    <li><a href="" data-id="all">All</a></li>
-                              @foreach (var item in Model.Categories)
-                                    {
-                                        <li><a href="" data-id="@item.Id">@item.Name</a></li>
-                                    }
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="category d-none d-md-flex list-unstyled">
-                            <li><a href="" data-id="all">All</a></li>
-                        @foreach (var item in Model.Categories)
-                            {
-                                <li><a href="" data-id="@item.Id">@item.Name</a></li>
-                            }
-                        </ul>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="" class="mr-2">Filter</a>
-                                <i class="fas fa-caret-down"></i>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                   @foreach (var item in Model.Products)
-                   {
-                       <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
-                           <div class="product-item text-center" data-id="@item.CategoryId">
-                               <div class="img">
-                                   <a href="">
-                                       <img src="img/@item.MainImage" class="img-fluid" alt="">
-                                   </a>
-                               </div>
-                               <div class="title mt-3">
-                                   <h6>@item.Name</h6>
-                               </div>
-                               <div class="price">
-                                   <span class="text-black-50">Add to cart</span>
-                                   <span class="text-black-50">@item.Price</span>
-                               </div>
-                           </div>
-                       </div>
-                   }
-                </div>
-            </div>
-        </section>
+    @await Component.InvokeAsync("Product");
 
         <!-- PRODUCTS END -->
 
@@ -232,26 +156,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row pb-5">
-                   @foreach (var item in Model.Blogs)
-                   {
-                       <div class="col-md-6 col-lg-4">
-                           <div class="item">
-                               <div class="img position-relative">
-                                   <a asp-controller="Blog"asp-action="Detail" asp-route-id="@item.Id"><img src="img/@item.Image" class="img-fluid" alt=""></a>
-                                   
-                                   <div class="date rounded bg-light position-absolute py-1 px-2">
-                                       <span>@item.DateCreated</span>
-                                   </div>
-                               </div>
-                               <div class="text mt-3 text-center px-5">
-                                   <h5>@item.Title</h5>
-                                   <p class="text-black-50">@item.Description</p>
-                               </div>
-                           </div>
-                       </div>
-                   }
-                </div>
+               <partial name="_BlogPartial"model="@Model.Blogs"/>
             </div>
         </section>
 

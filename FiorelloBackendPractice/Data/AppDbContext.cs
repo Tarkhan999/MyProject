@@ -15,5 +15,6 @@ namespace FiorelloBackendPractice.Data
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<SliderInfo> SliderInfos { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }
