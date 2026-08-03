@@ -4,6 +4,6 @@ namespace FiorelloBackendPractice.Services.Interfaces;
 
 public interface ICategoryService
 {
-    Task<IEnumerable<CategoryUIVM>>GetAllAsync();
-    
+    Task<IEnumerable<CategoryUIVM>> GetAllUIAsync();
+    Task<IEnumerable<CategoryVM>> GetAllAsync();
 }

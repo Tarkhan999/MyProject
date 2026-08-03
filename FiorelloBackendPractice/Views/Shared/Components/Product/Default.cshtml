@@ -1,57 +1,57 @@
-    @model ProductVCVM
+@model ProductVCVM
 
 <section id="products">
-            <div class="container">
-                <div class="row pt-5">
-                    <div class="col-12 d-flex justify-content-between">
-                        <ul class="category-mobile d-md-none list-unstyled">
-                            <li>
-                                <a href="" class="categories mr-2">Categories</a>
-                                <i class="fas fa-caret-down"></i>
-                                <ul class="category list-unstyled" style="display: none;">
-                                    <li><a href="" data-id="all">All</a></li>
-                              @foreach (var item in Model.Categories)
-                                    {
-                                        <li><a href="" data-id="@item.Id">@item.Name</a></li>
-                                    }
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="category d-none d-md-flex list-unstyled">
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col-12 d-flex justify-content-between">
+                <ul class="category-mobile d-md-none list-unstyled">
+                    <li>
+                        <a href="" class="categories mr-2">Categories</a>
+                        <i class="fas fa-caret-down"></i>
+                        <ul class="category list-unstyled" style="display: none;">
                             <li><a href="" data-id="all">All</a></li>
-                        @foreach (var item in Model.Categories)
+                            @foreach (var item in Model.Categories)
                             {
                                 <li><a href="" data-id="@item.Id">@item.Name</a></li>
                             }
                         </ul>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="" class="mr-2">Filter</a>
-                                <i class="fas fa-caret-down"></i>
-                            </li>
-                        </ul>
+                    </li>
+                </ul>
+                <ul class="category d-none d-md-flex list-unstyled">
+                    <li><a href="" data-id="all">All</a></li>
+                    @foreach (var item in Model.Categories)
+                    {
+                        <li><a href="" data-id="@item.Id">@item.Name</a></li>
+                    }
+                </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="" class="mr-2">Filter</a>
+                        <i class="fas fa-caret-down"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
+                    <div class="product-item text-center" data-id="@item.CategoryId">
+                        <div class="img">
+                            <a href="">
+                                <img src="img/@item.MainImage" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="title mt-3">
+                            <h6>@item.Name</h6>
+                        </div>
+                        <div class="price">
+                            <span class="text-black-50">Add to cart</span>
+                            <span class="text-black-50">@item.Price</span>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                   @foreach (var item in Model.Products)
-                   {
-                       <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
-                           <div class="product-item text-center" data-id="@item.CategoryId">
-                               <div class="img">
-                                   <a href="">
-                                       <img src="img/@item.MainImage" class="img-fluid" alt="">
-                                   </a>
-                               </div>
-                               <div class="title mt-3">
-                                   <h6>@item.Name</h6>
-                               </div>
-                               <div class="price">
-                                   <span class="text-black-50">Add to cart</span>
-                                   <span class="text-black-50">@item.Price</span>
-                               </div>
-                           </div>
-                       </div>
-                   }
-                </div>
-            </div>
-        </section>
+            }
+        </div>
+    </div>
+</section>

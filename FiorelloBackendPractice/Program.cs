@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using FiorelloBackendPractice.Data;
 using FiorelloBackendPractice.Services;
-using FiorelloBackendPractice.Services.Interfaces; // AppDbContext-in olduğu qovluq (əgər fərqlidirsə, düzəldin)
+using FiorelloBackendPractice.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+// AppDbContext-in olduğu qovluq (əgər fərqlidirsə, düzəldin)
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICategoryService, CategoyService>();
- builder.Services.AddScoped<IProductService, ProductService>();
- builder.Services.AddScoped<ISettingService, SettingService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISettingService, SettingService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,8 +35,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(name:"areas",pattern:"{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 app.Run();

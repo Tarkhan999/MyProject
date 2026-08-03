@@ -5,20 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FiorelloBackendPractice.ViewComponents;
 
-public class ProductViewComponent:ViewComponent
+public class ProductViewComponent : ViewComponent
 {
-    private readonly IProductService _productService;
     private readonly ICategoryService _categoryService;
+    private readonly IProductService _productService;
+
     public ProductViewComponent(IProductService productService,
         ICategoryService categoryService)
     {
         _productService = productService;
         _categoryService = categoryService;
     }
+
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        IEnumerable<CategoryUIVM> Categories = await _categoryService.GetAllAsync();
-        IEnumerable<ProductUIVM> Products = await _productService.GetAllAsync();
+        var Categories = await _categoryService.GetAllUIAsync();
+        var Products = await _productService.GetAllAsync();
         return await Task.FromResult(View(new ProductVCVM
         {
             Categories = Categories,
@@ -29,6 +31,6 @@ public class ProductViewComponent:ViewComponent
 
 public class ProductVCVM
 {
-    public IEnumerable<CategoryUIVM>Categories { get; set; }
-    public IEnumerable<ProductUIVM>  Products { get; set; }
+    public IEnumerable<CategoryUIVM> Categories { get; set; }
+    public IEnumerable<ProductUIVM> Products { get; set; }
 }

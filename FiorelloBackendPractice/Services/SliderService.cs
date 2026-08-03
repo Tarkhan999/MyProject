@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FiorelloBackendPractice.Services;
 
-public class SliderService:ISliderService
+public class SliderService : ISliderService
 {
     private readonly AppDbContext _dbContext;
 
@@ -13,9 +13,10 @@ public class SliderService:ISliderService
     {
         _dbContext = context;
     }
+
     public async Task<IEnumerable<Slider>> GetAllAsync()
     {
-        return await  _dbContext.Sliders.ToListAsync();
+        return await _dbContext.Sliders.ToListAsync();
     }
 
     public async Task<SliderInfo> GetInfoAsync()

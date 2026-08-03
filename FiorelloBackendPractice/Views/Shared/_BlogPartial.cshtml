@@ -2,12 +2,12 @@
 
 
 <div class="row pb-5">
-    @foreach (BlogUIVM item in Model)
+    @foreach (var item in Model)
     {
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="item">
                 <div class="img position-relative">
-                            
+
                     <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id">
                         <img src="img/@item.Image" class="img-fluid" alt="">
                     </a>

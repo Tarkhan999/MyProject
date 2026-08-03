@@ -1,0 +1,15 @@
+@model CategoryCreateVM
+
+
+<div class="container mt-5" >
+    
+    <form method="post" asp-action="Create" class="forms-sample">
+        <div class="form-group">
+            <label >Name:</label>
+            <input asp-for=Name class="form-control" id="exampleInputUsername1" placeholder="Username">
+        </div>
+
+        <button type="submit" class="btn btn-primary me-2">Submit</button>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</div>
