@@ -1,13 +1,13 @@
-@model CategoryCreateVM
+@model SliderCreateVM
 
 
 <div class="container mt-5" >
     
-    <form method="post" asp-action="Create" class="forms-sample">
+    <form method="post" asp-action="Create"enctype="multipart/form-data" class="forms-sample">
         <div class="form-group">
             <label >Name:</label>
-            <input asp-for=Name class="form-control" maxlength="none">
-            <span class="text-danger"asp-validation-for="Name"></span>
+            <input asp-for="UploadImage"  class="form-control" >
+            <span asp-validation-for="UploadImage" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary me-2">Submit</button>

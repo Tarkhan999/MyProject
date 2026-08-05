@@ -1,4 +1,5 @@
 using FiorelloBackendPractice.Data;
+using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels.Category;
 using Microsoft.EntityFrameworkCore;
@@ -30,5 +31,31 @@ public class CategoyService : ICategoryService
             Id = c.Id,
             Name = c.Name
         }).ToListAsync();
+    }
+
+    public async Task<Category> GetByIdAsync(int id)
+    {
+        return await _dbContext.Categories.FindAsync(id);
+    }
+
+    public async Task CreateAsync(CategoryCreateVM request)
+    {
+        await _dbContext.Categories.AddAsync(new Category
+        {
+            Name = request.Name
+        });
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task EditAsync(Category dbCategory, CategoryEditVM request)
+    {
+        dbCategory.Name = request.Name;
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Category category)
+    {
+        _dbContext.Categories.Remove(category);
+        await _dbContext.SaveChangesAsync();
     }
 }

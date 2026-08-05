@@ -215,12 +215,17 @@
       <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
         aria-controls="form-elements">
         <i class="mdi mdi-view-headline menu-icon"></i>
-        <span class="menu-title">Form elements</span>
+        <span class="menu-title">Slider Area</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="form-elements">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>          
+          <li class="nav-item"><a class="nav-link" asp-controller="Slider"asp-action="Index">Slider</a></li>          
+        </ul>
+      </div>
+      <div class="collapse" id="form-elements">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"><a class="nav-link" asp-controller="SliderInfo"asp-action="Index">Slider Info</a></li>          
         </ul>
       </div>
     </li>    
@@ -312,6 +317,7 @@
 
 <!-- End custom js for this page-->
 <script src="~/admin/assets/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="~/Admin/assets/js/admin-main.js"></script>
 </body>
 
 </html>
