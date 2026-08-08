@@ -47,45 +47,39 @@ public class SliderController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(SliderCreateVM request)
     {
-        if (!ModelState.IsValid) return View(request);
-
-        if (request.UploadImage == null || !request.UploadImage.ContentType.Contains("image/"))
+        if (!ModelState.IsValid) return View();
+        foreach (var item in request.UploadImages)
         {
-            ModelState.AddModelError("UploadImage", "Lütfen geçerli bir resim dosyası seçin.");
-            return View(request);
+            if (!item.ContentType.Contains("image/"))
+            {
+                ModelState.AddModelError("UploadImages","File must be an image");
+                return View();
+            }
         }
 
-        string webRootPath = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-        string imgFolder = Path.Combine(webRootPath, "img");
-
-        if (!Directory.Exists(imgFolder))
+        foreach (var item in request.UploadImages)
         {
-            Directory.CreateDirectory(imgFolder);
+            string fileName = Guid.NewGuid().ToString() + "-" + item.FileName;
+            string path=Path.Combine(_env.WebRootPath, "img", fileName);
+            using FileStream fileStream = new(path, FileMode.Create);
+            await item.CopyToAsync(fileStream);
+            await _context.Sliders.AddAsync(new Slider
+            {
+                Image = fileName
+            });
+
         }
 
-        string fileName = Guid.NewGuid().ToString() + "-" + request.UploadImage.FileName;
-        string path = Path.Combine(imgFolder, fileName);
-
-        using (FileStream stream = new(path, FileMode.Create))
-        {
-            await request.UploadImage.CopyToAsync(stream);
-        }
-
-        await _context.Sliders.AddAsync(new Slider { Image = fileName });
         await _context.SaveChangesAsync();
-
         return RedirectToAction(nameof(Index));
     }
+
     [HttpPost]
-    [Route("[area]/[controller]/Delete/{id}")] // BUNU EKLİYORUZ: Yönlendirmeyi garanti altına alır
     public async Task<IActionResult> Delete(int id)
     {
         var slider = await _context.Sliders.FindAsync(id);
         if (slider == null) return NotFound();
-
-        string webRootPath = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-        string path = Path.Combine(webRootPath, "img", slider.Image);
-
+        string path = Path.Combine(_env.WebRootPath, "img", slider.Image);
         if (System.IO.File.Exists(path))
         {
             System.IO.File.Delete(path);

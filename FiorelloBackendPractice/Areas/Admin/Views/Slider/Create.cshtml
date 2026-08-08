@@ -6,8 +6,8 @@
     <form method="post" asp-action="Create" enctype="multipart/form-data" class="forms-sample">
         <div class="form-group mb-3">
             <label>Slider Resmi:</label>
-            <input asp-for="UploadImage" type="file" class="form-control" accept="image/*" />
-            <span asp-validation-for="UploadImage" class="text-danger"></span>
+            <input asp-for="UploadImages" type="file" class="form-control" accept="image/*" multiple />
+            <span asp-validation-for="UploadImages" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary me-2">Submit</button>
