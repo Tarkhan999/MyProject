@@ -1,6 +1,7 @@
 using FiorelloBackendPractice.Data;
 using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.Services.Interfaces;
+using FiorelloBackendPractice.ViewModels.Slider;
 using Microsoft.EntityFrameworkCore;
 
 namespace FiorelloBackendPractice.Services;
@@ -23,4 +24,14 @@ public class SliderService : ISliderService
     {
         return await _dbContext.SliderInfos.FirstOrDefaultAsync();
     }
+    public async Task<Slider> GetByIdAsync(int id)
+    {
+        return await _dbContext.Sliders.FindAsync(id);
+    }
+    public async Task EditAsync(Slider dbSlider, SliderEditVM request)
+    {
+        dbSlider.Image = request.Image;
+        await _dbContext.SaveChangesAsync();
+    }
+   
 }

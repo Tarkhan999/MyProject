@@ -1,20 +1,25 @@
 using FiorelloBackendPractice.Data;
 using FiorelloBackendPractice.Models;
+using FiorelloBackendPractice.Services;
+using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels.Slider;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 [Area("Admin")]
 public class SliderController : Controller
 {
+    private readonly ISliderService _sliderService;
     private readonly AppDbContext _context;
     private readonly IWebHostEnvironment _env;
 
-    public SliderController(AppDbContext context, IWebHostEnvironment env)
+    public SliderController(AppDbContext context, IWebHostEnvironment env, ISliderService sliderService)
     {
         _context = context;
         _env = env;
+        _sliderService = sliderService;
     }
     public async Task< IActionResult> Index()
     {
@@ -89,4 +94,73 @@ public class SliderController : Controller
         await _context.SaveChangesAsync();
         return Ok();
     }
+
+
+    // 1. SAYFAYI AÇMA İŞLEMİ (GET)
+[HttpGet]
+public async Task<IActionResult> Edit(int? id) // int? yaptık ki id gelmezse çökmesin
+{
+    if (id == null || id == 0) 
+        return Content("HATA: Hangi resmi düzenleyeceğiniz anlaşılamadı (ID gelmedi)!");
+        
+    var slider = await _context.Sliders.FindAsync(id);
+    
+    // Eğer veritabanında yoksa (silinmişse) NotFound yerine mesaj yazdırıyoruz:
+    if (slider == null) 
+        return Content("HATA: Bu resim veritabanında bulunamadı! Muhtemelen daha önce sildiniz. Lütfen Listeye (Index) dönüp sayfayı yenileyin.");
+        
+    return View(new SliderEditVM
+    {
+        Image = slider.Image
+    });
+}
+
+// 2. FORMU GÖNDERME VE KAYDETME İŞLEMİ (POST)
+[HttpPost]
+// [ValidateAntiForgeryToken] // DİKKAT: 400 Beyaz sayfa hatasını engellemek için yoruma aldık!
+public async Task<IActionResult> Edit(int id, [FromForm] SliderEditVM request) // [FromForm] garantisi eklendi
+{
+    if (!ModelState.IsValid) return View(request);
+    
+    var slider = await _sliderService.GetByIdAsync(id);
+    if (slider == null) 
+        return Content("HATA: Güncellenmek istenen veri veritabanında bulunamadı!");
+
+    // Kullanıcı yeni bir resim seçtiyse:
+    if (request.NewImage != null)
+    {
+        if (!request.NewImage.ContentType.Contains("image/"))
+        {
+            ModelState.AddModelError("NewImage", "Lütfen geçerli bir resim seçin.");
+            return View(request);
+        }
+
+        string webRootPath = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        
+        // Eski resmi sil
+        string oldFilePath = Path.Combine(webRootPath, "img", slider.Image);
+        if (System.IO.File.Exists(oldFilePath))
+        {
+            System.IO.File.Delete(oldFilePath);
+        }
+
+        // Yeni resmi yükle
+        string fileName = Guid.NewGuid().ToString() + "-" + request.NewImage.FileName;
+        string newFilePath = Path.Combine(webRootPath, "img", fileName);
+        
+        using FileStream stream = new(newFilePath, FileMode.Create);
+        await request.NewImage.CopyToAsync(stream);
+
+        // Veritabanına gidecek ismi ayarla
+        request.Image = fileName; 
+    }
+    else
+    {
+        // Yeni resim seçilmediyse eskiyi koru
+        request.Image = slider.Image;
+    }
+
+    await _sliderService.EditAsync(slider, request);
+    return RedirectToAction(nameof(Index));
+}
 }

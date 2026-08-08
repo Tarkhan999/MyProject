@@ -1,0 +1,29 @@
+@model SliderEditVM
+
+<div class="container mt-5">
+    <h2>Slider Düzenle</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <!-- DİKKAT: Resim yükleyebilmek için enctype="multipart/form-data" eklendi -->
+    <form method="post" asp-action="Edit" enctype="multipart/form-data" class="forms-sample">
+        
+        <div class="form-group mb-3">
+            <label>Mevcut Resim:</label>
+            <div class="mb-2">
+                <img src="~/img/@Model.Image" alt="Slider Image" style="width: 250px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+            </div>
+            <!-- Eski resmin adını gizli bir şekilde arka planda tutuyoruz -->
+            <input asp-for="Image" type="hidden" />
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="font-weight-bold text-primary">Yeni Resim Seç (Değiştirmek istemiyorsan boş bırak):</label>
+            <!-- type="file" olarak NewImage'i buraya ekledik -->
+            <input asp-for="NewImage" type="file" class="form-control" accept="image/*" />
+            <span asp-validation-for="NewImage" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success me-2">Değişiklikleri Kaydet</button>
+        <a asp-action="Index" class="btn btn-light">İptal</a>
+    </form>
+</div>

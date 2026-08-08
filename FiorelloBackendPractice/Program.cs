@@ -18,6 +18,8 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICategoryService, CategoyService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISettingService, SettingService>();
+// ISliderService çağrıldığında bana SliderService sınıfını ver demek.
+builder.Services.AddScoped<ISliderService, SliderService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
