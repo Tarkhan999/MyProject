@@ -1,6 +1,9 @@
 using FiorelloBackendPractice.Data;
+using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.ViewModels.Product;
+using FiorelloBackendPractice.Views.Product;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
@@ -9,9 +12,12 @@ namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 public class ProductController : Controller
 {
     private readonly AppDbContext _dbContext;
-    public ProductController(AppDbContext dbContext)
+    private readonly IWebHostEnvironment _env;
+    public ProductController(AppDbContext dbContext,
+                             IWebHostEnvironment env)
     {
         _dbContext = dbContext;
+        _env = env;
     }
 
     [HttpGet]
@@ -29,4 +35,68 @@ public class ProductController : Controller
         }).ToList();
         return View(model);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Create()
+    {
+        var categories = await _dbContext.Categories.ToListAsync();
+        ViewBag.Categories = categories.Select(c => new SelectListItem
+        {
+            Value = c.Id.ToString(),
+            Text = c.Name
+        }).ToList();
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(ProductCreateVM request)
+    {
+        if (!ModelState.IsValid)
+        {
+            var categories = await _dbContext.Categories.ToListAsync();
+            ViewBag.Categories = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
+            return View(request);
+        }
+
+        foreach (var item in request.Images)
+        {
+            if (!item.ContentType.Contains("image/"))
+            {
+                ModelState.AddModelError("UploadImages","File must be an image");
+                return View();
+            }
+        }
+
+        List<ProductImage> productImages = new();
+
+        foreach (var item in request.Images)
+        {
+            string fileName=Guid.NewGuid().ToString()+"-"+item.FileName;
+            string path = Path.Combine(_env.WebRootPath, "img", fileName);
+            using FileStream stream = new(path, FileMode.Create);
+            await item.CopyToAsync(stream);
+            productImages.Add(new ProductImage
+            {
+                Image = fileName,
+            });
+        }
+productImages.FirstOrDefault().IsMain = true;
+        var product = new Product
+        {
+            Name = request.Name,
+            Price = request.Price,
+            Description = request.Description,
+            CategoryId = request.CategoryId,
+            Images = productImages
+        };
+        await _dbContext.Products.AddAsync(product);
+        await _dbContext.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+    
 }

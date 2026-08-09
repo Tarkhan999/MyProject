@@ -1,0 +1,37 @@
+@model FiorelloBackendPractice.Views.Product.ProductCreateVM
+
+
+<div class="container mt-5" >
+    
+    <form method="post" asp-action="Create"enctype="multipart/form-data" class="forms-sample">
+        <div class="form-group">
+            <label >Name:</label>
+            <input asp-for=Name class="form-control" maxlength="none">
+            <span class="text-danger"asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group">
+            <label >Description:</label>
+            <input asp-for=Description class="form-control" maxlength="none">
+            <span class="text-danger"asp-validation-for="Description"></span>
+        </div>
+        <div class="form-group">
+            <label >Price:</label>
+            <input asp-for=Price class="form-control" maxlength="none">
+            <span class="text-danger"asp-validation-for="Price"></span>
+        </div>
+        <div class="form-group">
+            <label >Category:</label>
+            <select asp-for="CategoryId"asp-items="@ViewBag.Categories"class="form-control"></select>
+        </div>
+        
+        <div class="form-group">
+            <label>Image:</label>
+            <input asp-for="Images"class="form-control">
+            <span asp-validation-for="Images"class="text-danger"></span>
+        
+            </div>
+        
+        <button type="submit" class="btn btn-primary me-2">Submit</button>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</div>
