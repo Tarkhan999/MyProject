@@ -98,5 +98,39 @@ productImages.FirstOrDefault().IsMain = true;
         await _dbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Detail(int id)
+    {
+        var product = await _dbContext.Products.Include(m => m.Category)
+            .Include(m => m.Images)
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (product == null) return NotFound();
+        var model = new ProductDetailVM
+        {
+            Name = product.Name,
+            CategoryName = product.Category.Name,
+            Description = product.Description,
+            Price = product.Price,
+            Images = product.Images.Select(i => new ProductImageVM
+            {
+                Image = i.Image,
+                IsMain = i.IsMain
+            }).ToList()
+        };
+        return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var product = await _dbContext.Products.Include(m => m.Category)
+            .Include(m => m.Images)
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if(product==null)return NotFound();
+        _dbContext.Products.Remove(product);
+        await _dbContext.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
     
 }

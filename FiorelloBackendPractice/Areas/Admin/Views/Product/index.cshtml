@@ -34,7 +34,7 @@
                         <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-dark">Detail</a>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
 
-                        <button class="btn btn-danger delete-slider-btn" data-id="@item.Id">Delete</button>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?');">Delete</a>
                     </td>
                 </tr>
             }
