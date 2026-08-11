@@ -1,19 +1,91 @@
 @model FiorelloBackendPractice.Views.Product.ProductDetailVM
 
-<div class="container">
-    <h1 class="text-center">Product Detail</h1>
-    <div class="product-detail">
-        <h1>@Model.Name</h1>
-        <h4>@Model.Description</h4>
-        <h4>@Model.Price</h4>
-        <h4>@Model.CategoryName</h4>
-        <div class="images">
-            @foreach (var item in Model.Images)
-            {
-                <img class="@(item.IsMain ? "border border-success border-3":"") " src="~/img/@item.Image"  style="width: 150px; height: 150px"/>
-            }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<div class="container mt-5 mb-5">
+    <!-- Sayfa Üst Başlığı -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary mb-0">
+            <i class="bi bi-info-circle me-2"></i>Product Details
+        </h2>
+        <div>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm me-2">
+                <i class="bi bi-arrow-left me-1"></i> Back to List
+            </a>
         </div>
-       
     </div>
-    <a asp-action="Index" class="btn btn-light">Cancel</a>
+
+    <!-- Detay Kartı -->
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-4 align-items-center">
+                
+                <!-- Sol Taraf: Görsel Galerisi -->
+                <div class="col-lg-5">
+                    <div class="p-3 bg-light rounded-4 text-center border">
+                        <h6 class="text-muted fw-semibold mb-3 text-start">
+                            <i class="bi bi-images me-1"></i> Product Gallery
+                        </h6>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center">
+                            @foreach (var item in Model.Images)
+                            {
+                                <div class="position-relative">
+                                    <img src="~/img/@item.Image" 
+                                         class="rounded-3 shadow-sm object-fit-cover @(item.IsMain ? "border border-success border-3" : "border")" 
+                                         style="width: 130px; height: 130px;" 
+                                         alt="@Model.Name" />
+                                    
+                                    @if (item.IsMain)
+                                    {
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success border border-light">
+                                            Main
+                                        </span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Taraf: Ürün Bilgileri -->
+                <div class="col-lg-7">
+                    <div class="ps-lg-3">
+                        <!-- Kategori Rozeti -->
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 fs-6 mb-3">
+                            <i class="bi bi-tag-fill me-1"></i>@Model.CategoryName
+                        </span>
+
+                        <!-- Ürün Adı -->
+                        <h1 class="fw-bold text-dark mb-3">@Model.Name</h1>
+
+                        <!-- Fiyat -->
+                        <div class="mb-4">
+                            <span class="fs-2 fw-bold text-success">
+                                $@Model.Price
+                            </span>
+                        </div>
+
+                        <hr class="text-muted opacity-25 my-4" />
+
+                        <!-- Açıklama Alanı -->
+                        <div class="mb-4">
+                            <h6 class="text-uppercase text-secondary fw-bold fs-7 tracking-wide mb-2">Description</h6>
+                            <p class="text-muted fs-6 leading-relaxed bg-light p-3 rounded-3 border-start border-primary border-4">
+                                @Model.Description
+                            </p>
+                        </div>
+
+                        <!-- İşlem Butonları -->
+                        <div class="d-flex gap-2 pt-2">
+                            <a asp-action="Index" class="btn btn-light rounded-pill px-4">
+                                Close
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

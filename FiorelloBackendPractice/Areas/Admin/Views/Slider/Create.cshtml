@@ -1,16 +1,42 @@
 @model SliderCreateVM
 
-<div class="container mt-5">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <form method="post" asp-action="Create" enctype="multipart/form-data" class="forms-sample">
-        <div class="form-group mb-3">
-            <label>Slider Resmi:</label>
-            <input asp-for="UploadImages" type="file" class="form-control" accept="image/*" multiple />
-            <span asp-validation-for="UploadImages" class="text-danger"></span>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-success bg-opacity-10 border-0 p-4 text-center">
+                    <h3 class="fw-bold text-success mb-0">
+                        <i class="bi bi-cloud-arrow-up me-2"></i>Upload New Slider
+                    </h3>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3 fw-semibold"></div>
+
+                    <form method="post" asp-action="Create" enctype="multipart/form-data">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-secondary">Select Images</label>
+                            <input asp-for="UploadImages" type="file" class="form-control form-control-lg shadow-sm" accept="image/*" multiple />
+                            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i>You can select multiple images.</div>
+                            <span asp-validation-for="UploadImages" class="text-danger small mt-1 d-block fw-semibold"></span>
+                        </div>
+
+                        <div class="d-flex gap-3 mt-5">
+                            <button type="submit" class="btn btn-success rounded-pill w-50 py-2 shadow-sm fw-bold">
+                                <i class="bi bi-check2-circle me-1"></i> Upload
+                            </button>
+                            <a asp-action="Index" class="btn btn-light rounded-pill w-50 py-2 text-dark fw-semibold border">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
         </div>
-
-        <button type="submit" class="btn btn-primary me-2">Submit</button>
-        <a asp-action="Index" class="btn btn-light">Cancel</a>
-    </form>
+    </div>
 </div>

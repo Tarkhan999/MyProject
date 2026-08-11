@@ -1,33 +1,68 @@
 @model IEnumerable<SliderVM>
 
-<div class="container mt-4">
-    <h1 class="text-center">Categories</h1>
-    <a class="btn btn-primary" asp-action="Create">Create</a>
-    <div class="table-responsive mt-4">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Image</th>
-                <th>Operations</th>
-        
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td><img src="~/img/@item.Image"style="width: 150px;height: 150px"/></td>
-                    <td>
-                        <a asp-action="Detail"asp-route-id="@item.Id"class="btn btn-dark">Detail</a>
-                        <a asp-action="Edit"asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                       
-                        <button class="btn btn-danger delete-slider-btn" data-id="@item.Id">Delete</button>
-                    </td>
-       
-                </tr>
-            }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-            </tbody>
-        </table>
+<div class="container mt-5 mb-5">
+    
+    <!-- Başlık ve Ekle Butonu Satırı -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary mb-0">
+            <i class="bi bi-images me-2"></i>Sliders
+        </h2>
+        <a class="btn btn-success rounded-pill px-4 shadow-sm" asp-action="Create">
+            <i class="bi bi-plus-lg me-1"></i> Add New Slider
+        </a>
+    </div>
+
+    <!-- Tablo Kartı -->
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="py-3 px-4 text-secondary">Slider Image</th>
+                        <th class="py-3 text-center text-secondary" style="width: 220px;">Actions</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <!-- Resim (Slider olduğu için biraz daha geniş bir görünüm) -->
+                        <td class="px-4 py-3">
+                            <img src="~/img/@item.Image" 
+                                 class="rounded-3 shadow-sm object-fit-cover" 
+                                 style="width: 200px; height: 100px;" 
+                                 alt="Slider Image" />
+                        </td>
+                        
+                        <!-- Operasyonlar (İkonlu Buton Grubu) -->
+                        <td class="text-center py-3">
+                            <div class="btn-group shadow-sm rounded-pill" role="group">
+                                <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark px-3" title="Detail">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary px-3" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('Bu slider resmini silmek istediğinize emin misiniz?');" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-image-alt fs-1 mb-3 d-block text-secondary"></i>
+                <h5>No sliders found</h5>
+                <p>Click the "Add New Slider" button to upload your first image.</p>
+            </div>
+        }
     </div>
 </div>
