@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
 // BAZA BAĞLANTISI KODU BURAYA ƏLAVƏ OLUNMALIDIR:
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -36,7 +37,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseSession();
 
 app.MapControllerRoute(name:"areas",pattern:"{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");

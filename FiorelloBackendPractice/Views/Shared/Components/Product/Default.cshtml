@@ -46,7 +46,9 @@
                             <h6>@item.Name</h6>
                         </div>
                         <div class="price">
-                            <span class="text-black-50">Add to cart</span>
+                            <form method="post" asp-controller="Home" asp-action="AddProducToBasket" asp-route-id="@item.Id">
+                                <button type="submit" class="btn btn-primary">Add To Cart</button>
+                            </form>
                             <span class="text-black-50">@item.Price</span>
                         </div>
                     </div>
