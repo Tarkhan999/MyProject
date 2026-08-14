@@ -1,0 +1,82 @@
+@model BasketUIVM
+
+
+<div class="container mt-4">
+    
+    
+    
+    <table class="table">
+    
+        <thead>
+    
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Count</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Operations</th>
+        </tr>
+    
+        </thead>
+    
+        <tbody>
+    
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+            
+                <td><img src="~/img/@item.ProductImage"style="width: 150px;height: 150px"/></td>
+                <td>@item.ProductName</td>
+                <td>@item.ProductCount</td>
+                <td>@item.CategoryName</td>
+                <td>@item.ProductPrice</td>
+                <td><button data-id="@item.ProductId"class="btn btn-danger delete-slider-btn">Delete</button></td>
+            </tr>
+        }
+    
+    
+    
+    
+    
+    
+        </tbody>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </table>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</div>
