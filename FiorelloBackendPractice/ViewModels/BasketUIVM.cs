@@ -1,8 +1,8 @@
-namespace FiorelloBackendPractice.ViewModels;
-
-public class BasketUIVM
+namespace FiorelloBackendPractice.ViewModels
 {
-    public List<BasketItemVM> Items { get; set; }
-    public double Total{ get; set; }
-    
+    public class BasketUIVM
+    {
+        public List<BasketItemVM> Items { get; set; } = new List<BasketItemVM>();
+        public double Total { get; set; }
+    }
 }

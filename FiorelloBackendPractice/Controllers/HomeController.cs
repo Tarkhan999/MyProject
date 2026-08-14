@@ -10,11 +10,9 @@ namespace FiorelloBackendPractice.Controllers;
 public class HomeController : Controller
 {
     private readonly IBlogService _blogService;
-    
     private readonly AppDbContext _dbContext;
 
     public HomeController(IBlogService blogService, AppDbContext dbContext)
-        
     {
         _blogService = blogService;
         _dbContext = dbContext;
@@ -22,9 +20,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        
-        IEnumerable<BlogUIVM>blogs = await _blogService.GetAllAsync(3);
-
+        IEnumerable<BlogUIVM> blogs = await _blogService.GetAllAsync(3);
 
         HomeVM homeVM = new()
         {
@@ -34,21 +30,24 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task< IActionResult> AddProducToBasket(int id)
+    public async Task<IActionResult> AddProductToBasket(int? id)
     {
+        if (id == null) return BadRequest("Ürün ID'si bulunamadı.");
+
+        var product = await _dbContext.Products.FindAsync(id);
+        if (product == null) return NotFound("Ürün bulunamadı.");
+
         List<BasketVM> basketDatas;
         if (Request.Cookies["basket"] != null)
         {
-            basketDatas=JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
+            basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
         }
         else
         {
-            basketDatas=new List<BasketVM>();
+            basketDatas = new List<BasketVM>();
         }
-        var product=await _dbContext.Products.FindAsync(id);
         
-        var existProduct=basketDatas.FirstOrDefault(b=>b.ProductId==id);
+        var existProduct = basketDatas.FirstOrDefault(b => b.ProductId == id);
         if (existProduct != null)
         {
             existProduct.ProductCount++;
@@ -57,14 +56,17 @@ public class HomeController : Controller
         {
             basketDatas.Add(new BasketVM
             {
-                ProductId = id,
+                ProductId = (int)id,
                 ProductCount = 1,
                 Price = product.Price
             });
         }
         
-        
         Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketDatas));
-        return RedirectToAction(nameof(Index));
+        
+        int count = basketDatas.Sum(b => b.ProductCount);
+        double total = basketDatas.Sum(b => b.ProductCount * b.Price);
+        
+        return Ok(new { count = count, total = total });
     }
 }

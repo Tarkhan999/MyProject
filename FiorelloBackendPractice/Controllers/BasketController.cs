@@ -14,45 +14,61 @@ public class BasketController : Controller
     {
         _context = dbContext;
     }
+
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        List<BasketVM> basketDatas;
+        List<BasketVM> basketDatas = new List<BasketVM>();
         if (Request.Cookies["basket"] != null)
         {
-            basketDatas=JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
-        }
-        else
-        {
-            basketDatas=new List<BasketVM>();
+            basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
         }
 
-        List<BasketItemVM> basketItems =[];
+        List<BasketItemVM> basketItems = new List<BasketItemVM>();
 
         foreach (var item in basketDatas)
         {
-            var dbProduct=await _context.Products.Include(m=>m.Category).Include(m=>m.Images)
-                .FirstOrDefaultAsync(m=>m.Id==item.ProductId);
-            if (dbProduct == null)
-            {
-                return NotFound();
-            }
+            var dbProduct = await _context.Products
+                .Include(m => m.Category)
+                .Include(m => m.Images)
+                .FirstOrDefaultAsync(m => m.Id == item.ProductId);
+            
+            if (dbProduct == null) continue;
+            
             basketItems.Add(new BasketItemVM
             {
                 ProductId = item.ProductId,
                 ProductName = dbProduct.Name,
                 ProductPrice = dbProduct.Price,
                 ProductCount = item.ProductCount,
-                ProductImage = dbProduct.Images.FirstOrDefault(m=>m.IsMain).Image,
-                CategoryName =  dbProduct.Category.Name
+                ProductImage = dbProduct.Images.FirstOrDefault(m => m.IsMain)?.Image,
+                CategoryName = dbProduct.Category.Name
             });
         }
 
-        BasketUIVM response = new()
+        BasketUIVM response = new BasketUIVM
         {
             Items = basketItems,
-            Total=basketItems.Sum(m=>m.ProductPrice*m.ProductCount)
+            Total = basketItems.Sum(m => m.ProductPrice * m.ProductCount)
         };
+        
         return View(response);
+    }
+
+    [HttpPost]
+    public IActionResult RemoveFromBasket(int id)
+    {
+        if (Request.Cookies["basket"] != null)
+        {
+            List<BasketVM> basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
+            var productToRemove = basketDatas.FirstOrDefault(b => b.ProductId == id);
+            
+            if (productToRemove != null)
+            {
+                basketDatas.Remove(productToRemove);
+                Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketDatas));
+            }
+        }
+        return Ok();
     }
 }

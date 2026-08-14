@@ -1,12 +1,12 @@
-namespace FiorelloBackendPractice.ViewModels;
-
-public class BasketItemVM
+namespace FiorelloBackendPractice.ViewModels
 {
-    public int ProductId { get; set; }
-    public string ProductName { get; set; }
-
-    public string CategoryName { get; set; }
-    public double ProductPrice { get; set; }
-    public string ProductImage { get; set; }
-    public int ProductCount { get; set; }
+    public class BasketItemVM
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public double ProductPrice { get; set; }
+        public string ProductImage { get; set; } = string.Empty;
+        public int ProductCount { get; set; }
+    }
 }
