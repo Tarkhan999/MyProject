@@ -23,7 +23,25 @@
                         <img src="~/img/@item.ProductImage" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;"/>
                     </td>
                     <td class="align-middle">@item.ProductName</td>
-                    <td class="align-middle">@item.ProductCount</td>
+                    
+                    <!-- COUNT KISMI -->
+                    <td class="align-middle">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <!-- Azaltma Butonu (-) -->
+                            <button class="btn btn-sm btn-outline-danger decrease-basket-btn" data-id="@item.ProductId" style="width: 35px;">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            
+                            <!-- Miktar -->
+                            <span class="mx-3 font-weight-bold" style="font-size: 1.1rem;">@item.ProductCount</span>
+                            
+                            <!-- Artırma Butonu (+) -->
+                            <button class="btn btn-sm btn-outline-success increase-basket-btn" data-id="@item.ProductId" style="width: 35px;">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </td>
+                    
                     <td class="align-middle">@item.CategoryName</td>
                     <td class="align-middle">$@item.ProductPrice</td>
                     <td class="align-middle">
@@ -49,3 +67,8 @@
         </div>
     }
 </div>
+<!-- Önce jQuery yüklenmeli -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Sonra senin kendi JavaScript dosyan yüklenmeli -->
+<script src="~/js/script.js?v=2"></script>

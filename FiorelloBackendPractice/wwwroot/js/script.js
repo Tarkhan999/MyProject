@@ -15,7 +15,6 @@ $(document).ready(function () {
                 return response.json();
             })
             .then(data => {
-                // Sadece arayüzdeki sepet sayı ve tutarını günceller, alert vermez
                 $(".shop-cart sup.rounded-circle").text(data.count);
                 $(".shop-cart a span").text(`CART ($${data.total.toFixed(2)})`);
             })
@@ -25,9 +24,7 @@ $(document).ready(function () {
     // --- 2. SEPETTEN ÜRÜN SİLME ---
     $(document).on('click', '.delete-basket-btn', function (e) {
         e.preventDefault();
-
-        let btn = $(this);
-        let id = btn.attr("data-id");
+        let id = $(this).closest('button').attr("data-id");
 
         fetch(`/Basket/RemoveFromBasket/${id}`, {
             method: 'POST'
@@ -35,13 +32,50 @@ $(document).ready(function () {
             .then(response => {
                 if (response.ok) {
                     window.location.reload();
+                } else {
+                    console.error("Silme işleminde sunucu hatası! Durum:", response.status);
                 }
             })
             .catch(error => console.error("Silme Hatası:", error));
     });
 
-    // --- DİĞER FONKSİYONLAR (Arama, Menü, Slider vb.) ---
+    // --- 3. SEPETTE ÜRÜN ARTIRMA (+) ---
+    $(document).on('click', '.increase-basket-btn', function (e) {
+        e.preventDefault();
+        let id = $(this).closest('button').attr("data-id");
 
+        fetch(`/Basket/IncreaseProductCount/${id}`, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error("Artırma işleminde sunucu hatası! Durum:", response.status);
+                }
+            })
+            .catch(error => console.error("Artırma Hatası:", error));
+    });
+
+    // --- 4. SEPETTE ÜRÜN AZALTMA (-) ---
+    $(document).on('click', '.decrease-basket-btn', function (e) {
+        e.preventDefault();
+        let id = $(this).closest('button').attr("data-id");
+
+        fetch(`/Basket/DecreaseProductCount/${id}`, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error("Azaltma işleminde sunucu hatası! Durum:", response.status);
+                }
+            })
+            .catch(error => console.error("Azaltma Hatası:", error));
+    });
+
+    // --- DİĞER FONKSİYONLAR (Arama, Menü, Slider vb.) ---
     $(document).on('click', '#search', function () {
         $(this).next().toggle();
     });
