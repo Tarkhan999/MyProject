@@ -13,17 +13,23 @@
     <link rel="stylesheet" href="~/owlcarousel/owl.theme.default.min.css">
     <link rel="stylesheet" href="~/css/style.css">
 
-    @await RenderSectionAsync("Css", false);
-    <title>Fiorello &#8211; A Flower Shop and Florist WooCommerce Theme</title>
+    <!-- DÜZELTME 1: Buradaki noktalı virgül silindi -->
+    @await RenderSectionAsync("Css", false)
+    
+    <!-- DÜZELTME 2: Title kahve dükkanına uyarlandı -->
+    <title>Starbucks Coffee - Premium Theme</title>
 
 </head>
 
 <body>
 
-@await Component.InvokeAsync("Header");
+<!-- DÜZELTME 3: Header'ın sonundaki noktalı virgül silindi -->
+@await Component.InvokeAsync("Header")
+
 @RenderBody()
 
-@await Component.InvokeAsync("Footer");
+<!-- DÜZELTME 4: Footer'ın sonundaki noktalı virgül silindi -->
+@await Component.InvokeAsync("Footer")
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
