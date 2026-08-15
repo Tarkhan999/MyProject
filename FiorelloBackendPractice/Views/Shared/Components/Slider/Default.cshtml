@@ -1,28 +1,37 @@
 @model SliderVCVM
 
 <!-- SLIDER START -->
-
 <section id="slider">
     <div class="owl-carousel slider">
         @foreach (var item in Model.Sliders)
         {
-            <div><img src="img/@item.Image" alt=""></div>
+            <div>
+                <!-- Resim boyutu sınırlandırıldı ve yazılar okunsun diye hafif karartıldı -->
+                <img src="~/img/@item.Image" alt="Slider Image" style="width: 100%; height: 600px; object-fit: cover; object-position: center; filter: brightness(0.6);">
+            </div>
         }
     </div>
+    
     <div class="container context pl-lg-5 ml-lg-3">
         <div class="row">
             <div class="col-lg-5">
                 <div class="text">
-                    <h1>@Model.SliderInfo.Title</h1>
+                    <!-- Title içindeki metni beyaz yaptık ki koyu arka planda kaybolmasın -->
+                    <!-- (Eğer veritabanından <span> gibi HTML etiketleri geliyorsa @Html.Raw(Model.SliderInfo.Title) kullanabilirsin) -->
+                    <h1 class="text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                        @Model.SliderInfo.Title
+                    </h1>
 
-                    <p class="text-black-50 d-none d-sm-block">@Model.SliderInfo.Description </p>
+                    <!-- Açıklama yazısını da belirginleştirdik -->
+                    <p class="text-white d-none d-sm-block mt-3" style="font-size: 1.1rem; line-height: 1.6; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
+                        @Model.SliderInfo.Description
+                    </p>
                 </div>
-                <div class="img">
-                    <img src="img/@Model.SliderInfo.SignImage" alt="">
+                <div class="img mt-4">
+                    <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature">
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 <!-- SLIDER END -->

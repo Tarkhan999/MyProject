@@ -1,0 +1,50 @@
+@model FiorelloBackendPractice.Views.Product.ProductEditVM
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-image me-2"></i>Edit Product Image</h5>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Resim yükleyeceğimiz için enctype="multipart/form-data" KESİNLİKLE OLMALI -->
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        
+                        <!-- Kullanıcı görmese de arka planda Id ve eski resim adını tutmalıyız -->
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Image" />
+
+                        <div class="mb-4 text-center">
+                            <label class="form-label text-secondary fw-semibold d-block mb-3">Current Image</label>
+                            @if (!string.IsNullOrEmpty(Model.Image))
+                            {
+                                <img src="~/img/@Model.Image" class="rounded-3 shadow-sm border" style="width: 200px; height: 200px; object-fit: cover;" alt="Current Product Image" />
+                            }
+                            else
+                            {
+                                <div class="text-muted fst-italic">No image found.</div>
+                            }
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="NewImage" class="form-label text-secondary fw-semibold">Select New Image</label>
+                            <input asp-for="NewImage" class="form-control" accept="image/*" />
+                            <span asp-validation-for="NewImage" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">
+                                <i class="bi bi-arrow-left me-1"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-success px-4 rounded-pill shadow-sm">
+                                <i class="bi bi-check-lg me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

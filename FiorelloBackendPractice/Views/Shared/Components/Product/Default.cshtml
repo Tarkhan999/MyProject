@@ -1,12 +1,40 @@
 @model ProductVCVM
 
+<!-- Üst kısımdaki beyazlığı kapatan ve yazıları ayarlayan CSS -->
+<style>
+    /* 1. Ürünler Bölümünün Arka Planını Koyu Espresso Yapıyoruz */
+    #products {
+        background-color: #140d0a; 
+        padding-bottom: 60px; /* Alt kısımdan biraz boşluk bırakalım */
+    }
+
+    /* 2. Koyu zeminde okunabilmesi için Menü (Filtre) Yazılarını Krem Rengi Yapıyoruz */
+    #products .category li a,
+    #products .categories,
+    #products .list-unstyled li a,
+    #products .list-unstyled li,
+    #products i.fas {
+        color: #FBF8F1 !important;
+        font-weight: 500;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+    }
+
+    /* 3. Menü yazılarının üzerine gelince şık bir Karamel rengine dönmesi için */
+    #products .category li a:hover,
+    #products .list-unstyled li a:hover {
+        color: #B87333 !important; 
+    }
+</style>
+
 <section id="products">
     <div class="container">
-        <div class="row pt-5">
-            <div class="col-12 d-flex justify-content-between">
-                <ul class="category-mobile d-md-none list-unstyled">
+        <!-- Filtre Menüsü -->
+        <div class="row pt-5 pb-4">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <ul class="category-mobile d-md-none list-unstyled mb-0">
                     <li>
-                        <a href="" class="categories mr-2">Categories</a>
+                        <a href="" class="categories mr-2 text-uppercase">Categories</a>
                         <i class="fas fa-caret-down"></i>
                         <ul class="category list-unstyled" style="display: none;">
                             <li><a href="" data-id="all">All</a></li>
@@ -17,46 +45,51 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="category d-none d-md-flex list-unstyled">
-                    <li><a href="" data-id="all">All</a></li>
+                <ul class="category d-none d-md-flex list-unstyled mb-0 gap-4">
+                    <li><a href="" data-id="all" class="text-uppercase">All</a></li>
                     @foreach (var item in Model.Categories)
                     {
-                        <li><a href="" data-id="@item.Id">@item.Name</a></li>
+                        <li><a href="" data-id="@item.Id" class="text-uppercase">@item.Name</a></li>
                     }
                 </ul>
-                <ul class="list-unstyled">
+                <ul class="list-unstyled mb-0">
                     <li>
-                        <a href="" class="mr-2">Filter</a>
+                        <a href="" class="mr-2 text-uppercase">Filter</a>
                         <i class="fas fa-caret-down"></i>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="row">
-            @foreach (var item in Model.Products)
-            {
-                <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
-                    <div class="product-item text-center" data-id="@item.CategoryId">
-                        <div class="img">
-                            <a href="">
-                                <img src="img/@item.MainImage" class="img-fluid" alt="">
-                            </a>
-                        </div>
-                        <div class="title mt-3">
-                            <h6>@item.Name</h6>
-                        </div>
-                        <div class="price d-flex justify-content-between align-items-center mt-3 px-3">
-                            <!-- Fiyat Kısmı (Daha belirgin) -->
-                            <span class="text-dark font-weight-bold" style="font-size: 1.1rem;">$@item.Price</span>
-    
-                            <!-- Gelişmiş Add To Cart Butonu -->
-                            <button data-id="@item.Id" class="btn btn-outline-dark btn-sm basket-add-btn text-uppercase font-weight-bold d-flex align-items-center" style="transition: all 0.3s ease; border-radius: 20px; padding: 5px 15px;">
-                                <i class="fas fa-shopping-bag mr-2"></i> Add
-                            </button>
-                        </div>
-                    </div>
+
+        <!-- Ürün Kartları -->
+      <div class="row">
+    @foreach (var item in Model.Products)
+    {
+        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+            <div class="product-item text-center d-flex flex-column h-100 pb-3 shadow-sm" data-id="@item.CategoryId" style="background-color: #FBF8F1; border-radius: 16px; border: 1px solid #EFEBE0; transition: transform 0.3s ease;">
+                
+                <div class="img overflow-hidden" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <a href="">
+                        <img src="~/img/@item.MainImage" class="img-fluid w-100" style="height: 300px; object-fit: cover; object-position: center; filter: saturate(1.1) contrast(1.05); transition: transform 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="@item.Name">
+                    </a>
                 </div>
-            }
+                
+                <div class="title mt-4 flex-grow-1 px-3">
+                    <h6 class="fw-bold text-uppercase tracking-wide mb-2" style="color: #3C2A21; letter-spacing: 1.5px; font-size: 0.95rem;">@item.Name</h6>
+                </div>
+                
+                <div class="price d-flex justify-content-between align-items-center mt-auto px-4 pb-2">
+                    <span class="font-weight-bold" style="font-size: 1.25rem; color: #B87333;">$@item.Price</span>
+
+                    <!-- DÜZELTME BURADA: "basket-add-btn" class'ı geri eklendi! -->
+                    <button data-id="@item.Id" class="btn btn-sm text-uppercase fw-bold d-flex align-items-center basket-add-btn" style="background-color: transparent; color: #3C2A21; border: 2px solid #3C2A21; border-radius: 25px; padding: 6px 18px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#3C2A21'; this.style.color='#FBF8F1';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#3C2A21';">
+                        <i class="fas fa-shopping-bag mr-2"></i> Add
+                    </button>
+                </div>
+
+            </div>
         </div>
+    }
+</div>
     </div>
 </section>
