@@ -7,10 +7,46 @@
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-<!-- TEMA DEĞİŞTİRME BUTONU (İsteğe bağlı bırakıldı, ancak tasarım artık kalıcı Starbucks konseptinde) -->
-<button id="themeToggleBtn" class="btn rounded-circle shadow-lg position-fixed" style="background-color: #00704A; color: white; bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; border: 2px solid #000000;">
+<!-- ========================================== -->
+<!-- STARBUCKS ÖZEL İKONA VE MODAL KODLARI BAŞI -->
+<!-- ========================================== -->
+
+<!-- 1. YÜZEN KAHVE BUTONU -->
+<button id="themeToggleBtn" class="btn rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center" 
+        style="background-color: #00704A; color: white; bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; border: 2px solid #000000; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
     <i class="bi bi-cup-hot-fill fs-4" id="themeIcon"></i>
 </button>
+
+<!-- 2. EKRANDA DUMAN VE PIRILTI EFEKTİ İÇİN CANVAS -->
+<canvas id="coffeeCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99998;"></canvas>
+
+<!-- 3. ŞIK STARBUCKS MODAL (PENCERE) -->
+<div class="modal fade" id="coffeeModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(8px);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4" style="background-color: #121212; border: 2px solid #00704A; border-radius: 20px; color: #ffffff;">
+            <div class="modal-body py-4">
+                <div class="mb-3">
+                    <i class="bi bi-cup-hot display-1" style="color: #00704A;"></i>
+                </div>
+                <h3 class="fw-bold mb-2">Take a Coffee Break! ☕</h3>
+                <p style="color: #a0a0a0; font-size: 0.95rem;">
+                    Günün yoğunluğuna kısa bir ara ver. Taze kavrulmuş Starbucks kahveleriyle enerjini tazele!
+                </p>
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <!-- ORDER NOW Butonu: Tıklanınca #products id'li "All" bölümüne kaydırır ve modalı kapatır -->
+                    <a href="#products" onclick="$('#coffeeModal').modal('hide');" class="btn px-4 py-2 rounded-pill fw-bold text-white text-decoration-none" style="background-color: #00704A; border: none;">Order Now</a>
+                    
+                    <!-- CLOSE Butonu: Bootstrap 4 uyumlu kapatma etiketi eklendi -->
+                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-dismiss="modal" style="background-color: #2b2b2b;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- STARBUCKS ÖZEL İKONA VE MODAL KODLARI SONU -->
+<!-- ========================================== -->
 
 <!-- MAIN START -->
 <main id="mainContent" style="background-color: #000000; min-height: 100vh;">
@@ -20,7 +56,9 @@
     <!-- SLIDER END -->
 
     <!-- PRODUCTS START -->
-    @await Component.InvokeAsync("Product")
+    <div id="products">
+        @await Component.InvokeAsync("Product")
+    </div>
     <!-- PRODUCTS END -->
 
     <!-- ABOUT START -->
@@ -217,3 +255,81 @@
 
 </main>
 <!-- MAIN END -->
+
+<!-- EFEKT VE İŞLEV SCRIPT'İ BURAYA EKLENDİ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("themeToggleBtn");
+        const themeIcon = document.getElementById("themeIcon");
+        const canvas = document.getElementById("coffeeCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Canvas Boyutlandırma
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        let particles = [];
+
+        // Pırıltı ve Kahve Çekirdeği Parçacıkları
+        function createParticles(x, y) {
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    radius: Math.random() * 6 + 2,
+                    color: i % 2 === 0 ? "#00704A" : "#D4AF37", // Yeşil & Altın
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 1) * 10 - 2,
+                    alpha: 1
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.02;
+                if (p.alpha <= 0) {
+                    particles.splice(index, 1);
+                } else {
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            });
+            if (particles.length > 0) {
+                requestAnimationFrame(animateParticles);
+            }
+        }
+
+        // Tıklama Olayı
+        toggleBtn.addEventListener("click", function (e) {
+            // 1. Butona Dönme ve Zıplama Animasyonu
+            themeIcon.style.transition = "transform 0.4s ease";
+            themeIcon.style.transform = "rotate(360deg) scale(1.3)";
+            setTimeout(() => {
+                themeIcon.style.transform = "rotate(0deg) scale(1)";
+            }, 400);
+
+            // 2. Parçacık Patlaması Efekti
+            const rect = toggleBtn.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            createParticles(x, y);
+            animateParticles();
+
+            // 3. Modalı Aç (Bootstrap 4 uyumlu - jQuery ile)
+            $('#coffeeModal').modal('show');
+        });
+    });
+</script>
