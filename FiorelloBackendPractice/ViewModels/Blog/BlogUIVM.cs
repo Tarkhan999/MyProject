@@ -6,5 +6,6 @@ public class BlogUIVM
     public string Title { get; set; }
     public string Description { get; set; }
     public string Image { get; set; }
+    public int ViewsCount { get; set; }
     public DateTime DateCreated { get; set; }
 }

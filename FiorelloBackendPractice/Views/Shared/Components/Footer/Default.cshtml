@@ -1,76 +1,114 @@
 @model SettingUIVM
-<!-- FOOTER START -->
 
-<footer>
+<!-- FOOTER START -->
+<footer style="background-color: #000000; border-top: 3px solid #00704A; padding-top: 40px; color: #cccccc; margin-top: auto;">
     <div class="container">
-        <div class="row py-5">
+        <div class="row py-5 g-4">
+            
+            <!-- 1. Sütun: Müşteri Hizmetleri -->
             <div class="col-md-6 col-lg-3">
                 <div class="item">
-                    <h6>@Model.Email</h6>
-                    <ul class="list-unstyled mt-4">
-                        <li><a class="text-black-50" href="">Help & Contact Us</a></li>
-                        <li><a class="text-black-50" href="">Returns & Refunds</a></li>
-                        <li><a class="text-black-50" href="">Online Stores</a></li>
-                        <li><a class="text-black-50" href="">Terms & Conditions</a></li>
+                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">CUSTOMER SERVICE</h6>
+                    <ul class="list-unstyled mt-4" style="line-height: 2;">
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Help & Contact Us</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Returns & Refunds</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Online Stores</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Terms & Conditions</a></li>
                     </ul>
                 </div>
             </div>
+
+            <!-- 2. Sütun: Şirket -->
             <div class="col-md-6 col-lg-3">
                 <div class="item">
-                    <h6>COMPANY</h6>
-                    <ul class="list-unstyled mt-4">
-                        <li><a class="text-black-50" href="">About Us</a></li>
-                        <li><a class="text-black-50" href="">Blog</a></li>
-                        <li><a class="text-black-50" href="">Order Tracking</a></li>
-                        <li><a class="text-black-50" href="">FAQ Page</a></li>
-                        <li><a class="text-black-50" href="">Contact Us</a></li>
-                        <li><a class="text-black-50" href="">Login</a></li>
+                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">COMPANY</h6>
+                    <ul class="list-unstyled mt-4" style="line-height: 2;">
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">About Us</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Our Blog</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Order Tracking</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">FAQ Page</a></li>
                     </ul>
                 </div>
             </div>
+
+            <!-- 3. Sütun: İletişim Bilgileri (Dinamik Email Korumalı) -->
             <div class="col-md-6 col-lg-3">
                 <div class="item">
-                    <h6>SOCIAL MEDIA</h6>
-                    <ul class="list-unstyled mt-4">
-                        <li><a class="text-black-50" href="">Twitter</a></li>
-                        <li><a class="text-black-50" href="">Instagram</a></li>
-                        <li><a class="text-black-50" href="">Tumblr</a></li>
-                        <li><a class="text-black-50" href="">Pinterest</a></li>
+                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">CONTACT US</h6>
+                    <ul class="list-unstyled mt-4" style="line-height: 2; color: #a0a0a0;">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="bi bi-geo-alt-fill me-3 mt-1" style="color: #00704A; font-size: 1.2rem;"></i> 
+                            <span>123 Fiorello Street, NY 10012<br>United States</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-telephone-fill me-3" style="color: #00704A; font-size: 1.2rem;"></i> 
+                            <span>+1 234 567 8900</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-envelope-fill me-3" style="color: #00704A; font-size: 1.2rem;"></i> 
+                            <a href="mailto:@Model.Email" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">@Model.Email</a>
+                        </li>
                     </ul>
                 </div>
             </div>
+
+            <!-- 4. Sütun: Sosyal Medya İkonları -->
             <div class="col-md-6 col-lg-3">
                 <div class="item">
-                    <h6>ARCHIVE</h6>
-                    <ul class="list-unstyled mt-4">
-                        <li><a class="text-black-50" href="">Designer Shoes</a></li>
-                        <li><a class="text-black-50" href="">Gallery</a></li>
-                        <li><a class="text-black-50" href="">Pricing</a></li>
-                        <li><a class="text-black-50" href="">Feature Index</a></li>
-                        <li><a class="text-black-50" href="">Login</a></li>
-                        <li><a class="text-black-50" href="">Help & Support</a></li>
-                    </ul>
+                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">FOLLOW US</h6>
+                    <p style="color: #a0a0a0; font-size: 0.95rem; line-height: 1.6;">Stay updated with our latest news, fresh arrivals and special offers.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
+                            <i class="bi bi-instagram fs-5"></i>
+                        </a>
+                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
+                            <i class="bi bi-twitter-x fs-5"></i>
+                        </a>
+                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
+                            <i class="bi bi-facebook fs-5"></i>
+                        </a>
+                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
+                            <i class="bi bi-pinterest fs-5"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <hr>
+        <hr style="border-color: #333333; margin: 0;">
 
-        <div class="row py-2">
-            <div class=" col-lg-4 text-center text-lg-left">
-                <p class="text-black-50">Powered by <a class="author text-muted"
-                                                       href="https://www.bakhtiyar.az">Tarkan Zeynalabdiyev</a> 2020</p>
+        <!-- Alt Footer (Telif Hakkı ve Logolar) -->
+        <div class="row py-4 align-items-center">
+            <div class="col-lg-4 text-center text-lg-start mb-3 mb-lg-0">
+                <p class="mb-0 fw-semibold" style="color: #666666; font-size: 0.9rem;">&copy; @DateTime.Now.Year Fiorello. All rights reserved.</p>
             </div>
-            <div class=" col-lg-4 text-center">
-                <img src="img/footer-bottom-1.png" class="fluid" alt="">
+            <div class="col-lg-4 text-center mb-3 mb-lg-0">
+                <!-- Ödeme yöntemleri görseli (Karanlık temaya uyumlu olması için şeffaflık eklendi) -->
+                <img src="img/footer-bottom-1.png" class="img-fluid" style="opacity: 0.5; max-height: 25px; filter: grayscale(100%); transition: filter 0.3s ease, opacity 0.3s ease;" onmouseover="this.style.filter='grayscale(0%)'; this.style.opacity='1';" onmouseout="this.style.filter='grayscale(100%)'; this.style.opacity='0.5';" alt="Payment Methods">
             </div>
-            <div class=" col-lg-4 text-center text-lg-right mt-3 mt-lg-0">
-                <a class="text-black-50 mr-5"
-                   href="https://www.linkedin.com/in/bakhtiyar-shamilzada-145159185/">LINKEDIN</a>
-                <a class="text-black-50" href="https://www.facebook.com/shamilzada.bakhtiyar">FACEBOOK</a>
+            <div class="col-lg-4 text-center text-lg-end">
+                <a href="#" class="text-decoration-none me-4 fw-semibold" style="color: #666666; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00704A'" onmouseout="this.style.color='#666666'">Privacy Policy</a>
+                <a href="#" class="text-decoration-none fw-semibold" style="color: #666666; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00704A'" onmouseout="this.style.color='#666666'">Terms of Service</a>
             </div>
         </div>
     </div>
 </footer>
 
+<!-- FOOTER ÖZEL HOVER EFEKTLERİ -->
+<style>
+    /* Linklerin üzerine gelince hafif sağa kayması ve yeşil olması */
+    .footer-link:hover {
+        color: #00704A !important;
+        padding-left: 8px;
+    }
+    
+    /* Sosyal medya ikonlarının üzerine gelince tamamen yeşil olup yukarı zıplaması */
+    .social-icon:hover {
+        background-color: #00704A !important;
+        color: #ffffff !important;
+        transform: translateY(-5px);
+        border-color: #00704A !important;
+        box-shadow: 0 5px 15px rgba(0, 112, 74, 0.4);
+    }
+</style>
 <!-- FOOTER END -->

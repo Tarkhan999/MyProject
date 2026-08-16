@@ -4,16 +4,16 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!-- Bootstrap Icons (Buton ikonları için) -->
+<!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-<!-- TEMA DEĞİŞTİRME BUTONU (Sağ alt köşede sabit durur) -->
-<button id="themeToggleBtn" class="btn btn-dark rounded-circle shadow-lg position-fixed" style="bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; transition: all 0.3s;">
-    <i class="bi bi-moon-fill fs-4" id="themeIcon"></i>
+<!-- TEMA DEĞİŞTİRME BUTONU (İsteğe bağlı bırakıldı, ancak tasarım artık kalıcı Starbucks konseptinde) -->
+<button id="themeToggleBtn" class="btn rounded-circle shadow-lg position-fixed" style="background-color: #00704A; color: white; bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; border: 2px solid #000000;">
+    <i class="bi bi-cup-hot-fill fs-4" id="themeIcon"></i>
 </button>
 
 <!-- MAIN START -->
-<main id="mainContent" class="theme-transition">
+<main id="mainContent" style="background-color: #000000; min-height: 100vh;">
 
     <!-- SLIDER START -->
     @await Component.InvokeAsync("Slider")
@@ -24,14 +24,15 @@
     <!-- PRODUCTS END -->
 
     <!-- ABOUT START -->
-    <section id="about" class="bg-theme-card">
+    <section id="about" style="background-color: #0a0a0a;">
         <div class="container py-5 mt-5">
             <div class="row align-items-center py-5">
                 <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="img position-relative shadow-lg rounded-4 overflow-hidden border border-secondary border-opacity-10">
-                        <img src="img/h3-video-img.jpg" class="img-fluid w-100 object-fit-cover" style="min-height: 400px;" alt="About Video">
-                        <div class="player position-absolute top-50 start-50 translate-middle bg-white text-danger rounded-circle d-flex align-items-center justify-content-center shadow-lg" 
-                             style="width: 80px; height: 80px; cursor: pointer; transition: transform 0.3s ease;" 
+                    <div class="img position-relative shadow-lg rounded-4 overflow-hidden" style="border: 2px solid #00704A;">
+                        <img src="img/h3-video-img.jpg" class="img-fluid w-100 object-fit-cover" style="min-height: 400px; opacity: 0.8;" alt="About Video">
+                        <!-- Play Butonu Yeşil Yapıldı -->
+                        <div class="player position-absolute top-50 start-50 translate-middle rounded-circle d-flex align-items-center justify-content-center shadow-lg" 
+                             style="width: 80px; height: 80px; cursor: pointer; transition: transform 0.3s ease; background-color: #00704A; color: white;" 
                              onmouseover="this.style.transform='translate(-50%, -50%) scale(1.1)'" 
                              onmouseout="this.style.transform='translate(-50%, -50%) scale(1)'">
                             <i class="fas fa-play fa-lg ms-1"></i>
@@ -41,19 +42,20 @@
                 
                 <div class="col-lg-6">
                     <div class="about-text px-lg-5">
-                        <h1 class="fw-bold display-5 mb-4 text-dark">Suprise Your <span class="text-danger">Valentine!</span> <br>Let us arrange a smile.</h1>
-                        <p class="py-3 fs-5 leading-relaxed border-start border-danger border-4 ps-3 bg-light rounded-end text-muted">
+                        <h1 class="fw-bold display-5 mb-4 text-white">Surprise Your <span style="color: #00704A;">Valentine!</span> <br>Let us arrange a smile.</h1>
+                        <!-- Açıklama Kutusu Starbucks Stili -->
+                        <p class="py-3 fs-5 leading-relaxed border-start border-4 ps-4 rounded-end" style="border-color: #00704A !important; background-color: #141414; color: #cccccc;">
                             Where flowers are our inspiration to create lasting memories. Whatever the occasion...
                         </p>
                         <ul class="list-unstyled mt-4">
-                            <li class="mt-3 d-flex align-items-center fs-5 text-secondary">
-                                <img src="img/h1-custom-icon.png" class="mr-3 me-3 icon-theme" style="width: 25px;" alt=""> Hand picked just for you.
+                            <li class="mt-3 d-flex align-items-center fs-5 text-white">
+                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.5rem;"></i> Hand picked just for you.
                             </li>
-                            <li class="mt-3 d-flex align-items-center fs-5 text-secondary">
-                                <img src="img/h1-custom-icon.png" class="mr-3 me-3 icon-theme" style="width: 25px;" alt=""> Unique flower arrangements.
+                            <li class="mt-3 d-flex align-items-center fs-5 text-white">
+                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.5rem;"></i> Unique flower arrangements.
                             </li>
-                            <li class="mt-3 d-flex align-items-center fs-5 text-secondary">
-                                <img src="img/h1-custom-icon.png" class="mr-3 me-3 icon-theme" style="width: 25px;" alt=""> Best way to say you care.
+                            <li class="mt-3 d-flex align-items-center fs-5 text-white">
+                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.5rem;"></i> Best way to say you care.
                             </li>
                         </ul>
                     </div>
@@ -64,60 +66,61 @@
     <!-- ABOUT END -->
 
     <!-- EXPERTS START -->
-    <section id="experts" class="bg-light py-5">
+    <section id="experts" class="py-5" style="background-color: #000000;">
         <div class="container py-4">
             <div class="row mb-5">
                 <div class="col-lg-6 mx-auto text-center">
                     <div class="section-title">
-                        <h1 class="fw-bold display-6 text-dark mb-3">Rose </h1>
-                        <p class="text-muted fs-6">My favourite flower Rose</p>
-                        <div class="mx-auto bg-danger rounded-pill mt-3" style="width: 60px; height: 4px;"></div>
+                        <h1 class="fw-bold display-6 text-white mb-3">Rose </h1>
+                        <p class="fs-6" style="color: #a0a0a0;">My favourite flower Rose</p>
+                        <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 4px; background-color: #00704A;"></div>
                     </div>
                 </div>
             </div>
             
             <div class="row pb-5 g-4 justify-content-center">
+                <!-- Personel Kartları Koyu Gri & Yeşil Çerçeveli -->
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-sm rounded-4 h-100 py-4 px-2 theme-card-hover">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
                         <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-1.png" class="img-fluid rounded-circle shadow border border-3 border-white h-100 w-100 object-fit-cover" alt="">
+                            <img src="img/h3-team-img-1.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
-                            <h6 class="fw-bold mb-1 text-dark">CRYSTAL BROOKS</h6>
-                            <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-1">Florist</span>
+                            <h6 class="fw-bold mb-2 text-white">CRYSTAL BROOKS</h6>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Florist</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-sm rounded-4 h-100 py-4 px-2 theme-card-hover">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
                         <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-2.png" class="img-fluid rounded-circle shadow border border-3 border-white h-100 w-100 object-fit-cover" alt="">
+                            <img src="img/h3-team-img-2.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
-                            <h6 class="fw-bold mb-1 text-dark">SHIRLEY HARRIS</h6>
-                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1">Manager</span>
+                            <h6 class="fw-bold mb-2 text-white">SHIRLEY HARRIS</h6>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Manager</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-sm rounded-4 h-100 py-4 px-2 theme-card-hover">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
                         <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-3.png" class="img-fluid rounded-circle shadow border border-3 border-white h-100 w-100 object-fit-cover" alt="">
+                            <img src="img/h3-team-img-3.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
-                            <h6 class="fw-bold mb-1 text-dark">BEVERLY CLARK</h6>
-                            <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-1">Florist</span>
+                            <h6 class="fw-bold mb-2 text-white">BEVERLY CLARK</h6>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Florist</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-sm rounded-4 h-100 py-4 px-2 theme-card-hover">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
                         <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-4.png" class="img-fluid rounded-circle shadow border border-3 border-white h-100 w-100 object-fit-cover" alt="">
+                            <img src="img/h3-team-img-4.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
-                            <h6 class="fw-bold mb-1 text-dark">AMANDA WATKINS</h6>
-                            <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-1">Florist</span>
+                            <h6 class="fw-bold mb-2 text-white">AMANDA WATKINS</h6>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Florist</span>
                         </div>
                     </div>
                 </div>
@@ -127,19 +130,19 @@
     <!-- EXPERTS END -->
 
     <!-- SUBSCRIBE START -->
-    <section id="subscribe" class="py-5 bg-danger bg-opacity-10">
+    <section id="subscribe" class="py-5" style="background-color: #0a0a0a; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a;">
         <div class="container py-5">
             <div class="row py-4">
                 <div class="col-lg-8 mx-auto text-center">
-                    <div class="content p-5 rounded-4 bg-white shadow-sm card">
-                        <h2 class="fw-bold mb-4 text-dark display-6">Join The Colorful Bunch!</h2>
+                    <div class="content p-5 rounded-4 shadow-lg card border-0" style="background-color: #000000; box-shadow: 0 10px 30px rgba(0, 112, 74, 0.1) !important;">
+                        <h2 class="fw-bold mb-4 text-white display-6">Join The Colorful Bunch!</h2>
                         <div class="d-flex justify-content-center mt-4">
-                            <div class="input-group input-group-lg" style="max-width: 600px;">
-                                <input type="email" placeholder="Email Address" class="form-control bg-light border-0 px-4 py-3 rounded-start-pill text-dark" aria-label="Email Address">
-                                <button class="btn btn-danger px-5 py-3 rounded-end-pill fw-bold text-uppercase tracking-wide border-0 shadow-sm">Subscribe</button>
+                            <div class="input-group input-group-lg" style="max-width: 600px; border: 2px solid #00704A; border-radius: 50px; overflow: hidden;">
+                                <input type="email" placeholder="Email Address" class="form-control border-0 px-4 py-3 text-white shadow-none" style="background-color: #141414;" aria-label="Email Address">
+                                <button class="btn px-5 py-3 fw-bold text-uppercase tracking-wide border-0 text-white" style="background-color: #00704A;">Subscribe</button>
                             </div>
                         </div>
-                        <p class="text-muted mt-3 small">We won't spam you. Unsubscribe at any time.</p>
+                        <p class="mt-3 small" style="color: #a0a0a0;">We won't spam you. Unsubscribe at any time.</p>
                     </div>
                 </div>
             </div>
@@ -148,14 +151,14 @@
     <!-- SUBSCRIBE END -->
 
     <!-- BLOG START -->
-    <section id="blog" class="py-5 mt-4">
+    <section id="blog" class="py-5 mt-4" style="background-color: #000000;">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-lg-6 mx-auto text-center">
                     <div class="section-title">
-                        <h1 class="fw-bold display-6 text-dark mb-3">From our Blog</h1>
-                        <p class="text-muted fs-6">A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile for you.</p>
-                        <div class="mx-auto bg-danger rounded-pill mt-3" style="width: 60px; height: 4px;"></div>
+                        <h1 class="fw-bold display-6 text-white mb-3">From our Blog</h1>
+                        <p class="fs-6" style="color: #cccccc;">A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile for you.</p>
+                        <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 4px; background-color: #00704A;"></div>
                     </div>
                 </div>
             </div>
@@ -165,7 +168,7 @@
     <!-- BLOG END -->
 
     <!-- SAY START -->
-    <section id="say" class="py-5 bg-light mt-4">
+    <section id="say" class="py-5 mt-4" style="background-color: #0a0a0a;">
         <div class="container">
             <div class="row py-5 justify-content-center">
                 <div class="col-md-10 col-xl-8">
@@ -174,15 +177,15 @@
                         <div>
                             <div class="item text-center px-4">
                                 <div class="img d-flex justify-content-center mb-4">
-                                    <img src="img/testimonial-img-1.png" class="rounded-circle shadow-sm border border-3 border-white" style="width: 90px; height: 90px;" alt="">
+                                    <img src="img/testimonial-img-1.png" class="rounded-circle shadow-sm" style="width: 90px; height: 90px; border: 3px solid #00704A;" alt="">
                                 </div>
-                                <div class="text text-secondary fs-5 fst-italic mb-4 position-relative">
-                                    <i class="bi bi-quote position-absolute text-danger opacity-25" style="font-size: 4rem; top: -30px; left: -20px; z-index: 0;"></i>
+                                <div class="text fs-5 fst-italic mb-4 position-relative" style="color: #cccccc;">
+                                    <i class="bi bi-quote position-absolute opacity-25" style="color: #00704A; font-size: 4rem; top: -30px; left: -20px; z-index: 0;"></i>
                                     <span class="position-relative" style="z-index: 1;">Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus lingua.</span>
                                 </div>
                                 <div class="author">
-                                    <h6 class="fw-bold text-dark mb-1">Anna Barnes</h6>
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Florist</span>
+                                    <h6 class="fw-bold text-white mb-2">Anna Barnes</h6>
+                                    <span class="badge rounded-pill px-3" style="background-color: #1a1a1a; color: #00704A; border: 1px solid #00704A;">Florist</span>
                                 </div>
                             </div>
                         </div>
@@ -194,174 +197,23 @@
     <!-- SAY END -->
 
     <!-- INSTAGRAM START -->
-    <section id="instagram" class="position-relative">
-        <div class="owl-carousel instagram">
-            <div><img src="img/instagram1.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram2.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram3.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram4.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram5.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram6.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram7.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram8.jpg" class="img-fluid" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'" alt=""></div>
+    <section id="instagram" class="position-relative" style="background-color: #000000;">
+        <div class="owl-carousel instagram" style="opacity: 0.8;">
+            <div><img src="img/instagram1.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram2.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram3.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram4.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram5.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram6.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram7.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
+            <div><img src="img/instagram8.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
         </div>
-        <div class="hastag position-absolute top-50 start-50 translate-middle bg-white text-dark fw-bold py-3 px-5 shadow-lg rounded-pill" style="z-index: 2; letter-spacing: 2px;">
-            <i class="bi bi-instagram me-2 text-danger"></i>#FIORELLO
+        <!-- Hashtag Kutusu (Siyah & Yeşil) -->
+        <div class="hastag position-absolute top-50 start-50 translate-middle fw-bold py-3 px-5 shadow-lg rounded-pill" style="z-index: 2; letter-spacing: 2px; background-color: #000000; border: 2px solid #00704A; color: #ffffff;">
+            <i class="bi bi-instagram me-2" style="color: #00704A;"></i>#FIORELLO
         </div>
     </section>
     <!-- INSTAGRAM END -->
 
 </main>
 <!-- MAIN END -->
-
-<!-- 🎨 DARK/LIGHT MOD CSS KURALLARI -->
-<style>
-    /* Sabit Geçiş Animasyonu */
-    .theme-transition * {
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .theme-card-hover {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .theme-card-hover:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
-    }
-
-    /* LIGHT MODE (VARSAYILAN) */
-    body { 
-        background-color: #ffffff; 
-        color: #333333; 
-    }
-
-    /* DARK MODE (TAM OTOMATİK METİN İYİLEŞTİRMESİ) */
-    body.dark-mode {
-        background-color: #121212 !important;
-        color: #e0e0e0 !important;
-    }
-
-    /* Sayfadaki, Partial ve ViewComponent'lerdeki Siyah/Gri Yazı Korumaları */
-    body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
-    body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
-    body.dark-mode .text-dark, body.dark-mode .text-black,
-    body.dark-mode strong, body.dark-mode b, body.dark-mode .hastag {
-        color: #ffffff !important;
-    }
-
-    body.dark-mode p, body.dark-mode span, body.dark-mode li, 
-    body.dark-mode small, body.dark-mode .text-muted, 
-    body.dark-mode .text-black-50, body.dark-mode .text-secondary {
-        color: #cccccc !important;
-    }
-
-    body.dark-mode a:not(.btn) {
-        color: #ffffff !important;
-    }
-
-    /* Kart ve Arka Plan Renklerinin Karanlığa Uyarlanması */
-    body.dark-mode .card, 
-    body.dark-mode .bg-light,
-    body.dark-mode .bg-white,
-    body.dark-mode .hastag {
-        background-color: #1e1e1e !important;
-        border-color: #333333 !important;
-    }
-
-    /* Form Elemanları */
-    body.dark-mode input, 
-    body.dark-mode select, 
-    body.dark-mode textarea {
-        background-color: #2b2b2b !important;
-        color: #ffffff !important;
-        border-color: #444444 !important;
-    }
-
-    body.dark-mode ::placeholder {
-        color: #aaaaaa !important;
-    }
-
-    body.dark-mode .icon-theme {
-        filter: grayscale(100%) brightness(200%);
-    }
-
-    body.dark-mode .player {
-        background-color: #2b2b2b !important;
-        color: #dc3545 !important;
-    }
-    /* KAYBOLAN YAZILAR İÇİN KESİN ÇÖZÜM (CATCH-ALL) */
-
-    /* 1. Tüm Bootstrap ve Özel Metin Sınıflarını Açık Renge Zorla */
-    body.dark-mode .text-dark,
-    body.dark-mode .text-black,
-    body.dark-mode .text-muted,
-    body.dark-mode .text-secondary,
-    body.dark-mode .text-black-50,
-    body.dark-mode .text-body,
-    body.dark-mode .title,
-    body.dark-mode .subtitle,
-    body.dark-mode .desc,
-    body.dark-mode .content p,
-    body.dark-mode .footer * {
-        color: #f8f9fa !important;
-    }
-
-    /* 2. Kart, Footer ve Özel Alanların İçindeki Tüm Yazılar (Linkler Dahil) */
-    body.dark-mode .card *,
-    body.dark-mode .item *,
-    body.dark-mode footer *,
-    body.dark-mode .footer-area * {
-        color: #e2e8f0 !important;
-    }
-
-    /* 3. Butonların İçindeki Yazıların Renginin Bozulmasını Engelle */
-    body.dark-mode .btn,
-    body.dark-mode .btn * {
-        color: #ffffff !important;
-    }
-    body.dark-mode .btn-light {
-        color: #000000 !important; /* Açık renkli butonda yazı siyah kalsın */
-    }
-
-    /* 4. Partial View'lardan (Product, Blog) Gelen Gecikmeli Öğeler */
-    body.dark-mode .price,
-    body.dark-mode .name,
-    body.dark-mode .category {
-        color: #ffffff !important;
-    }
-</style>
-
-<!-- 🧠 DARK/LIGHT MOD JAVASCRIPT KURALLARI -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggleBtn = document.getElementById("themeToggleBtn");
-        const themeIcon = document.getElementById("themeIcon");
-        const body = document.body;
-
-        // Sayfa yüklendiğinde kullanıcının eski seçimini kontrol et
-        const currentTheme = localStorage.getItem("theme");
-        
-        if (currentTheme === "dark") {
-            body.classList.add("dark-mode");
-            themeIcon.classList.replace("bi-moon-fill", "bi-sun-fill");
-            toggleBtn.classList.replace("btn-dark", "btn-light");
-        }
-
-        // Butona tıklandığında temayı değiştir
-        toggleBtn.addEventListener("click", function () {
-            body.classList.toggle("dark-mode");
-
-            if (body.classList.contains("dark-mode")) {
-                // Karanlık Mod Aktifse
-                localStorage.setItem("theme", "dark");
-                themeIcon.classList.replace("bi-moon-fill", "bi-sun-fill");
-                toggleBtn.classList.replace("btn-dark", "btn-light");
-            } else {
-                // Aydınlık Mod Aktifse
-                localStorage.setItem("theme", "light");
-                themeIcon.classList.replace("bi-sun-fill", "bi-moon-fill");
-                toggleBtn.classList.replace("btn-light", "btn-dark");
-            }
-        });
-    });
-</script>
