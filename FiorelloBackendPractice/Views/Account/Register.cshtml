@@ -1,0 +1,220 @@
+@model RegisterVM
+
+<!-- DESIGNER EDITION: PREMIUM REGISTER STYLES -->
+<style>
+    body {
+        background-color: #0a0604 !important; /* En derin kahve/siyah tonu */
+    }
+
+    .premium-card {
+        background: #140d0a;
+        border: 1px solid rgba(0, 112, 74, 0.25);
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        padding: 3rem !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Karta çok hafif yeşil bir parlama efekti (Üst kenar) */
+    .premium-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #00704A, transparent);
+    }
+
+    .premium-card h3 {
+        color: #FBF8F1;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-size: 1.8rem;
+    }
+
+    .premium-card p.subtitle {
+        color: rgba(251, 248, 241, 0.5);
+        font-size: 0.9rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .designer-label {
+        color: rgba(251, 248, 241, 0.85);
+        font-size: 0.75rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    /* İkonlu Input Yapısı */
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-wrapper i {
+        position: absolute;
+        left: 18px;
+        color: rgba(251, 248, 241, 0.3);
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    .designer-input {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(251, 248, 241, 0.1) !important;
+        color: #FBF8F1 !important;
+        padding: 14px 20px 14px 50px !important; /* İkon için soldan boşluk bırakıldı */
+        border-radius: 10px;
+        height: 55px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    /* Inputa tıklandığında hem çerçevenin hem de ikonun yeşil olması */
+    .input-wrapper:focus-within i {
+        color: #00704A;
+    }
+
+    .designer-input:focus {
+        background-color: rgba(255, 255, 255, 0.06) !important;
+        border-color: #00704A !important;
+        box-shadow: 0 0 0 4px rgba(0, 112, 74, 0.15) !important;
+    }
+
+    .designer-input::placeholder {
+        color: rgba(251, 248, 241, 0.2) !important;
+    }
+
+    .designer-btn {
+        background-color: #00704A;
+        color: #FBF8F1;
+        border-radius: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        height: 60px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .designer-btn:hover {
+        background-color: #005a3b;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 112, 74, 0.4);
+    }
+
+    .auth-link {
+        color: #00704A;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+
+    .auth-link:hover {
+        color: #FBF8F1;
+    }
+
+    /* Validasyon mesajlarını daha şık hale getirelim */
+    .field-validation-error {
+        font-size: 0.75rem;
+        margin-top: 5px;
+        display: block;
+        color: #e74c3c !important;
+    }
+</style>
+
+<!-- FORM BÖLÜMÜ -->
+<div class="container my-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+            
+            <div class="premium-card">
+                
+                <div class="text-center">
+                    <h3>Create Account</h3>
+                    <p class="subtitle">Join us to experience the premium coffee world.</p>
+                </div>
+                
+                <form asp-controller="Account" asp-action="Register" method="post">
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-4 small font-weight-bold"></div>
+
+                    <!-- Full Name -->
+                    <div class="mb-4">
+                        <label asp-for="FullName" class="form-label designer-label">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-id-card"></i>
+                            <input asp-for="FullName" class="form-control designer-input" placeholder="e.g. John Doe">
+                        </div>
+                        <span asp-validation-for="FullName"></span>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mb-4">
+                        <label asp-for="UserName" class="form-label designer-label">Username</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-user"></i>
+                            <input asp-for="UserName" class="form-control designer-input" placeholder="Choose a unique username">
+                        </div>
+                        <span asp-validation-for="UserName"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label asp-for="Email" class="form-label designer-label">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-envelope"></i>
+                            <input asp-for="Email" class="form-control designer-input" placeholder="name@example.com">
+                        </div>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <label asp-for="Password" class="form-label designer-label">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input asp-for="Password" class="form-control designer-input" placeholder="Create a strong password">
+                        </div>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-5">
+                        <label asp-for="ConfirmPassword" class="form-label designer-label">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-check-double"></i>
+                            <input asp-for="ConfirmPassword" class="form-control designer-input" placeholder="Repeat your password">
+                        </div>
+                        <span asp-validation-for="ConfirmPassword"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn designer-btn w-100 border-0 mt-2">
+                        Register Now
+                    </button>
+
+                    <!-- Alt Yönlendirme Linki -->
+                    <div class="text-center mt-5">
+                        <span style="color: rgba(251, 248, 241, 0.5); font-size: 0.85rem;">Already have an account?</span>
+                        <a asp-controller="Account" asp-action="Login" class="auth-link ml-1" style="font-size: 0.85rem;">
+                            LOGIN HERE
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+            
+        </div>
+    </div>
+</div>
+

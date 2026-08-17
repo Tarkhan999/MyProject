@@ -1,9 +1,9 @@
 using FiorelloBackendPractice.Data;
+using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.Services;
 using FiorelloBackendPractice.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
-// AppDbContext-in olduğu qovluq (əgər fərqlidirsə, düzəldin)
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,23 +11,41 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
-// BAZA BAĞLANTISI KODU BURAYA ƏLAVƏ OLUNMALIDIR:
+// 1. EKSİK OLAN KISIM: DbContext'i sisteme tanıtıyoruz
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDatabase")));
+{
+    // "DefaultConnection" kısmı appsettings.json dosyasındaki isimle aynı olmalıdır.
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDatabase"));
+});
+
+// 2. Identity ayarları (DbContext'ten sonra gelmeli)
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+});
+
+// Servis kayıtları
 builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICategoryService, CategoyService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISettingService, SettingService>();
-// ISliderService çağrıldığında bana SliderService sınıfını ver demek.
-builder.Services.AddScoped<ISliderService, SliderService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

@@ -2,6 +2,43 @@
 
 <!-- PREMIUM HEADER STİLLERİ -->
 <style>
+    /* =========================================
+       İNATÇI BEYAZ DROPDOWN'I EZEN KESİN ÇÖZÜM
+       ========================================= */
+    header .navbar-nav .nav-item > ul,
+    header .navbar-nav .nav-item .account-dropdown,
+    header .navbar-nav .nav-item ul.list-unstyled {
+        background-color: #140d0a !important; /* Arka planı KESİNLİKLE koyu yap */
+        border: 1px solid #00704A !important;
+        padding: 0 !important;
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.8) !important;
+    }
+
+    /* Alt menüdeki (Login, Register vb.) li etiketleri */
+    header .navbar-nav .nav-item > ul > li {
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(251, 248, 241, 0.1) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Alt menüdeki yazıların renkleri */
+    header .navbar-nav .nav-item > ul > li > a {
+        color: #FBF8F1 !important; /* Yazıları görünür krem/beyaz yap */
+        display: block !important;
+        padding: 12px 20px !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        transition: all 0.3s ease !important;
+        background-color: transparent !important;
+    }
+
+    /* Üzerine gelince (Hover) yazılar Starbucks yeşili olsun */
+    header .navbar-nav .nav-item > ul > li > a:hover {
+        color: #140d0a !important; /* Yazı koyu olsun */
+        background-color: #00704A !important; /* Arka plan yeşil olsun */
+    }
     /* 1. Koyu Arka Plan ve Boşluk Sıfırlama */
     header {
         background-color: #140d0a !important;
@@ -42,7 +79,6 @@
         visibility: hidden !important;
     }
 
-    /* Eski temanın yazıları yukarı/aşağı kaydırmasını engelle */
     header .shop-cart a span {
         transform: none !important;
         top: auto !important;
@@ -53,6 +89,53 @@
     header .shop-cart a:hover span,
     header .shop-cart a:hover i {
         color: #00704A !important;
+    }
+
+    /* =========================================
+       YENİ EKLENEN: ACCOUNT DROPDOWN STİLLERİ 
+       ========================================= */
+    .account-menu {
+        position: relative; /* Menünün alt menüyü referans almasını sağlar */
+    }
+
+    .account-dropdown {
+        display: none; /* Başlangıçta gizli tut */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #140d0a !important; /* Karanlık arka plan */
+        border: 1px solid #00704A; /* Yeşil ince çerçeve */
+        min-width: 160px;
+        padding: 0;
+        margin: 0;
+        z-index: 1050;
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.6); /* Hafif gölge */
+        border-radius: 4px;
+    }
+
+    /* Menünün üzerine gelindiğinde (hover) listeyi göster */
+    .account-menu:hover .account-dropdown {
+        display: block;
+    }
+
+    /* Alt liste elemanlarının stilleri */
+    .account-dropdown li {
+        border-bottom: 1px solid rgba(251, 248, 241, 0.1);
+    }
+
+    .account-dropdown li:last-child {
+        border-bottom: none;
+    }
+
+    .account-dropdown .nav-link {
+        padding: 12px 20px !important;
+        font-size: 11px;
+    }
+
+    /* Alt listeye hover yapıldığında arkaplanı yeşil yap */
+    .account-dropdown .nav-link:hover {
+        background-color: #00704A !important;
+        color: #fff !important;
     }
 
     /* 5. Mobil Menü Koyu Tema */
@@ -112,22 +195,29 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Blog" asp-action="Index">Blog</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Elements</a>
+                            
+                            <!-- DÜZELTİLEN ACCOUNT MENÜSÜ -->
+                            <li class="nav-item account-menu">
+                                <a class="nav-link" href="#" style="cursor: default;">
+                                    Account <i class="fas fa-angle-down ml-1" style="font-size: 10px;"></i>
+                                </a>
+                                <ul class="list-unstyled account-dropdown">
+                                    <li><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                                    <li><a class="nav-link" asp-controller="Account" asp-action="Register">Register</a></li>
+                                    <li><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                </ul>
                             </li>
                             
-                            <!-- SEPET BÖLÜMÜ (JS'nin bulabilmesi için etiketler tekrar <sup> ve <span> yapıldı) -->
+                            <!-- SEPET BÖLÜMÜ -->
                             <li class="nav-item my-auto ml-lg-5 shop-cart">
                                 <a asp-controller="Basket" asp-action="Index" class="d-flex align-items-center text-decoration-none" style="gap: 12px;">
                                     <div class="position-relative d-flex align-items-center">
                                         <i class="fas fa-shopping-bag" style="font-size: 22px; color: #FBF8F1; transition: color 0.3s ease;"></i>
-                                        <!-- Sepet sayacı: JS'nin okuyabilmesi için orijinal sup/span yapısı korundu -->
                                         <sup class="d-flex justify-content-center align-items-center font-weight-bold" 
-                                              style="position: absolute; top: -10px; right: -10px; width: 18px; height: 18px; font-size: 11px; background-color: #00704A; color: #ffffff; border-radius: 50%; padding: 0; margin: 0;">
+                                             style="position: absolute; top: -10px; right: -10px; width: 18px; height: 18px; font-size: 11px; background-color: #00704A; color: #ffffff; border-radius: 50%; padding: 0; margin: 0;">
                                             @Model.BasketCount
                                         </sup>
                                     </div>
-                                    <!-- Sepet fiyatı: JS'nin güncelleyebilmesi için span yapıldı ve CSS ile sabitlendi -->
                                     <span class="font-weight-bold" style="font-size: 13px; letter-spacing: 1px; color: #FBF8F1; transition: color 0.3s ease; display: inline-block;">CART ($@Model.ProductPrice)</span>
                                 </a>
                             </li>
@@ -147,9 +237,13 @@
                 <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Shop</a></li>
                 <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Portfolio</a></li>
                 <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Blog" asp-action="Index">Blog</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Elements</a></li>
+                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Login">Login</a></li>
+                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Register">Register</a></li>
+                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Logout">Logout</a></li>
             </ul>
         </div>
     </div>               
 </header>
+
+
 <!-- HEADER END -->
