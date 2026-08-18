@@ -1,95 +1,258 @@
 @model ProductVCVM
 
-<!-- Üst kısımdaki beyazlığı kapatan ve yazıları ayarlayan CSS -->
 <style>
-    /* 1. Ürünler Bölümünün Arka Planını Koyu Espresso Yapıyoruz */
-    #products {
-        background-color: #140d0a; 
-        padding-bottom: 60px; /* Alt kısımdan biraz boşluk bırakalım */
+    /* ÜRÜNLER ALANI VE HİZALAMA */
+    #products-section {
+        background-color: #0d0805;
+        padding-top: 40px;
+        padding-bottom: 90px;
+        position: relative;
+        z-index: 5;
+        clear: both;
     }
 
-    /* 2. Koyu zeminde okunabilmesi için Menü (Filtre) Yazılarını Krem Rengi Yapıyoruz */
-    #products .category li a,
-    #products .categories,
-    #products .list-unstyled li a,
-    #products .list-unstyled li,
-    #products i.fas {
+    /* KATEGORİ FİLTRE MENÜSÜ */
+    .filter-bar {
+        background-color: #140d0a;
+        border: 1px solid rgba(0, 112, 74, 0.25);
+        border-radius: 50px;
+        padding: 12px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .filter-bar a {
         color: #FBF8F1 !important;
-        font-weight: 500;
-        letter-spacing: 1px;
-        transition: color 0.3s ease;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 1.5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 8px 16px;
+        border-radius: 20px;
     }
 
-    /* 3. Menü yazılarının üzerine gelince şık bir Karamel rengine dönmesi için */
-    #products .category li a:hover,
-    #products .list-unstyled li a:hover {
-        color: #B87333 !important; 
+    .filter-bar a:hover, 
+    .filter-bar a.active {
+        color: #CBA258 !important;
+        background-color: rgba(203, 162, 88, 0.1);
+    }
+
+    /* KART DIŞ MARGIN KONTROLÜ */
+    .product-grid-row {
+        margin-top: 90px; 
+    }
+
+    /* STARBUCKS GREEN KART TASARIMI */
+    .coffee-card {
+        background: linear-gradient(160deg, #00704A 0%, #004d33 100%);
+        border-radius: 28px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        padding: 0 20px 22px;
+        margin-top: 75px; 
+        border: 1px solid rgba(251, 248, 241, 0.12);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        position: relative;
+    }
+
+    .coffee-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 22px 45px rgba(0, 112, 74, 0.35);
+        border-color: #CBA258;
+    }
+
+    /* DAİRESEL DIŞARI TAŞAN FOTOĞRAF */
+    .circle-img-container {
+        width: 140px; 
+        height: 140px;
+        margin: -70px auto 15px; 
+        border-radius: 50%;
+        border: 5px solid #0d0805; 
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        background-color: #FBF8F1;
+        position: relative;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    .circle-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .circle-img-container:hover img {
+        transform: scale(1.12);
+    }
+
+    .img-hover-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 112, 74, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        color: #FBF8F1;
+        font-size: 1.8rem;
+    }
+
+    .circle-img-container:hover .img-hover-overlay {
+        opacity: 1;
+    }
+
+    /* KART BİLGİLERİ */
+    .card-coffee-title {
+        color: #FBF8F1;
+        font-size: 1.05rem;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .card-coffee-price {
+        color: #CBA258;
+        font-size: 1.35rem;
+        font-weight: 800;
+    }
+
+    .btn-add-gold {
+        border: 2px solid #CBA258;
+        color: #CBA258;
+        border-radius: 25px;
+        padding: 6px 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .btn-add-gold:hover {
+        background-color: #CBA258 !important;
+        color: #0d0805 !important;
+        box-shadow: 0 4px 15px rgba(203, 162, 88, 0.4);
+    }
+
+    /* FİLTRELEME ANİMASYONU */
+    @@keyframes fadeInScale {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    .product-wrapper {
+        animation: fadeInScale 0.4s ease forwards;
     }
 </style>
 
-<section id="products">
+<section id="products-section">
     <div class="container">
-        <!-- Filtre Menüsü -->
-        <div class="row pt-5 pb-4">
-            <div class="col-12 d-flex justify-content-between align-items-center">
-                <ul class="category-mobile d-md-none list-unstyled mb-0">
-                    <li>
-                        <a href="" class="categories mr-2 text-uppercase">Categories</a>
-                        <i class="fas fa-caret-down"></i>
-                        <ul class="category list-unstyled" style="display: none;">
-                            <li><a href="" data-id="all">All</a></li>
-                            @foreach (var item in Model.Categories)
-                            {
-                                <li><a href="" data-id="@item.Id">@item.Name</a></li>
-                            }
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="category d-none d-md-flex list-unstyled mb-0 gap-4">
-                    <li><a href="" data-id="all" class="text-uppercase">All</a></li>
-                    @foreach (var item in Model.Categories)
-                    {
-                        <li><a href="" data-id="@item.Id" class="text-uppercase">@item.Name</a></li>
-                    }
-                </ul>
-                <ul class="list-unstyled mb-0">
-                    <li>
-                        <a href="" class="mr-2 text-uppercase">Filter</a>
-                        <i class="fas fa-caret-down"></i>
-                    </li>
-                </ul>
+        
+        <!-- FİLTRE MENÜSÜ -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-lg-10">
+                <div class="filter-bar d-flex justify-content-between align-items-center flex-wrap">
+                    <ul class="category d-flex list-unstyled mb-0 gap-3 flex-wrap align-items-center">
+                        <li><a href="javascript:void(0)" data-id="all" class="text-uppercase category-filter active">All</a></li>
+                        @foreach (var item in Model.Categories)
+                        {
+                            <li><a href="javascript:void(0)" data-id="@item.Id" class="text-uppercase category-filter">@item.Name</a></li>
+                        }
+                    </ul>
+                    <div class="filter-trigger">
+                        <a href="javascript:void(0)" class="text-uppercase"><i class="fas fa-sliders-h me-1"></i> Filter</a>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Ürün Kartları -->
-      <div class="row">
-    @foreach (var item in Model.Products)
-    {
-        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
-            <div class="product-item text-center d-flex flex-column h-100 pb-3 shadow-sm" data-id="@item.CategoryId" style="background-color: #FBF8F1; border-radius: 16px; border: 1px solid #EFEBE0; transition: transform 0.3s ease;">
-                
-                <div class="img overflow-hidden" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
-                    <a href="">
-                        <img src="~/img/@item.MainImage" class="img-fluid w-100" style="height: 300px; object-fit: cover; object-position: center; filter: saturate(1.1) contrast(1.05); transition: transform 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="@item.Name">
-                    </a>
+        <!-- ÜRÜN KARTLARI IZGARASI -->
+        <div class="row product-grid-row" id="product-list">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-5 product-wrapper" data-category="@item.CategoryId">
+                    <div class="coffee-card text-center d-flex flex-column h-100">
+                        <!-- DAİRESEL RESİM -->
+                        <div class="circle-img-container" data-toggle="modal" data-target="#imageModal-@item.Id" data-bs-toggle="modal" data-bs-target="#imageModal-@item.Id">
+                            <img src="~/img/@item.MainImage" alt="@item.Name">
+                            <div class="img-hover-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- BAŞLIK & TÜR -->
+                        <div class="title mt-3 flex-grow-1 px-2">
+                            <h6 class="card-coffee-title">@item.Name</h6>
+                            <p style="color: rgba(251, 248, 241, 0.6); font-size: 0.78rem; letter-spacing: 1px;">Starbucks Premium</p>
+                        </div>
+                        
+                        <!-- FİYAT VE SEPET BUTONU -->
+                        <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top" style="border-color: rgba(251, 248, 241, 0.15) !important;">
+                            <span class="card-coffee-price">$@item.Price</span>
+                            <button data-id="@item.Id" class="btn btn-add-gold d-flex align-items-center basket-add-btn">
+                                <i class="fas fa-plus me-1 mr-1"></i> ADD
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="title mt-4 flex-grow-1 px-3">
-                    <h6 class="fw-bold text-uppercase tracking-wide mb-2" style="color: #3C2A21; letter-spacing: 1.5px; font-size: 0.95rem;">@item.Name</h6>
-                </div>
-                
-                <div class="price d-flex justify-content-between align-items-center mt-auto px-4 pb-2">
-                    <span class="font-weight-bold" style="font-size: 1.25rem; color: #B87333;">$@item.Price</span>
-
-                    <!-- DÜZELTME BURADA: "basket-add-btn" class'ı geri eklendi! -->
-                    <button data-id="@item.Id" class="btn btn-sm text-uppercase fw-bold d-flex align-items-center basket-add-btn" style="background-color: transparent; color: #3C2A21; border: 2px solid #3C2A21; border-radius: 25px; padding: 6px 18px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#3C2A21'; this.style.color='#FBF8F1';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#3C2A21';">
-                        <i class="fas fa-shopping-bag mr-2"></i> Add
-                    </button>
-                </div>
-
-            </div>
+            }
         </div>
-    }
-</div>
     </div>
 </section>
+
+<!-- MODALLAR -->
+@foreach (var item in Model.Products)
+{
+    <div class="modal fade" id="imageModal-@item.Id" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 350px;">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-body text-center p-0 position-relative">
+                    
+                    <!-- BOOTSTRAP'İN KENDİ KAPATMA KODLARI EKLENDİ (onclick SİLİNDİ) -->
+                    <button type="button" class="btn rounded-circle d-flex align-items-center justify-content-center position-absolute shadow" 
+                            style="top: -15px; right: -15px; width: 40px; height: 40px; background-color: #0d0805; border: 2px solid #CBA258; color: #FBF8F1; z-index: 9999; cursor: pointer;" 
+                            data-dismiss="modal" data-bs-dismiss="modal">
+                        <i class="fas fa-times fs-5"></i>
+                    </button>
+                    
+                    <img src="~/img/@item.MainImage" class="img-fluid rounded-4 shadow-lg" style="border: 3px solid #CBA258; background-color: #FBF8F1; width: 100%; height: auto; object-fit: contain;" alt="@item.Name">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- SADECE KATEGORİ FİLTRELEME İŞLEMİ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(".category-filter");
+        const products = document.querySelectorAll(".product-wrapper");
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault(); 
+
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+
+                const selectedCategoryId = this.getAttribute("data-id");
+
+                products.forEach(product => {
+                    const productCategoryId = product.getAttribute("data-category");
+
+                    product.style.animation = 'none';
+                    product.offsetHeight; 
+                    product.style.animation = null; 
+
+                    if (selectedCategoryId === "all" || selectedCategoryId === productCategoryId) {
+                        product.style.display = "block";
+                    } else {
+                        product.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+</script>

@@ -8,69 +8,54 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <!-- ========================================== -->
-<!-- STARBUCKS ÖZEL İKONA VE MODAL KODLARI BAŞI -->
+<!-- YÜZEN KAHVE BUTONU VE CANVAS -->
 <!-- ========================================== -->
-
-<!-- 1. YÜZEN KAHVE BUTONU -->
 <button id="themeToggleBtn" class="btn rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center" 
-        style="background-color: #00704A; color: white; bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; border: 2px solid #000000; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+        style="background-color: #00704A; color: white; bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; border: 2px solid #CBA258; cursor: pointer; transition: transform 0.3s ease;">
     <i class="bi bi-cup-hot-fill fs-4" id="themeIcon"></i>
 </button>
 
-<!-- 2. EKRANDA DUMAN VE PIRILTI EFEKTİ İÇİN CANVAS -->
-<canvas id="coffeeCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99998;"></canvas>
+<canvas id="coffeeCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998;"></canvas>
 
-<!-- 3. ŞIK STARBUCKS MODAL (PENCERE) -->
+<!-- KAHVE BREAK MODAL -->
 <div class="modal fade" id="coffeeModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(8px);">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-center p-4" style="background-color: #121212; border: 2px solid #00704A; border-radius: 20px; color: #ffffff;">
+        <div class="modal-content text-center p-4" style="background-color: #120d0a; border: 2px solid #00704A; border-radius: 20px; color: #ffffff;">
             <div class="modal-body py-4">
                 <div class="mb-3">
-                    <i class="bi bi-cup-hot display-1" style="color: #00704A;"></i>
+                    <i class="bi bi-cup-hot display-1" style="color: #CBA258;"></i>
                 </div>
-                <h3 class="fw-bold mb-2">Take a Coffee Break! ☕</h3>
+                <h3 class="fw-bold mb-2" style="color: #FBF8F1;">Take a Coffee Break! ☕</h3>
                 <p style="color: #a0a0a0; font-size: 0.95rem;">
-                    Günün yoğunluğuna kısa bir ara ver. Taze kavrulmuş Starbucks kahveleriyle enerjini tazele!
+                    Günün yoğunluğuna kısa bir ara ver. Taze kavrulmusa Starbucks kahveleriyle enerjini tazele!
                 </p>
                 <div class="d-flex justify-content-center gap-2 mt-4">
-                    <!-- ORDER NOW Butonu: Tıklanınca #products id'li "All" bölümüne kaydırır ve modalı kapatır -->
                     <a href="#products" onclick="$('#coffeeModal').modal('hide');" class="btn px-4 py-2 rounded-pill fw-bold text-white text-decoration-none" style="background-color: #00704A; border: none;">Order Now</a>
-                    
-                    <!-- CLOSE Butonu: Bootstrap 4 uyumlu kapatma etiketi eklendi -->
-                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-dismiss="modal" style="background-color: #2b2b2b;">Close</button>
+                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-dismiss="modal" data-bs-dismiss="modal" style="background-color: #2b2b2b;">Close</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- STARBUCKS ÖZEL İKONA VE MODAL KODLARI SONU -->
-<!-- ========================================== -->
+<!-- MAIN CONTENT -->
+<main id="mainContent" style="background-color: #0d0805; min-height: 100vh; clear: both;">
 
-<!-- MAIN START -->
-<main id="mainContent" style="background-color: #000000; min-height: 100vh;">
-
-    <!-- SLIDER START -->
+    <!-- SLIDER -->
     @await Component.InvokeAsync("Slider")
-    <!-- SLIDER END -->
 
-    <!-- PRODUCTS START -->
-    <div id="products">
-        @await Component.InvokeAsync("Product")
-    </div>
-    <!-- PRODUCTS END -->
+    <!-- PRODUCTS (Kendi ViewComponent'i içinde <section id="products"> barındırır) -->
+    @await Component.InvokeAsync("Product")
 
-    <!-- ABOUT START -->
-    <section id="about" style="background-color: #0a0a0a;">
-        <div class="container py-5 mt-5">
-            <div class="row align-items-center py-5">
-                <div class="col-lg-6 mb-5 mb-lg-0">
+    <!-- ABOUT SECTION -->
+    <section id="about" style="background-color: #0a0604; padding: 60px 0;">
+        <div class="container my-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="img position-relative shadow-lg rounded-4 overflow-hidden" style="border: 2px solid #00704A;">
-                        <img src="img/h3-video-img.jpg" class="img-fluid w-100 object-fit-cover" style="min-height: 400px; opacity: 0.8;" alt="About Video">
-                        <!-- Play Butonu Yeşil Yapıldı -->
+                        <img src="~/img/h3-video-img.jpg" class="img-fluid w-100 object-fit-cover" style="min-height: 380px; opacity: 0.85;" alt="About Video">
                         <div class="player position-absolute top-50 start-50 translate-middle rounded-circle d-flex align-items-center justify-content-center shadow-lg" 
-                             style="width: 80px; height: 80px; cursor: pointer; transition: transform 0.3s ease; background-color: #00704A; color: white;" 
+                             style="width: 75px; height: 75px; cursor: pointer; transition: transform 0.3s ease; background-color: #00704A; color: white;" 
                              onmouseover="this.style.transform='translate(-50%, -50%) scale(1.1)'" 
                              onmouseout="this.style.transform='translate(-50%, -50%) scale(1)'">
                             <i class="fas fa-play fa-lg ms-1"></i>
@@ -79,21 +64,20 @@
                 </div>
                 
                 <div class="col-lg-6">
-                    <div class="about-text px-lg-5">
-                        <h1 class="fw-bold display-5 mb-4 text-white">Surprise Your <span style="color: #00704A;">Valentine!</span> <br>Let us arrange a smile.</h1>
-                        <!-- Açıklama Kutusu Starbucks Stili -->
-                        <p class="py-3 fs-5 leading-relaxed border-start border-4 ps-4 rounded-end" style="border-color: #00704A !important; background-color: #141414; color: #cccccc;">
-                            Where flowers are our inspiration to create lasting memories. Whatever the occasion...
+                    <div class="about-text px-lg-4">
+                        <h1 class="fw-bold display-6 mb-4 text-white">Surprise Your <span style="color: #00704A;">Valentine!</span> <br>Let us arrange a smile.</h1>
+                        <p class="py-3 fs-6 leading-relaxed border-start border-4 ps-4 rounded-end" style="border-color: #00704A !important; background-color: #140d0a; color: #d1d1d1;">
+                            Where coffee & passion are our inspiration to create lasting memories. Whatever the occasion...
                         </p>
                         <ul class="list-unstyled mt-4">
-                            <li class="mt-3 d-flex align-items-center fs-5 text-white">
-                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.5rem;"></i> Hand picked just for you.
+                            <li class="mt-3 d-flex align-items-center fs-6 text-white">
+                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.3rem;"></i> Hand picked roasted beans just for you.
                             </li>
-                            <li class="mt-3 d-flex align-items-center fs-5 text-white">
-                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.5rem;"></i> Unique flower arrangements.
+                            <li class="mt-3 d-flex align-items-center fs-6 text-white">
+                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.3rem;"></i> Unique espresso & latte art blends.
                             </li>
-                            <li class="mt-3 d-flex align-items-center fs-5 text-white">
-                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.5rem;"></i> Best way to say you care.
+                            <li class="mt-3 d-flex align-items-center fs-6 text-white">
+                                <i class="bi bi-check-circle-fill me-3" style="color: #00704A; font-size: 1.3rem;"></i> Best way to start your energetic day.
                             </li>
                         </ul>
                     </div>
@@ -101,162 +85,118 @@
             </div>
         </div>
     </section>
-    <!-- ABOUT END -->
 
-    <!-- EXPERTS START -->
-    <section id="experts" class="py-5" style="background-color: #000000;">
+    <!-- EXPERTS SECTION -->
+    <section id="experts" class="py-5" style="background-color: #0d0805;">
         <div class="container py-4">
             <div class="row mb-5">
                 <div class="col-lg-6 mx-auto text-center">
-                    <div class="section-title">
-                        <h1 class="fw-bold display-6 text-white mb-3">Rose </h1>
-                        <p class="fs-6" style="color: #a0a0a0;">My favourite flower Rose</p>
-                        <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 4px; background-color: #00704A;"></div>
-                    </div>
+                    <h1 class="fw-bold display-6 text-white mb-2">Our Baristas</h1>
+                    <p class="fs-6" style="color: #a0a0a0;">Mastering the art of perfect coffee</p>
+                    <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 3px; background-color: #CBA258;"></div>
                 </div>
             </div>
             
-            <div class="row pb-5 g-4 justify-content-center">
-                <!-- Personel Kartları Koyu Gri & Yeşil Çerçeveli -->
+            <div class="row g-4 justify-content-center">
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
-                        <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-1.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
+                        <div class="img mx-auto" style="width: 130px; height: 130px;">
+                            <img src="~/img/h3-team-img-1.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
                             <h6 class="fw-bold mb-2 text-white">CRYSTAL BROOKS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Florist</span>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Head Barista</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
-                        <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-2.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
+                        <div class="img mx-auto" style="width: 130px; height: 130px;">
+                            <img src="~/img/h3-team-img-2.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
                             <h6 class="fw-bold mb-2 text-white">SHIRLEY HARRIS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Manager</span>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Store Manager</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
-                        <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-3.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
+                        <div class="img mx-auto" style="width: 130px; height: 130px;">
+                            <img src="~/img/h3-team-img-3.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
                             <h6 class="fw-bold mb-2 text-white">BEVERLY CLARK</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Florist</span>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Roaster Master</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #0a0a0a; border: 1px solid #1a1a1a !important;">
-                        <div class="img mx-auto" style="width: 140px; height: 140px;">
-                            <img src="img/h3-team-img-4.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
+                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
+                        <div class="img mx-auto" style="width: 130px; height: 130px;">
+                            <img src="~/img/h3-team-img-4.png" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
                         </div>
                         <div class="text mt-4">
                             <h6 class="fw-bold mb-2 text-white">AMANDA WATKINS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #00704A; border: 1px solid #00704A;">Florist</span>
+                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Latte Artist</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- EXPERTS END -->
 
-    <!-- SUBSCRIBE START -->
-    <section id="subscribe" class="py-5" style="background-color: #0a0a0a; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a;">
-        <div class="container py-5">
-            <div class="row py-4">
+    <!-- SUBSCRIBE -->
+    <section id="subscribe" class="py-5" style="background-color: #0a0604; border-top: 1px solid rgba(251,248,241,0.05);">
+        <div class="container py-4">
+            <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <div class="content p-5 rounded-4 shadow-lg card border-0" style="background-color: #000000; box-shadow: 0 10px 30px rgba(0, 112, 74, 0.1) !important;">
-                        <h2 class="fw-bold mb-4 text-white display-6">Join The Colorful Bunch!</h2>
-                        <div class="d-flex justify-content-center mt-4">
-                            <div class="input-group input-group-lg" style="max-width: 600px; border: 2px solid #00704A; border-radius: 50px; overflow: hidden;">
-                                <input type="email" placeholder="Email Address" class="form-control border-0 px-4 py-3 text-white shadow-none" style="background-color: #141414;" aria-label="Email Address">
-                                <button class="btn px-5 py-3 fw-bold text-uppercase tracking-wide border-0 text-white" style="background-color: #00704A;">Subscribe</button>
+                    <div class="content p-5 rounded-4 shadow-lg card border-0" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
+                        <h2 class="fw-bold mb-3 text-white display-6">Join The Coffee Club!</h2>
+                        <p class="mb-4" style="color: #a0a0a0;">Get special offers, event invites, and fresh roast updates.</p>
+                        <div class="d-flex justify-content-center">
+                            <div class="input-group input-group-lg" style="max-width: 550px; border: 2px solid #00704A; border-radius: 50px; overflow: hidden;">
+                                <input type="email" placeholder="Email Address" class="form-control border-0 px-4 py-3 text-white shadow-none" style="background-color: #0a0604;" aria-label="Email Address">
+                                <button class="btn px-4 py-3 fw-bold text-uppercase border-0 text-white" style="background-color: #00704A; letter-spacing: 1px;">Subscribe</button>
                             </div>
                         </div>
-                        <p class="mt-3 small" style="color: #a0a0a0;">We won't spam you. Unsubscribe at any time.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- SUBSCRIBE END -->
 
-    <!-- BLOG START -->
-    <section id="blog" class="py-5 mt-4" style="background-color: #000000;">
+    <!-- BLOG -->
+    <section id="blog" class="py-5" style="background-color: #0d0805;">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-lg-6 mx-auto text-center">
-                    <div class="section-title">
-                        <h1 class="fw-bold display-6 text-white mb-3">From our Blog</h1>
-                        <p class="fs-6" style="color: #cccccc;">A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile for you.</p>
-                        <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 4px; background-color: #00704A;"></div>
-                    </div>
+                    <h1 class="fw-bold display-6 text-white mb-2">From Coffee Blog</h1>
+                    <p class="fs-6" style="color: #a0a0a0;">Stories behind the finest coffee beans</p>
+                    <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 3px; background-color: #CBA258;"></div>
                 </div>
             </div>
             <partial name="_BlogPartial" model="@Model.Blogs"/>
         </div>
     </section>
-    <!-- BLOG END -->
 
-    <!-- SAY START -->
-    <section id="say" class="py-5 mt-4" style="background-color: #0a0a0a;">
-        <div class="container">
-            <div class="row py-5 justify-content-center">
-                <div class="col-md-10 col-xl-8">
-                    <div class="owl-carousel say">
-                        <!-- Testimonial 1 -->
-                        <div>
-                            <div class="item text-center px-4">
-                                <div class="img d-flex justify-content-center mb-4">
-                                    <img src="img/testimonial-img-1.png" class="rounded-circle shadow-sm" style="width: 90px; height: 90px; border: 3px solid #00704A;" alt="">
-                                </div>
-                                <div class="text fs-5 fst-italic mb-4 position-relative" style="color: #cccccc;">
-                                    <i class="bi bi-quote position-absolute opacity-25" style="color: #00704A; font-size: 4rem; top: -30px; left: -20px; z-index: 0;"></i>
-                                    <span class="position-relative" style="z-index: 1;">Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus lingua.</span>
-                                </div>
-                                <div class="author">
-                                    <h6 class="fw-bold text-white mb-2">Anna Barnes</h6>
-                                    <span class="badge rounded-pill px-3" style="background-color: #1a1a1a; color: #00704A; border: 1px solid #00704A;">Florist</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- INSTAGRAM -->
+    <section id="instagram" class="position-relative overflow-hidden" style="background-color: #0d0805;">
+        <div class="owl-carousel instagram" style="opacity: 0.85;">
+            <div><img src="~/img/instagram1.jpg" class="img-fluid" style="border: 1px solid #0d0805;" alt=""></div>
+            <div><img src="~/img/instagram2.jpg" class="img-fluid" style="border: 1px solid #0d0805;" alt=""></div>
+            <div><img src="~/img/instagram3.jpg" class="img-fluid" style="border: 1px solid #0d0805;" alt=""></div>
+            <div><img src="~/img/instagram4.jpg" class="img-fluid" style="border: 1px solid #0d0805;" alt=""></div>
+            <div><img src="~/img/instagram5.jpg" class="img-fluid" style="border: 1px solid #0d0805;" alt=""></div>
+            <div><img src="~/img/instagram6.jpg" class="img-fluid" style="border: 1px solid #0d0805;" alt=""></div>
+        </div>
+        <div class="hastag position-absolute top-50 start-50 translate-middle fw-bold py-3 px-5 shadow-lg rounded-pill" style="z-index: 2; letter-spacing: 2px; background-color: #0d0805; border: 2px solid #00704A; color: #ffffff;">
+            <i class="bi bi-instagram me-2" style="color: #CBA258;"></i>#STARBUCKS
         </div>
     </section>
-    <!-- SAY END -->
-
-    <!-- INSTAGRAM START -->
-    <section id="instagram" class="position-relative" style="background-color: #000000;">
-        <div class="owl-carousel instagram" style="opacity: 0.8;">
-            <div><img src="img/instagram1.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram2.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram3.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram4.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram5.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram6.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram7.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-            <div><img src="img/instagram8.jpg" class="img-fluid" style="transition: opacity 0.3s; border: 1px solid #000;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'" alt=""></div>
-        </div>
-        <!-- Hashtag Kutusu (Siyah & Yeşil) -->
-        <div class="hastag position-absolute top-50 start-50 translate-middle fw-bold py-3 px-5 shadow-lg rounded-pill" style="z-index: 2; letter-spacing: 2px; background-color: #000000; border: 2px solid #00704A; color: #ffffff;">
-            <i class="bi bi-instagram me-2" style="color: #00704A;"></i>#FIORELLO
-        </div>
-    </section>
-    <!-- INSTAGRAM END -->
 
 </main>
-<!-- MAIN END -->
 
-<!-- EFEKT VE İŞLEV SCRIPT'İ BURAYA EKLENDİ -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const toggleBtn = document.getElementById("themeToggleBtn");
@@ -264,7 +204,6 @@
         const canvas = document.getElementById("coffeeCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Canvas Boyutlandırma
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -274,16 +213,15 @@
 
         let particles = [];
 
-        // Pırıltı ve Kahve Çekirdeği Parçacıkları
         function createParticles(x, y) {
             for (let i = 0; i < 30; i++) {
                 particles.push({
                     x: x,
                     y: y,
-                    radius: Math.random() * 6 + 2,
-                    color: i % 2 === 0 ? "#00704A" : "#D4AF37", // Yeşil & Altın
-                    vx: (Math.random() - 0.5) * 10,
-                    vy: (Math.random() - 1) * 10 - 2,
+                    radius: Math.random() * 5 + 2,
+                    color: i % 2 === 0 ? "#00704A" : "#CBA258",
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 1) * 8 - 2,
                     alpha: 1
                 });
             }
@@ -294,7 +232,7 @@
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
-                p.alpha -= 0.02;
+                p.alpha -= 0.025;
                 if (p.alpha <= 0) {
                     particles.splice(index, 1);
                 } else {
@@ -312,24 +250,18 @@
             }
         }
 
-        // Tıklama Olayı
         toggleBtn.addEventListener("click", function (e) {
-            // 1. Butona Dönme ve Zıplama Animasyonu
             themeIcon.style.transition = "transform 0.4s ease";
-            themeIcon.style.transform = "rotate(360deg) scale(1.3)";
-            setTimeout(() => {
-                themeIcon.style.transform = "rotate(0deg) scale(1)";
-            }, 400);
+            themeIcon.style.transform = "rotate(360deg) scale(1.2)";
+            setTimeout(() => { themeIcon.style.transform = "rotate(0deg) scale(1)"; }, 400);
 
-            // 2. Parçacık Patlaması Efekti
             const rect = toggleBtn.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-            createParticles(x, y);
+            createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
             animateParticles();
 
-            // 3. Modalı Aç (Bootstrap 4 uyumlu - jQuery ile)
-            $('#coffeeModal').modal('show');
+            if (typeof $ !== 'undefined' && $('#coffeeModal').modal) {
+                $('#coffeeModal').modal('show');
+            }
         });
     });
 </script>
