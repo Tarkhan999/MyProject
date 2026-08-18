@@ -2,19 +2,15 @@
 
 <!-- PREMIUM HEADER STİLLERİ -->
 <style>
-    /* =========================================
-       İNATÇI BEYAZ DROPDOWN'I EZEN KESİN ÇÖZÜM
-       ========================================= */
     header .navbar-nav .nav-item > ul,
     header .navbar-nav .nav-item .account-dropdown,
     header .navbar-nav .nav-item ul.list-unstyled {
-        background-color: #140d0a !important; /* Arka planı KESİNLİKLE koyu yap */
+        background-color: #140d0a !important; 
         border: 1px solid #00704A !important;
         padding: 0 !important;
         box-shadow: 0px 8px 16px rgba(0,0,0,0.8) !important;
     }
 
-    /* Alt menüdeki (Login, Register vb.) li etiketleri */
     header .navbar-nav .nav-item > ul > li {
         background-color: transparent !important;
         border-bottom: 1px solid rgba(251, 248, 241, 0.1) !important;
@@ -22,9 +18,8 @@
         margin: 0 !important;
     }
 
-    /* Alt menüdeki yazıların renkleri */
     header .navbar-nav .nav-item > ul > li > a {
-        color: #FBF8F1 !important; /* Yazıları görünür krem/beyaz yap */
+        color: #FBF8F1 !important; 
         display: block !important;
         padding: 12px 20px !important;
         font-size: 12px !important;
@@ -34,12 +29,11 @@
         background-color: transparent !important;
     }
 
-    /* Üzerine gelince (Hover) yazılar Starbucks yeşili olsun */
     header .navbar-nav .nav-item > ul > li > a:hover {
-        color: #140d0a !important; /* Yazı koyu olsun */
-        background-color: #00704A !important; /* Arka plan yeşil olsun */
+        color: #140d0a !important; 
+        background-color: #00704A !important; 
     }
-    /* 1. Koyu Arka Plan ve Boşluk Sıfırlama */
+    
     header {
         background-color: #140d0a !important;
         border-bottom: 2px solid #00704A !important; 
@@ -55,7 +49,6 @@
         padding-bottom: 15px !important;
     }
 
-    /* 2. Menü Linkleri */
     header .nav-link {
         color: #FBF8F1 !important;
         font-size: 12px;
@@ -66,7 +59,6 @@
         transition: color 0.3s ease;
     }
 
-    /* 3. Eski temanın inatçı sepet efektlerini KESİNLİKLE gizle ve ez */
     header .shop-cart a::after,
     header .shop-cart a::before,
     header .shop-cart span::after,
@@ -84,41 +76,35 @@
         top: auto !important;
     }
 
-    /* 4. Hover Efektleri - Starbucks Yeşili */
     header .nav-link:hover,
     header .shop-cart a:hover span,
     header .shop-cart a:hover i {
         color: #00704A !important;
     }
 
-    /* =========================================
-       YENİ EKLENEN: ACCOUNT DROPDOWN STİLLERİ 
-       ========================================= */
     .account-menu {
-        position: relative; /* Menünün alt menüyü referans almasını sağlar */
+        position: relative; 
     }
 
     .account-dropdown {
-        display: none; /* Başlangıçta gizli tut */
+        display: none; 
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: #140d0a !important; /* Karanlık arka plan */
-        border: 1px solid #00704A; /* Yeşil ince çerçeve */
+        background-color: #140d0a !important; 
+        border: 1px solid #00704A; 
         min-width: 160px;
         padding: 0;
         margin: 0;
         z-index: 1050;
-        box-shadow: 0px 8px 16px rgba(0,0,0,0.6); /* Hafif gölge */
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.6); 
         border-radius: 4px;
     }
 
-    /* Menünün üzerine gelindiğinde (hover) listeyi göster */
     .account-menu:hover .account-dropdown {
         display: block;
     }
 
-    /* Alt liste elemanlarının stilleri */
     .account-dropdown li {
         border-bottom: 1px solid rgba(251, 248, 241, 0.1);
     }
@@ -132,13 +118,11 @@
         font-size: 11px;
     }
 
-    /* Alt listeye hover yapıldığında arkaplanı yeşil yap */
     .account-dropdown .nav-link:hover {
         background-color: #00704A !important;
         color: #fff !important;
     }
 
-    /* 5. Mobil Menü Koyu Tema */
     .mobile-navbar {
         background-color: #140d0a !important;
         border-left: 2px solid #00704A;
@@ -162,7 +146,7 @@
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg d-flex d-lg-block justify-content-between d-xl-flex navbar-dark">
                     
-                    <!-- BRAND (Logo ve Telefon) -->
+                    <!-- BRAND -->
                     <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
                         <img src="~/img/@Model.Setting.HeaderLogo" alt="Starbucks Logo" id="logo" style="height: 45px; width: auto; object-fit: contain;">
                         
@@ -196,16 +180,29 @@
                                 <a class="nav-link" asp-controller="Blog" asp-action="Index">Blog</a>
                             </li>
                             
-                            <!-- DÜZELTİLEN ACCOUNT MENÜSÜ -->
-                            <li class="nav-item account-menu">
-                                <a class="nav-link" href="#" style="cursor: default;">
-                                    Account <i class="fas fa-angle-down ml-1" style="font-size: 10px;"></i>
-                                </a>
-                                <ul class="list-unstyled account-dropdown">
-                                    <li><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
-                                    <li><a class="nav-link" asp-controller="Account" asp-action="Register">Register</a></li>
-                                    <li><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                                </ul>
+                            <!-- IDENTITY KONTROLLÜ ACCOUNT MENÜSÜ -->
+                            <li class="nav-item account-menu d-flex align-items-center">
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <!-- Kullanıcı giriş yapmamışsa Account yazar -->
+                                    <a class="nav-link d-flex align-items-center m-0" href="#" style="cursor: default; gap: 6px;">
+                                        Account <i class="fas fa-angle-down" style="font-size: 11px; margin-top: 1px;"></i>
+                                    </a>
+                                    <ul class="list-unstyled account-dropdown">
+                                        <li><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                                        <li><a class="nav-link" asp-controller="Account" asp-action="Register">Register</a></li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <!-- Kullanıcı giriş yapmışsa Kullanıcı Adı yazar -->
+                                    <a class="nav-link d-flex align-items-center m-0 text-warning" href="#" style="cursor: default; gap: 6px; text-transform: none !important;">
+                                        <i class="far fa-user"></i> @User.Identity.Name <i class="fas fa-angle-down" style="font-size: 11px; margin-top: 1px;"></i>
+                                    </a>
+                                    <ul class="list-unstyled account-dropdown">
+                                        <li><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                    </ul>
+                                }
                             </li>
                             
                             <!-- SEPET BÖLÜMÜ -->
@@ -221,14 +218,13 @@
                                     <span class="font-weight-bold" style="font-size: 13px; letter-spacing: 1px; color: #FBF8F1; transition: color 0.3s ease; display: inline-block;">CART ($@Model.ProductPrice)</span>
                                 </a>
                             </li>
-
                         </ul>
                     </div>
                 </nav>
             </div>
         </div>
 
-        <!-- MOBİL MENÜ -->
+        <!-- MOBİL MENÜ IDENTITY KONTROLÜ -->
         <div class="mobile-navbar position-absolute shadow-lg h-100 p-5">
             <i class="fas fa-times fa-2x mb-5" id="mobile-navbar-close" style="cursor: pointer;"></i>
             <ul class="list-unstyled d-flex flex-column" style="gap: 20px;">
@@ -237,13 +233,19 @@
                 <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Shop</a></li>
                 <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Portfolio</a></li>
                 <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Blog" asp-action="Index">Blog</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Login">Login</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Register">Register</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Login">Login</a></li>
+                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Register">Register</a></li>
+                }
+                else
+                {
+                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px; color:#00704A !important;" href="#"><i class="far fa-user mr-2"></i>@User.Identity.Name</a></li>
+                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                }
             </ul>
         </div>
     </div>               
 </header>
-
-
 <!-- HEADER END -->

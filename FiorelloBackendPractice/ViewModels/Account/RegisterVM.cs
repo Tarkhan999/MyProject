@@ -4,6 +4,8 @@ namespace FiorelloBackendPractice.ViewModels.Account;
 
 public class RegisterVM
 {
+    
+    
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage = "Invalid Email Address")]
     public string Email { get; set; }
