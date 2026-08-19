@@ -1,114 +1,308 @@
 @model SettingUIVM
 
-<!-- FOOTER START -->
-<footer style="background-color: #000000; border-top: 3px solid #00704A; padding-top: 40px; color: #cccccc; margin-top: auto;">
+<style>
+    /* Gradient Üst Çizgi Parlaması */
+    .footer-top-glow {
+        height: 3px;
+        background: linear-gradient(90deg, #0a0a0c 0%, #00a862 50%, #0a0a0c 100%);
+        width: 100%;
+        box-shadow: 0 -2px 15px rgba(0, 168, 98, 0.4);
+    }
+
+    /* Padding artırılarak eski ferah genişlik (boy ve en) geri getirildi */
+    .premium-footer {
+        background-color: #0a0a0c;
+        padding: 70px 0 30px 0;
+        color: #FBF8F1;
+        margin-top: auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .footer-brand {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #ffffff;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+    .footer-text {
+        color: #9ca3af;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        padding-right: 15px;
+    }
+
+    .footer-heading {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-heading::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 35px;
+        background-color: #00a862;
+    }
+
+    /* Linkler */
+    .footer-link {
+        color: #9ca3af;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+        color: #00a862;
+        padding-left: 8px;
+        text-decoration: none;
+    }
+
+    /* İletişim Bilgileri */
+    .footer-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        color: #9ca3af;
+        font-size: 14px;
+    }
+
+    .footer-contact-item i {
+        color: #00a862;
+        font-size: 16px;
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Genişletilmiş Bülten Kutusu */
+    .newsletter-wrapper {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 25px;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .newsletter-input {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 15px;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .newsletter-input:focus {
+        border-color: #00a862;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .newsletter-input::placeholder {
+        color: #6b7280;
+    }
+
+    .newsletter-btn {
+        background: #00704A;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0 20px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .newsletter-btn:hover {
+        background: #00a862;
+    }
+
+    /* Sosyal Medya İkonları */
+    .social-icons-wrapper {
+        display: flex;
+        gap: 12px;
+    }
+
+    .social-icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FBF8F1;
+        text-decoration: none;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .social-icon-btn:hover {
+        background: #00a862;
+        color: #ffffff;
+        transform: translateY(-3px);
+    }
+
+    /* Harita Genişliği ve Yüksekliği Artırıldı */
+    .footer-map-container {
+        width: 100%;
+        height: 160px; /* Eski ferah boyutuna geri çekildi */
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 20px;
+    }
+
+    .footer-map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        /* Siyah Tema Uyumlu Harita Filtresi */
+        filter: invert(90%) hue-rotate(180deg) grayscale(30%) contrast(110%);
+    }
+
+    /* Alt Telif Çizgisi */
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 25px;
+        margin-top: 50px; /* Üst kısımla arasına daha geniş boşluk eklendi */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .footer-bottom-text {
+        color: #6b7280;
+        font-size: 13.5px;
+    }
+
+    .footer-bottom-links a {
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 13.5px;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+    }
+
+    .footer-bottom-links a:hover {
+        color: #00a862;
+    }
+</style>
+
+<div class="footer-top-glow"></div>
+
+<footer class="premium-footer">
+    <!-- Container genişliğini koruyan Bootstrap yapısı -->
     <div class="container">
-        <div class="row py-5 g-4">
-            
-            <!-- 1. Sütun: Müşteri Hizmetleri -->
-            <div class="col-md-6 col-lg-3">
-                <div class="item">
-                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">CUSTOMER SERVICE</h6>
-                    <ul class="list-unstyled mt-4" style="line-height: 2;">
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Help & Contact Us</a></li>
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Returns & Refunds</a></li>
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Online Stores</a></li>
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Terms & Conditions</a></li>
-                    </ul>
+        <!-- Sütun aralıklarını açık tutan 4 - 2 - 2 - 4 dizilimi -->
+        <div class="row mb-4">
+
+            <!-- 1. Sütun: Marka & Bülten -->
+            <div class="col-lg-4 col-md-12 mb-5 mb-lg-0">
+                <span class="footer-brand">StarBucks.</span>
+                <p class="footer-text">
+                    Yaşam alanlarınıza şıklık ve zarafet katan özel tasarımlar.
+                </p>
+
+                <form class="newsletter-wrapper" action="#" method="POST" onsubmit="event.preventDefault();">
+                    <input type="email" class="newsletter-input" placeholder="E-posta adresiniz..." required>
+                    <button type="submit" class="newsletter-btn">ABONE OL</button>
+                </form>
+
+                <div class="social-icons-wrapper">
+                    <a href="#" class="social-icon-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon-btn"><i class="fab fa-pinterest-p"></i></a>
                 </div>
             </div>
 
-            <!-- 2. Sütun: Şirket -->
-            <div class="col-md-6 col-lg-3">
-                <div class="item">
-                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">COMPANY</h6>
-                    <ul class="list-unstyled mt-4" style="line-height: 2;">
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">About Us</a></li>
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Our Blog</a></li>
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">Order Tracking</a></li>
-                        <li><a href="#" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">FAQ Page</a></li>
-                    </ul>
-                </div>
+            <!-- 2. Sütun: Menü -->
+            <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
+                <h6 class="footer-heading">Menü</h6>
+                <ul class="list-unstyled mb-0">
+                    <li><a asp-controller="Home" asp-action="Index" class="footer-link">Ana Sayfa</a></li>
+                    <li><a asp-controller="About" asp-action="Index" class="footer-link">Hakkımızda</a></li>
+                    <li><a asp-controller="Blog" asp-action="Index" class="footer-link">Blog</a></li>
+                    <li><a asp-controller="Basket" asp-action="Index" class="footer-link">Sepetim</a></li>
+                </ul>
             </div>
 
-            <!-- 3. Sütun: İletişim Bilgileri (Dinamik Email Korumalı) -->
-            <div class="col-md-6 col-lg-3">
-                <div class="item">
-                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">CONTACT US</h6>
-                    <ul class="list-unstyled mt-4" style="line-height: 2; color: #a0a0a0;">
-                        <li class="mb-3 d-flex align-items-start">
-                            <i class="bi bi-geo-alt-fill me-3 mt-1" style="color: #00704A; font-size: 1.2rem;"></i> 
-                            <span>123 Fiorello Street, NY 10012<br>United States</span>
-                        </li>
-                        <li class="mb-3 d-flex align-items-center">
-                            <i class="bi bi-telephone-fill me-3" style="color: #00704A; font-size: 1.2rem;"></i> 
-                            <span>+1 234 567 8900</span>
-                        </li>
-                        <li class="mb-3 d-flex align-items-center">
-                            <i class="bi bi-envelope-fill me-3" style="color: #00704A; font-size: 1.2rem;"></i> 
-                            <a href="mailto:@Model.Email" class="text-decoration-none footer-link" style="color: #a0a0a0; transition: all 0.3s;">@Model.Email</a>
-                        </li>
-                    </ul>
-                </div>
+            <!-- 3. Sütun: Destek -->
+            <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
+                <h6 class="footer-heading">Destek</h6>
+                <ul class="list-unstyled mb-0">
+                    <li><a asp-controller="Account" asp-action="Login" class="footer-link">Hesabım</a></li>
+                    <li><a href="#" class="footer-link">Sipariş Takibi</a></li>
+                    <li><a href="#" class="footer-link">İade Koşulları</a></li>
+                    <li><a href="#" class="footer-link">S.S.S.</a></li>
+                </ul>
             </div>
 
-            <!-- 4. Sütun: Sosyal Medya İkonları -->
-            <div class="col-md-6 col-lg-3">
-                <div class="item">
-                    <h6 class="fw-bold mb-4 text-white" style="letter-spacing: 1px;">FOLLOW US</h6>
-                    <p style="color: #a0a0a0; font-size: 0.95rem; line-height: 1.6;">Stay updated with our latest news, fresh arrivals and special offers.</p>
-                    <div class="d-flex gap-3 mt-4">
-                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
-                            <i class="bi bi-instagram fs-5"></i>
-                        </a>
-                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
-                            <i class="bi bi-twitter-x fs-5"></i>
-                        </a>
-                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
-                            <i class="bi bi-facebook fs-5"></i>
-                        </a>
-                        <a href="#" class="social-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: #141414; color: #00704A; transition: all 0.3s ease; border: 1px solid #1f1f1f; text-decoration: none;">
-                            <i class="bi bi-pinterest fs-5"></i>
-                        </a>
+            <!-- 4. Sütun: İletişim & Harita -->
+            <div class="col-lg-4 col-md-12">
+                <h6 class="footer-heading">Bize Ulaşın</h6>
+
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Lefkoşa / Kıbrıs</span> <!-- Adres metnini güncelledim -->
+                </div>
+
+                <div class="d-flex gap-4 flex-wrap mb-3">
+                    <div class="footer-contact-item mb-0">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+90 212 555 00 00</span>
+                    </div>
+                    <div class="footer-contact-item mb-0">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:@Model?.Email" class="text-decoration-none" style="color: #9ca3af;">@Model?.Email</a>
                     </div>
                 </div>
+
+                <!-- Çalışan Hatasız ve Geniş Harita -->
+                <div class="footer-map-container">
+                    <iframe
+                        src="https://maps.google.com/maps?q=Lefkosa,%20Kibris&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                        allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </div>
             </div>
+
         </div>
 
-        <hr style="border-color: #333333; margin: 0;">
-
-        <!-- Alt Footer (Telif Hakkı ve Logolar) -->
-        <div class="row py-4 align-items-center">
-            <div class="col-lg-4 text-center text-lg-start mb-3 mb-lg-0">
-                <p class="mb-0 fw-semibold" style="color: #666666; font-size: 0.9rem;">&copy; @DateTime.Now.Year Fiorello. All rights reserved.</p>
+        <!-- Alt Telif Kısmı -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-text">
+                &copy; @DateTime.Now.Year <strong style="color: #00a862;">StarBucks</strong>. Tüm hakları saklıdır.
             </div>
-            <div class="col-lg-4 text-center mb-3 mb-lg-0">
-                <!-- Ödeme yöntemleri görseli (Karanlık temaya uyumlu olması için şeffaflık eklendi) -->
-                <img src="img/footer-bottom-1.png" class="img-fluid" style="opacity: 0.5; max-height: 25px; filter: grayscale(100%); transition: filter 0.3s ease, opacity 0.3s ease;" onmouseover="this.style.filter='grayscale(0%)'; this.style.opacity='1';" onmouseout="this.style.filter='grayscale(100%)'; this.style.opacity='0.5';" alt="Payment Methods">
-            </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <a href="#" class="text-decoration-none me-4 fw-semibold" style="color: #666666; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00704A'" onmouseout="this.style.color='#666666'">Privacy Policy</a>
-                <a href="#" class="text-decoration-none fw-semibold" style="color: #666666; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00704A'" onmouseout="this.style.color='#666666'">Terms of Service</a>
+            <div class="footer-bottom-links">
+                <a href="#">Gizlilik Politikası</a>
+                <a href="#">Kullanıcı Sözleşmesi</a>
+                <a href="#">Çerez Politikası</a>
             </div>
         </div>
     </div>
 </footer>
-
-<!-- FOOTER ÖZEL HOVER EFEKTLERİ -->
-<style>
-    /* Linklerin üzerine gelince hafif sağa kayması ve yeşil olması */
-    .footer-link:hover {
-        color: #00704A !important;
-        padding-left: 8px;
-    }
-    
-    /* Sosyal medya ikonlarının üzerine gelince tamamen yeşil olup yukarı zıplaması */
-    .social-icon:hover {
-        background-color: #00704A !important;
-        color: #ffffff !important;
-        transform: translateY(-5px);
-        border-color: #00704A !important;
-        box-shadow: 0 5px 15px rgba(0, 112, 74, 0.4);
-    }
-</style>
-<!-- FOOTER END -->

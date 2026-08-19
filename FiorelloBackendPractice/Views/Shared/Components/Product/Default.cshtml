@@ -3,100 +3,108 @@
 <style>
     /* ÜRÜNLER ALANI VE HİZALAMA */
     #products-section {
-        background-color: #0d0805;
-        padding-top: 40px;
+        background-color: #0b0705; /* Biraz daha koyu, tok bir siyah */
+        padding-top: 50px;
         padding-bottom: 90px;
         position: relative;
         z-index: 5;
         clear: both;
     }
 
-    /* KATEGORİ FİLTRE MENÜSÜ */
+    /* KATEGORİ FİLTRE MENÜSÜ - GLASSMORPHISM EFEKTİ */
     .filter-bar {
-        background-color: #140d0a;
-        border: 1px solid rgba(0, 112, 74, 0.25);
+        background-color: rgba(20, 13, 10, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(203, 162, 88, 0.2);
         border-radius: 50px;
-        padding: 12px 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 10px 25px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
 
     .filter-bar a {
-        color: #FBF8F1 !important;
-        font-weight: 600;
-        font-size: 0.9rem;
-        letter-spacing: 1.5px;
+        color: rgba(251, 248, 241, 0.7) !important;
+        font-weight: 500;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
         text-decoration: none;
         transition: all 0.3s ease;
-        padding: 8px 16px;
-        border-radius: 20px;
+        padding: 8px 20px;
+        border-radius: 30px;
     }
 
     .filter-bar a:hover, 
     .filter-bar a.active {
         color: #CBA258 !important;
-        background-color: rgba(203, 162, 88, 0.1);
+        background-color: rgba(203, 162, 88, 0.15);
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(203, 162, 88, 0.1);
     }
 
     /* KART DIŞ MARGIN KONTROLÜ */
     .product-grid-row {
-        margin-top: 90px; 
+        margin-top: 100px; 
     }
 
-    /* STARBUCKS GREEN KART TASARIMI */
+    /* PREMIUM STARBUCKS GREEN KART TASARIMI */
     .coffee-card {
-        background: linear-gradient(160deg, #00704A 0%, #004d33 100%);
-        border-radius: 28px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        padding: 0 20px 22px;
+        background: linear-gradient(145deg, #053b26 0%, #021a11 100%);
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        padding: 0 20px 25px;
         margin-top: 75px; 
-        border: 1px solid rgba(251, 248, 241, 0.12);
-        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        border: 1px solid rgba(251, 248, 241, 0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         position: relative;
     }
 
     .coffee-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 22px 45px rgba(0, 112, 74, 0.35);
-        border-color: #CBA258;
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 112, 74, 0.4), 0 0 20px rgba(203, 162, 88, 0.15);
+        border-color: rgba(203, 162, 88, 0.5);
     }
 
     /* DAİRESEL DIŞARI TAŞAN FOTOĞRAF */
     .circle-img-container {
-        width: 140px; 
-        height: 140px;
-        margin: -70px auto 15px; 
+        width: 150px; 
+        height: 150px;
+        margin: -75px auto 20px; 
         border-radius: 50%;
-        border: 5px solid #0d0805; 
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+        border: 4px solid #0b0705; 
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
         overflow: hidden;
         background-color: #FBF8F1;
         position: relative;
         cursor: pointer;
         z-index: 10;
+        transition: border-color 0.4s ease;
+    }
+    
+    .coffee-card:hover .circle-img-container {
+        border-color: #CBA258;
     }
 
     .circle-img-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.4s ease;
+        transition: transform 0.5s ease;
     }
 
     .circle-img-container:hover img {
-        transform: scale(1.12);
+        transform: scale(1.15);
     }
 
     .img-hover-overlay {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0, 112, 74, 0.75);
+        background: rgba(2, 26, 17, 0.8);
         display: flex;
         align-items: center;
         justify-content: center;
         opacity: 0;
         transition: opacity 0.3s ease;
-        color: #FBF8F1;
-        font-size: 1.8rem;
+        color: #CBA258;
+        font-size: 2rem;
     }
 
     .circle-img-container:hover .img-hover-overlay {
@@ -106,44 +114,56 @@
     /* KART BİLGİLERİ */
     .card-coffee-title {
         color: #FBF8F1;
-        font-size: 1.05rem;
-        letter-spacing: 1.5px;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
         font-weight: 700;
         text-transform: uppercase;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
 
     .card-coffee-price {
         color: #CBA258;
-        font-size: 1.35rem;
+        font-size: 1.4rem;
         font-weight: 800;
     }
 
     .btn-add-gold {
         border: 2px solid #CBA258;
         color: #CBA258;
-        border-radius: 25px;
-        padding: 6px 20px;
+        border-radius: 30px;
+        padding: 8px 22px;
         font-size: 0.85rem;
         font-weight: 700;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
         background: transparent;
         transition: all 0.3s ease;
     }
 
     .btn-add-gold:hover {
         background-color: #CBA258 !important;
-        color: #0d0805 !important;
-        box-shadow: 0 4px 15px rgba(203, 162, 88, 0.4);
+        color: #0b0705 !important;
+        box-shadow: 0 5px 20px rgba(203, 162, 88, 0.5);
+        transform: translateY(-2px);
     }
 
     /* FİLTRELEME ANİMASYONU */
     @@keyframes fadeInScale {
-        from { opacity: 0; transform: scale(0.95); }
+        from { opacity: 0; transform: scale(0.9); }
         to { opacity: 1; transform: scale(1); }
     }
     .product-wrapper {
-        animation: fadeInScale 0.4s ease forwards;
+        animation: fadeInScale 0.5s ease forwards;
+    }
+
+    /* EŞİT VE KÜÇÜK MODAL GÖRSEL TASARIMI */
+    .modal-custom-img {
+        width: 260px;
+        height: 260px;
+        object-fit: cover;
+        border-radius: 24px;
+        border: 4px solid #CBA258;
+        background-color: #FBF8F1;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     }
 </style>
 
@@ -151,19 +171,16 @@
     <div class="container">
         
         <!-- FİLTRE MENÜSÜ -->
-        <div class="row justify-content-center mb-4">
+        <div class="row justify-content-center mb-5">
             <div class="col-12 col-lg-10">
-                <div class="filter-bar d-flex justify-content-between align-items-center flex-wrap">
-                    <ul class="category d-flex list-unstyled mb-0 gap-3 flex-wrap align-items-center">
+                <div class="filter-bar d-flex justify-content-center justify-content-md-between align-items-center flex-wrap gap-3">
+                    <ul class="category d-flex list-unstyled mb-0 gap-2 flex-wrap align-items-center justify-content-center">
                         <li><a href="javascript:void(0)" data-id="all" class="text-uppercase category-filter active">All</a></li>
                         @foreach (var item in Model.Categories)
                         {
                             <li><a href="javascript:void(0)" data-id="@item.Id" class="text-uppercase category-filter">@item.Name</a></li>
                         }
                     </ul>
-                    <div class="filter-trigger">
-                        <a href="javascript:void(0)" class="text-uppercase"><i class="fas fa-sliders-h me-1"></i> Filter</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -183,13 +200,13 @@
                         </div>
                         
                         <!-- BAŞLIK & TÜR -->
-                        <div class="title mt-3 flex-grow-1 px-2">
+                        <div class="title mt-2 flex-grow-1 px-2">
                             <h6 class="card-coffee-title">@item.Name</h6>
-                            <p style="color: rgba(251, 248, 241, 0.6); font-size: 0.78rem; letter-spacing: 1px;">Starbucks Premium</p>
+                            <p style="color: rgba(251, 248, 241, 0.5); font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase;">Premium Blend</p>
                         </div>
                         
                         <!-- FİYAT VE SEPET BUTONU -->
-                        <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top" style="border-color: rgba(251, 248, 241, 0.15) !important;">
+                        <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top" style="border-color: rgba(251, 248, 241, 0.08) !important;">
                             <span class="card-coffee-price">$@item.Price</span>
                             <button data-id="@item.Id" class="btn btn-add-gold d-flex align-items-center basket-add-btn">
                                 <i class="fas fa-plus me-1 mr-1"></i> ADD
@@ -206,25 +223,27 @@
 @foreach (var item in Model.Products)
 {
     <div class="modal fade" id="imageModal-@item.Id" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 350px;">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 260px;">
             <div class="modal-content bg-transparent border-0">
                 <div class="modal-body text-center p-0 position-relative">
                     
-                    <!-- BOOTSTRAP'İN KENDİ KAPATMA KODLARI EKLENDİ (onclick SİLİNDİ) -->
-                    <button type="button" class="btn rounded-circle d-flex align-items-center justify-content-center position-absolute shadow" 
-                            style="top: -15px; right: -15px; width: 40px; height: 40px; background-color: #0d0805; border: 2px solid #CBA258; color: #FBF8F1; z-index: 9999; cursor: pointer;" 
+                    <!-- KAPATMA BUTONU -->
+                    <button type="button" class="btn rounded-circle d-flex align-items-center justify-content-center position-absolute" 
+                            style="top: -15px; right: -15px; width: 40px; height: 40px; background-color: #0b0705; border: 2px solid #CBA258; color: #CBA258; z-index: 9999; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.3s ease;" 
+                            onmouseover="this.style.backgroundColor='#CBA258'; this.style.color='#0b0705';" 
+                            onmouseout="this.style.backgroundColor='#0b0705'; this.style.color='#CBA258';"
                             data-dismiss="modal" data-bs-dismiss="modal">
-                        <i class="fas fa-times fs-5"></i>
+                        <i class="fas fa-times fs-6"></i>
                     </button>
                     
-                    <img src="~/img/@item.MainImage" class="img-fluid rounded-4 shadow-lg" style="border: 3px solid #CBA258; background-color: #FBF8F1; width: 100%; height: auto; object-fit: contain;" alt="@item.Name">
+                    <img src="~/img/@item.MainImage" class="modal-custom-img" alt="@item.Name">
                 </div>
             </div>
         </div>
     </div>
 }
 
-<!-- SADECE KATEGORİ FİLTRELEME İŞLEMİ -->
+<!-- FİLTRELEME İŞLEMİ (GÜNCELLENDİ) -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const filterButtons = document.querySelectorAll(".category-filter");
@@ -234,22 +253,25 @@
             button.addEventListener("click", function (e) {
                 e.preventDefault(); 
 
+                // Buton tasarımlarını güncelle
                 filterButtons.forEach(btn => btn.classList.remove("active"));
                 this.classList.add("active");
 
-                const selectedCategoryId = this.getAttribute("data-id");
+                const selectedCategoryId = this.getAttribute("data-id").toString();
 
                 products.forEach(product => {
-                    const productCategoryId = product.getAttribute("data-category");
+                    const productCategoryId = product.getAttribute("data-category").toString();
 
-                    product.style.animation = 'none';
-                    product.offsetHeight; 
-                    product.style.animation = null; 
-
+                    // Eşleşme kontrolü
                     if (selectedCategoryId === "all" || selectedCategoryId === productCategoryId) {
-                        product.style.display = "block";
+                        product.classList.remove("d-none"); // Bootstrap class'ı ile görünür yap
+                        
+                        // Animasyonu sıfırla ve tekrar oynat
+                        product.style.animation = 'none';
+                        product.offsetHeight; /* Reflow tetikle */
+                        product.style.animation = 'fadeInScale 0.5s ease forwards'; 
                     } else {
-                        product.style.display = "none";
+                        product.classList.add("d-none"); // Bootstrap class'ı ile gizle
                     }
                 });
             });

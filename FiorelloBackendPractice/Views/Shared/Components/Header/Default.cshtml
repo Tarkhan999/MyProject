@@ -1,251 +1,278 @@
 @model HeaderVM
 
-<!-- PREMIUM HEADER STİLLERİ -->
 <style>
-    header .navbar-nav .nav-item > ul,
-    header .navbar-nav .nav-item .account-dropdown,
-    header .navbar-nav .nav-item ul.list-unstyled {
-        background-color: #140d0a !important; 
-        border: 1px solid #00704A !important;
-        padding: 0 !important;
-        box-shadow: 0px 8px 16px rgba(0,0,0,0.8) !important;
-    }
-
-    header .navbar-nav .nav-item > ul > li {
-        background-color: transparent !important;
-        border-bottom: 1px solid rgba(251, 248, 241, 0.1) !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    header .navbar-nav .nav-item > ul > li > a {
-        color: #FBF8F1 !important; 
-        display: block !important;
-        padding: 12px 20px !important;
-        font-size: 12px !important;
-        text-transform: uppercase !important;
-        letter-spacing: 2px !important;
-        transition: all 0.3s ease !important;
-        background-color: transparent !important;
-    }
-
-    header .navbar-nav .nav-item > ul > li > a:hover {
-        color: #140d0a !important; 
-        background-color: #00704A !important; 
-    }
-    
-    header {
-        background-color: #140d0a !important;
-        border-bottom: 2px solid #00704A !important; 
-        margin: 0 !important; 
-        padding: 0 !important;
+    header.premium-header {
+        background-color: #0a0a0c;
+        border-bottom: 2px solid #00704A;
+        padding: 12px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        position: sticky;
+        top: 0;
+        z-index: 1050;
         width: 100%;
-        display: block;
     }
 
-    .navbar {
-        margin-bottom: 0 !important;
-        padding-top: 15px !important;
-        padding-bottom: 15px !important;
+    .header-left-group {
+        display: flex;
+        align-items: center;
+        gap: 25px;
     }
 
-    header .nav-link {
+    .phone-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(0, 112, 74, 0.1);
+        border: 1px solid rgba(0, 112, 74, 0.3);
+        padding: 6px 14px;
+        border-radius: 20px;
+    }
+
+    .phone-badge span {
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: #FBF8F1;
+    }
+
+    .premium-nav-link {
         color: #FBF8F1 !important;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         text-transform: uppercase;
-        padding: 10px 15px !important;
+        padding: 8px 16px !important;
         transition: color 0.3s ease;
     }
 
-    header .shop-cart a::after,
-    header .shop-cart a::before,
-    header .shop-cart span::after,
-    header .shop-cart span::before,
-    header .shop-cart sup::after,
-    header .shop-cart sup::before {
-        display: none !important;
-        content: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
+    .premium-nav-link:hover {
+        color: #00a862 !important;
     }
 
-    header .shop-cart a span {
-        transform: none !important;
-        top: auto !important;
+    .account-wrapper {
+        position: relative;
     }
 
-    header .nav-link:hover,
-    header .shop-cart a:hover span,
-    header .shop-cart a:hover i {
-        color: #00704A !important;
+    .account-trigger {
+        color: #FBF8F1;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        padding: 8px 16px;
+        transition: color 0.3s ease;
     }
 
-    .account-menu {
-        position: relative; 
+    .account-trigger:hover {
+        color: #00a862;
     }
 
-    .account-dropdown {
-        display: none; 
+    .account-dropdown-menu {
         position: absolute;
         top: 100%;
-        left: 0;
-        background-color: #140d0a !important; 
-        border: 1px solid #00704A; 
-        min-width: 160px;
-        padding: 0;
-        margin: 0;
-        z-index: 1050;
-        box-shadow: 0px 8px 16px rgba(0,0,0,0.6); 
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #0a0a0c;
+        border: 1px solid #00704A;
         border-radius: 4px;
+        min-width: 150px;
+        padding: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+        margin-top: 10px;
     }
 
-    .account-menu:hover .account-dropdown {
+    .account-wrapper:hover .account-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        margin-top: 0;
+    }
+
+    .account-dropdown-menu a {
         display: block;
-    }
-
-    .account-dropdown li {
+        padding: 12px 20px;
+        color: #ffffff !important;
+        font-size: 12px;
+        text-decoration: none;
+        letter-spacing: 1px;
+        text-transform: uppercase;
         border-bottom: 1px solid rgba(251, 248, 241, 0.1);
+        transition: all 0.3s ease;
     }
 
-    .account-dropdown li:last-child {
+    .account-dropdown-menu a:last-child {
         border-bottom: none;
     }
 
-    .account-dropdown .nav-link {
-        padding: 12px 20px !important;
+    .account-dropdown-menu a:hover {
+        background-color: #00704A;
+        color: #ffffff !important;
+        padding-left: 25px;
+    }
+
+    .cart-btn-premium {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: transparent;
+        border: 1px solid rgba(251, 248, 241, 0.1);
+        padding: 8px 20px;
+        border-radius: 30px;
+        text-decoration: none !important;
+        transition: all 0.3s ease;
+    }
+
+    .cart-btn-premium:hover {
+        background: rgba(0, 112, 74, 0.15);
+        border-color: #00704A;
+    }
+
+    .cart-icon-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .cart-icon-wrapper i {
+        font-size: 20px;
+        color: #FBF8F1;
+    }
+
+    .cart-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background: #00704A;
+        color: #ffffff;
         font-size: 11px;
+        font-weight: 700;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
     }
 
-    .account-dropdown .nav-link:hover {
-        background-color: #00704A !important;
-        color: #fff !important;
+    .cart-text {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #FBF8F1;
     }
 
-    .mobile-navbar {
-        background-color: #140d0a !important;
+    .cart-price {
+        color: #00a862;
+        margin-left: 4px;
+    }
+
+    .mobile-navbar-premium {
+        background: #0a0a0c;
         border-left: 2px solid #00704A;
-        z-index: 1000;
+        z-index: 2000;
     }
-    
-    .mobile-navbar a, .mobile-navbar i {
-        color: #FBF8F1 !important;
+
+    .mobile-navbar-premium a {
+        color: #ffffff !important;
+        font-size: 16px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: bold;
         transition: color 0.3s ease;
     }
-    
-    .mobile-navbar a:hover, .mobile-navbar i:hover {
-        color: #00704A !important;
+
+    .mobile-navbar-premium a:hover {
+        color: #00a862 !important;
     }
 </style>
 
-<!-- HEADER START -->
-<header>
+<header class="premium-header">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-lg d-flex d-lg-block justify-content-between d-xl-flex navbar-dark">
-                    
-                    <!-- BRAND -->
-                    <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
-                        <img src="~/img/@Model.Setting.HeaderLogo" alt="Starbucks Logo" id="logo" style="height: 45px; width: auto; object-fit: contain;">
-                        
-                        <div class="ml-4 pl-4 border-left d-none d-md-flex align-items-center" style="border-color: rgba(251, 248, 241, 0.15) !important; height: 35px;">
-                            <i class="fas fa-phone-alt mr-2" style="font-size: 11px; color: #00704A;"></i>
-                            <span style="font-size: 13px; letter-spacing: 1.5px; color: #FBF8F1; font-weight: 500;">@Model.Setting.Phone</span>
-                        </div>
-                    </a>
-                    
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation" id="mobile-navbar-show" style="border: none;">
-                        <span class="navbar-toggler-icon" style="font-size: 14px;"></span>
-                    </button>
+        <nav class="navbar navbar-expand-lg d-flex align-items-center justify-content-between p-0">
+            <div class="header-left-group">
+                <a class="navbar-brand m-0 p-0" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/@Model?.Setting?.HeaderLogo" alt="Logo" style="height: 44px; width: auto; object-fit: contain;">
+                </a>
 
-                    <div class="collapse navbar-collapse d-none d-lg-block" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto align-items-center">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Shop</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Portfolio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Blog" asp-action="Index">Blog</a>
-                            </li>
-                            
-                            <!-- IDENTITY KONTROLLÜ ACCOUNT MENÜSÜ -->
-                            <li class="nav-item account-menu d-flex align-items-center">
-                                @if (!User.Identity.IsAuthenticated)
-                                {
-                                    <!-- Kullanıcı giriş yapmamışsa Account yazar -->
-                                    <a class="nav-link d-flex align-items-center m-0" href="#" style="cursor: default; gap: 6px;">
-                                        Account <i class="fas fa-angle-down" style="font-size: 11px; margin-top: 1px;"></i>
-                                    </a>
-                                    <ul class="list-unstyled account-dropdown">
-                                        <li><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
-                                        <li><a class="nav-link" asp-controller="Account" asp-action="Register">Register</a></li>
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <!-- Kullanıcı giriş yapmışsa Kullanıcı Adı yazar -->
-                                    <a class="nav-link d-flex align-items-center m-0 text-warning" href="#" style="cursor: default; gap: 6px; text-transform: none !important;">
-                                        <i class="far fa-user"></i> @User.Identity.Name <i class="fas fa-angle-down" style="font-size: 11px; margin-top: 1px;"></i>
-                                    </a>
-                                    <ul class="list-unstyled account-dropdown">
-                                        <li><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                                    </ul>
-                                }
-                            </li>
-                            
-                            <!-- SEPET BÖLÜMÜ -->
-                            <li class="nav-item my-auto ml-lg-5 shop-cart">
-                                <a asp-controller="Basket" asp-action="Index" class="d-flex align-items-center text-decoration-none" style="gap: 12px;">
-                                    <div class="position-relative d-flex align-items-center">
-                                        <i class="fas fa-shopping-bag" style="font-size: 22px; color: #FBF8F1; transition: color 0.3s ease;"></i>
-                                        <sup class="d-flex justify-content-center align-items-center font-weight-bold" 
-                                             style="position: absolute; top: -10px; right: -10px; width: 18px; height: 18px; font-size: 11px; background-color: #00704A; color: #ffffff; border-radius: 50%; padding: 0; margin: 0;">
-                                            @Model.BasketCount
-                                        </sup>
-                                    </div>
-                                    <span class="font-weight-bold" style="font-size: 13px; letter-spacing: 1px; color: #FBF8F1; transition: color 0.3s ease; display: inline-block;">CART ($@Model.ProductPrice)</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                <div class="d-none d-md-flex phone-badge">
+                    <i class="fas fa-phone-alt" style="color: #00a862; font-size: 11px;"></i>
+                    <span>@Model?.Setting?.Phone</span>
+                </div>
             </div>
-        </div>
 
-        <!-- MOBİL MENÜ IDENTITY KONTROLÜ -->
-        <div class="mobile-navbar position-absolute shadow-lg h-100 p-5">
-            <i class="fas fa-times fa-2x mb-5" id="mobile-navbar-close" style="cursor: pointer;"></i>
-            <ul class="list-unstyled d-flex flex-column" style="gap: 20px;">
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Shop</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" href="#">Portfolio</a></li>
-                <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Blog" asp-action="Index">Blog</a></li>
-                
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Login">Login</a></li>
-                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Register">Register</a></li>
-                }
-                else
-                {
-                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px; color:#00704A !important;" href="#"><i class="far fa-user mr-2"></i>@User.Identity.Name</a></li>
-                    <li><a class="text-uppercase font-weight-bold" style="font-size: 1.1rem; letter-spacing: 2px;" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                }
-            </ul>
+            <button class="navbar-toggler" type="button" id="mobile-navbar-show" style="border: none; outline: none; padding: 0;">
+                <i class="fas fa-bars" style="color: #00a862; font-size: 24px;"></i>
+            </button>
+
+            <div class="collapse navbar-collapse d-none d-lg-block">
+                <ul class="navbar-nav ml-auto align-items-center gap-1">
+                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="About" asp-action="Index">About</a></li>
+                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Blog" asp-action="Index">Blog</a></li>
+
+                    <li class="nav-item account-wrapper ml-3">
+                        @if (User.Identity is null || !User.Identity.IsAuthenticated)
+                        {
+                            <div class="account-trigger">
+                                Account <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+                            </div>
+                            <div class="account-dropdown-menu">
+                                <a asp-controller="Account" asp-action="Login">Login</a>
+                                <a asp-controller="Account" asp-action="Register">Register</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="account-trigger" style="color: #00a862;">
+                                <i class="far fa-user"></i> @User.Identity.Name <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+                            </div>
+                            <div class="account-dropdown-menu">
+                                <a asp-controller="Account" asp-action="Logout" style="color: #ff4d4d !important;">Logout</a>
+                            </div>
+                        }
+                    </li>
+
+                    <li class="nav-item ml-4 shop-cart">
+                        <a asp-controller="Basket" asp-action="Index" class="cart-btn-premium">
+                            <div class="cart-icon-wrapper">
+                                <i class="fas fa-shopping-bag"></i>
+                                <sup class="cart-badge">@Model?.BasketCount</sup>
+                            </div>
+                            <span class="cart-text">CART <span class="cart-price">($@Model?.ProductPrice)</span></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="mobile-navbar mobile-navbar-premium position-fixed top-0 right-0 h-100 p-4 shadow-lg" style="display:none; width:280px;">
+        <div class="d-flex justify-content-end mb-4">
+            <i class="fas fa-times fa-lg" id="mobile-navbar-close" style="cursor: pointer; color: #FBF8F1; font-size: 24px;"></i>
         </div>
-    </div>               
+        <ul class="list-unstyled d-flex flex-column" style="gap: 20px;">
+            <li><a class="nav-link p-0" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li><a class="nav-link p-0" asp-controller="About" asp-action="Index">About Us</a></li>
+            <li><a class="nav-link p-0" asp-controller="Blog" asp-action="Index">Blog</a></li>
+            <li class="mt-2 border-top pt-3" style="border-color: rgba(251, 248, 241, 0.1) !important;"></li>
+            @if (User.Identity is null || !User.Identity.IsAuthenticated)
+            {
+                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Login">Login</a></li>
+                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Register">Register</a></li>
+            }
+            else
+            {
+                <li><a class="nav-link p-0" style="color: #00a862 !important;"><i class="far fa-user mr-2"></i>@User.Identity.Name</a></li>
+                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Logout" style="color: #ff4d4d !important;">Logout</a></li>
+            }
+        </ul>
+    </div>
 </header>
-<!-- HEADER END -->
