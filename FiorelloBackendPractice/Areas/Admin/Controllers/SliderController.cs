@@ -3,12 +3,14 @@ using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.Services;
 using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels.Slider;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Versioning;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class SliderController : Controller
 {
     private readonly ISliderService _sliderService;

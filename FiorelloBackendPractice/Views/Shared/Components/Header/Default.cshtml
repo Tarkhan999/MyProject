@@ -213,7 +213,12 @@
             <div class="collapse navbar-collapse d-none d-lg-block">
                 <ul class="navbar-nav ml-auto align-items-center gap-1">
                     <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link premium-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                        </li>
+                    }
                     <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="About" asp-action="Index">About</a></li>
                     <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Blog" asp-action="Index">Blog</a></li>
 
@@ -259,7 +264,11 @@
         </div>
         <ul class="list-unstyled d-flex flex-column" style="gap: 20px;">
             <li><a class="nav-link p-0" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && !User.IsInRole("Member"))
+            {
+                <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            }
+            
             <li><a class="nav-link p-0" asp-controller="About" asp-action="Index">About Us</a></li>
             <li><a class="nav-link p-0" asp-controller="Blog" asp-action="Index">Blog</a></li>
             <li class="mt-2 border-top pt-3" style="border-color: rgba(251, 248, 241, 0.1) !important;"></li>

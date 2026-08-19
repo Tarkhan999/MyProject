@@ -2,6 +2,7 @@ using FiorelloBackendPractice.Data;
 using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.ViewModels.Product;
 using FiorelloBackendPractice.Views.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 
 [Area("Admin")] 
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class ProductController : Controller
 {
     private readonly AppDbContext _dbContext;

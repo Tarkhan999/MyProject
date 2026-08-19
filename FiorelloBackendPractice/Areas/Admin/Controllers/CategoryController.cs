@@ -2,10 +2,13 @@ using FiorelloBackendPractice.Data;
 using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
+[Authorize(Roles = "Admin,SuperAdmin")]
 [Area("Admin")]
+
 public class CategoryController : Controller
 {
     

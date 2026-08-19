@@ -1,3 +1,4 @@
+using FiorelloBackendPractice.Helpers.Enums;
 using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
@@ -9,11 +10,15 @@ public class AccountController : Controller
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+    public AccountController(UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager,
+        RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager = roleManager;
     }
 
     [HttpGet]
@@ -94,4 +99,55 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> CreateRoles()
+    {
+        // 1. Rolleri oluştur
+        foreach (var item in Enum.GetValues(typeof(Roles)))
+        {
+            if (!await _roleManager.RoleExistsAsync(item.ToString()))
+            {
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name = item.ToString()
+                });
+            }
+        }
+
+        // 2. Senin gerçek e-posta adresin:
+        string myEmail = "zeynalabdiyevtrxan@gmail.com"; 
+
+        var user = await _userManager.FindByEmailAsync(myEmail);
+
+        if (user != null)
+        {
+            // Kullanıcı daha önce normal "Kayıt Ol" sayfasından kayıt olmuşsa, onu Admin yap.
+            if (!await _userManager.IsInRoleAsync(user, Roles.Admin.ToString()))
+            {
+                await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+            }
+        }
+        else
+        {
+            // Kullanıcı veritabanında HİÇ YOKSA, sıfırdan oluştur.
+            // DİKKAT: UserName'de boşluk olmamalı! ("TarkanZeynal" yapıldı)
+            AppUser adminUser = new AppUser
+            {
+                UserName = "TarkanZeynal", 
+                Email = "zeynalabdiyevtrxan@gmail.com",
+                FullName = "Tarkan999",
+            };
+
+            var result = await _userManager.CreateAsync(adminUser, "Terxan993@");
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(adminUser, Roles.Admin.ToString());
+            }
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+    
+    
 }
