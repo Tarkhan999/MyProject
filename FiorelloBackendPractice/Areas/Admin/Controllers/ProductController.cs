@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 
 [Area("Admin")] 
-[Authorize(Roles = "Admin,SuperAdmin")]
+
 public class ProductController : Controller
 {
     private readonly AppDbContext _dbContext;

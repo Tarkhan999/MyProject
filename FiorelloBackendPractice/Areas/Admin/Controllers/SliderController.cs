@@ -10,7 +10,7 @@ using NuGet.Versioning;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 [Area("Admin")]
-[Authorize(Roles = "Admin,SuperAdmin")]
+
 public class SliderController : Controller
 {
     private readonly ISliderService _sliderService;

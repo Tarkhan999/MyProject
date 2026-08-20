@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
-[Authorize(Roles = "Admin,SuperAdmin")]
+
 [Area("Admin")]
 
 public class CategoryController : Controller
