@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FiorelloBackendPractice.Areas.Admin.Controllers;
 
+[Area("Admin")]
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class DashboardController : Controller
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin,SuperAdmin")]
     public IActionResult Index()
     {
         return View();

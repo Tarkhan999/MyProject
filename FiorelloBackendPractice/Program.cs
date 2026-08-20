@@ -20,7 +20,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // 2. Identity ayarları (DbContext'ten sonra gelmeli)
 builder.Services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+    .AddRoles<IdentityRole>() // EKSİK OLAN VE SENİ ENGELLEYEN SATIR BU!
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

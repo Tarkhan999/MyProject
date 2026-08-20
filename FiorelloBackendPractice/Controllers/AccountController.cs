@@ -178,6 +178,9 @@ public class AccountController : Controller
 
         if (user != null)
         {
+            user.EmailConfirmed = true;
+            await _userManager.UpdateAsync(user);
+
             if (!await _userManager.IsInRoleAsync(user, Roles.Admin.ToString()))
             {
                 await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
@@ -190,6 +193,7 @@ public class AccountController : Controller
                 UserName = _config["AdminSettings:UserName"],
                 Email = myEmail,
                 FullName = _config["AdminSettings:FullName"],
+                EmailConfirmed = true // E-posta onayını aktif eder
             };
 
             string adminPassword = _config["AdminSettings:Password"];
