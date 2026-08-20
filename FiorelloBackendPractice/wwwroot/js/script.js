@@ -1,81 +1,108 @@
 $(document).ready(function () {
 
-    // --- 1. SEPETE ÜRÜN EKLEME (Alert Kaldırıldı, Temiz Kod) ---
+    // --- 1. SEPETE ÜRÜN EKLEME ---
     $(document).on('click', '.basket-add-btn', function (e) {
         e.preventDefault();
-
         let btn = $(this);
         let id = btn.attr("data-id");
 
-        fetch(`/Home/AddProductToBasket/${id}`, {
-            method: 'POST'
-        })
+        fetch('/Home/AddProductToBasket/' + id, { method: 'POST' })
             .then(response => {
                 if (!response.ok) throw new Error("Sepete ekleme başarısız.");
                 return response.json();
             })
             .then(data => {
                 $(".shop-cart sup.rounded-circle").text(data.count);
-                $(".shop-cart a span").text(`CART ($${data.total.toFixed(2)})`);
+                $(".shop-cart a span").text("CART ($" + data.total.toFixed(2) + ")");
             })
             .catch(error => console.error("Hata:", error));
     });
 
-    // --- 2. SEPETTEN ÜRÜN SİLME ---
+    // --- 2. SUBSCRIBE / QUICK LOGIN ---
+    $(document).on('click', '#subscribeBtn', function (e) {
+        e.preventDefault();
+        console.log("Subscribe butonuna tıklandı!");
+
+        let subEmail = $("#subscribeEmail").val().trim();
+        let subMessage = $("#subscribeMessage");
+        let subBtn = $(this);
+
+        if (!subEmail) {
+            subMessage.text("Please enter a valid email address.").css("color", "#ffc107");
+            return;
+        }
+
+        subBtn.text("Processing...").prop("disabled", true);
+
+        let params = new URLSearchParams();
+        params.append("email", subEmail);
+
+        fetch('/Account/QuickSubscribeLogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Sunucu hatası: " + response.status);
+                return response.json();
+            })
+            .then(result => {
+                console.log("Yanıt:", result);
+                subMessage.text(result.message).css("color", result.success ? "#00704A" : "#ffc107");
+
+                if (result.success && result.isLogin) {
+                    setTimeout(() => { window.location.reload(); }, 1500);
+                } else {
+                    subBtn.text("Subscribe").prop("disabled", false);
+                    if (result.success) $("#subscribeEmail").val("");
+                }
+            })
+            .catch(error => {
+                console.error("HATA:", error);
+                subMessage.text("An error occurred. Please try again.").css("color", "red");
+                subBtn.text("Subscribe").prop("disabled", false);
+            });
+    });
+
+    // --- 3. SEPETTEN ÜRÜN SİLME ---
     $(document).on('click', '.delete-basket-btn', function (e) {
         e.preventDefault();
         let id = $(this).closest('button').attr("data-id");
 
-        fetch(`/Basket/RemoveFromBasket/${id}`, {
-            method: 'POST'
-        })
+        fetch('/Basket/RemoveFromBasket/' + id, { method: 'POST' })
             .then(response => {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    console.error("Silme işleminde sunucu hatası! Durum:", response.status);
-                }
+                if (response.ok) window.location.reload();
             })
             .catch(error => console.error("Silme Hatası:", error));
     });
 
-    // --- 3. SEPETTE ÜRÜN ARTIRMA (+) ---
+    // --- 4. SEPETTE ÜRÜN ARTIRMA (+) ---
     $(document).on('click', '.increase-basket-btn', function (e) {
         e.preventDefault();
         let id = $(this).closest('button').attr("data-id");
 
-        fetch(`/Basket/IncreaseProductCount/${id}`, {
-            method: 'POST'
-        })
+        fetch('/Basket/IncreaseProductCount/' + id, { method: 'POST' })
             .then(response => {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    console.error("Artırma işleminde sunucu hatası! Durum:", response.status);
-                }
+                if (response.ok) window.location.reload();
             })
             .catch(error => console.error("Artırma Hatası:", error));
     });
 
-    // --- 4. SEPETTE ÜRÜN AZALTMA (-) ---
+    // --- 5. SEPETTE ÜRÜN AZALTMA (-) ---
     $(document).on('click', '.decrease-basket-btn', function (e) {
         e.preventDefault();
         let id = $(this).closest('button').attr("data-id");
 
-        fetch(`/Basket/DecreaseProductCount/${id}`, {
-            method: 'POST'
-        })
+        fetch('/Basket/DecreaseProductCount/' + id, { method: 'POST' })
             .then(response => {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    console.error("Azaltma işleminde sunucu hatası! Durum:", response.status);
-                }
+                if (response.ok) window.location.reload();
             })
             .catch(error => console.error("Azaltma Hatası:", error));
     });
 
-    // --- DİĞER FONKSİYONLAR (Arama, Menü, Slider vb.) ---
+    // --- 6. NAV-BAR VE MOBİL MENÜ ---
     $(document).on('click', '#search', function () {
         $(this).next().toggle();
     });
@@ -88,15 +115,7 @@ $(document).ready(function () {
         $('.mobile-navbar').addClass("active");
     });
 
-    $(document).on('click', '.mobile-navbar ul li a', function () {
-        if ($(this).children('i').hasClass('fa-caret-right')) {
-            $(this).children('i').removeClass('fa-caret-right').addClass('fa-sort-down');
-        } else {
-            $(this).children('i').removeClass('fa-sort-down').addClass('fa-caret-right');
-        }
-        $(this).parent().next().slideToggle();
-    });
-
+    // --- 7. SLIDER / CAROUSEL ---
     if ($(".slider").length) {
         $(".slider").owlCarousel({
             items: 1,
@@ -104,60 +123,6 @@ $(document).ready(function () {
             autoplay: true
         });
     }
-
-    $(document).on('click', '.categories', function (e) {
-        e.preventDefault();
-        $(this).next().next().slideToggle();
-    });
-
-    $(document).on('click', '.category li a', function (e) {
-        e.preventDefault();
-        let category = $(this).attr('data-id');
-        let products = $('.product-item');
-
-        products.each(function () {
-            if (category == 'all' || category == $(this).attr('data-id')) {
-                $(this).parent().fadeIn();
-            } else {
-                $(this).parent().hide();
-            }
-        });
-    });
-
-    $(document).on('click', '.question', function () {
-        $(this).siblings('.question').children('i').removeClass('fa-minus').addClass('fa-plus');
-        $(this).siblings('.answer').not($(this).next()).slideUp();
-        $(this).children('i').toggleClass('fa-plus').toggleClass('fa-minus');
-        $(this).next().slideToggle();
-        $(this).siblings('.active').removeClass('active');
-        $(this).toggleClass('active');
-    });
-
-    $(document).on('click', 'ul li', function () {
-        $(this).siblings('.active').removeClass('active');
-        $(this).addClass('active');
-        let dataId = $(this).attr('data-id');
-        $(this).parent().next().children('p.active').removeClass('active');
-
-        $(this).parent().next().children('p').each(function () {
-            if (dataId == $(this).attr('data-id')) {
-                $(this).addClass('active');
-            }
-        });
-    });
-
-    $(document).on('click', '.tab4 ul li', function () {
-        $(this).siblings('.active').removeClass('active');
-        $(this).addClass('active');
-        let dataId = $(this).attr('data-id');
-        $(this).parent().parent().next().children().children('p.active').removeClass('active');
-
-        $(this).parent().parent().next().children().children('p').each(function () {
-            if (dataId == $(this).attr('data-id')) {
-                $(this).addClass('active');
-            }
-        });
-    });
 
     if ($(".instagram").length) {
         $(".instagram").owlCarousel({
@@ -170,14 +135,6 @@ $(document).ready(function () {
                 768: { items: 3 },
                 992: { items: 4 }
             }
-        });
-    }
-
-    if ($(".say").length) {
-        $(".say").owlCarousel({
-            items: 1,
-            loop: true,
-            autoplay: true
         });
     }
 });

@@ -206,4 +206,25 @@ public class AccountController : Controller
 
         return RedirectToAction("Index", "Home");
     }
+    [HttpPost]
+    public async Task<IActionResult> QuickSubscribeLogin(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return Json(new { success = false, message = "Email cannot be empty." });
+        }
+
+        // 1. Kullanıcıyı email ile veritabanında ara
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user != null)
+        {
+            // 2. Kullanıcı bulunduysa ŞİFRESİZ giriş yap (Sadece test projeleri içindir!)
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return Json(new { success = true, isLogin = true, message = "Welcome back! Logging you in..." });
+        }
+
+        // 3. Kullanıcı yoksa sadece bültene abone olmuş gibi davran
+        return Json(new { success = true, isLogin = false, message = "Thank you for subscribing to our club!" });
+    }
 }
