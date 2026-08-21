@@ -1,72 +1,71 @@
 using FiorelloBackendPractice.Data;
 using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels;
+using FiorelloBackendPractice.ViewModels.About;
 using FiorelloBackendPractice.ViewModels.Blog;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace FiorelloBackendPractice.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IBlogService blogService, AppDbContext dbContext) : Controller
 {
-    private readonly IBlogService _blogService;
-    private readonly AppDbContext _dbContext;
-
-    public HomeController(IBlogService blogService, AppDbContext dbContext)
-    {
-        _blogService = blogService;
-        _dbContext = dbContext;
-    }
-
     public async Task<IActionResult> Index()
     {
-        IEnumerable<BlogUIVM> blogs = await _blogService.GetAllAsync(3);
+        IEnumerable<BlogUIVM> blogs = await blogService.GetAllAsync(3);
+        var aboutData = await dbContext.Abouts.FirstOrDefaultAsync();
 
-        HomeVM homeVM = new()
+        HomeVM homeVm = new()
         {
-            Blogs = blogs
+            Blogs = blogs,
+            AboutInfo = aboutData is null ? null : new AboutUIVM
+            {
+                Title = aboutData.Title,
+                Description = aboutData.Description,
+                PointText = aboutData.PointText,
+                ImageUrl = aboutData.ImageUrl,
+                HighlightedText = aboutData.HighlightedText
+            }
         };
-        return View(homeVM);
+
+        return View(homeVm);
     }
 
     [HttpPost]
     public async Task<IActionResult> AddProductToBasket(int? id)
     {
-        if (id == null) return BadRequest("Ürün ID'si bulunamadı.");
+        if (id is null) return BadRequest("Ürün ID'si bulunamadı.");
 
-        var product = await _dbContext.Products.FindAsync(id);
-        if (product == null) return NotFound("Ürün bulunamadı.");
+        var product = await dbContext.Products.FindAsync(id);
+        if (product is null) return NotFound("Ürün bulunamadı.");
 
-        List<BasketVM> basketDatas;
-        if (Request.Cookies["basket"] != null)
-        {
-            basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
-        }
-        else
-        {
-            basketDatas = new List<BasketVM>();
-        }
+        string? cookie = Request.Cookies["basket"];
         
-        var existProduct = basketDatas.FirstOrDefault(b => b.ProductId == id);
-        if (existProduct != null)
+        List<BasketVM> basketList = string.IsNullOrEmpty(cookie) 
+            ? [] 
+            : JsonConvert.DeserializeObject<List<BasketVM>>(cookie) ?? [];
+
+        var existProduct = basketList.FirstOrDefault(b => b.ProductId == id);
+        if (existProduct is not null)
         {
             existProduct.ProductCount++;
         }
         else
         {
-            basketDatas.Add(new BasketVM
+            basketList.Add(new BasketVM
             {
-                ProductId = (int)id,
-                ProductCount = 1,
-                Price = product.Price
+                ProductId = id.Value,
+                Price = product.Price,
+                ProductCount = 1
             });
         }
-        
-        Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketDatas));
-        
-        int count = basketDatas.Sum(b => b.ProductCount);
-        double total = basketDatas.Sum(b => b.ProductCount * b.Price);
-        
-        return Ok(new { count = count, total = total });
+
+        Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketList));
+
+        int count = basketList.Sum(b => b.ProductCount);
+        double total = basketList.Sum(b => b.ProductCount * b.Price);
+
+        return Ok(new { count, total });
     }
 }
