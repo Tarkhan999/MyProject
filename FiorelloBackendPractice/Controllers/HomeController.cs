@@ -5,6 +5,7 @@ using FiorelloBackendPractice.ViewModels;
 using FiorelloBackendPractice.ViewModels.About;
 using FiorelloBackendPractice.ViewModels.Blog;
 using FiorelloBackendPractice.ViewModels.Expert;
+using FiorelloBackendPractice.ViewModels.Instagram;
 using FiorelloBackendPractice.ViewModels.Subscribe;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,10 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
         IEnumerable<BlogUIVM> blogs = await blogService.GetAllAsync(3);
         var aboutData = await dbContext.Abouts.FirstOrDefaultAsync();
         var subscribeData = await dbContext.SubscribeInfos.FirstOrDefaultAsync();
+        var instagramList = await dbContext.Instagrams.Select(i => new InstagramUIVM
+        {
+            ImageUrl = i.ImageUrl
+        }).ToListAsync();
         var expertList = await dbContext.Experts.Select(e => new ExpertUIVM
         {
             FullName = e.FullName,
@@ -37,6 +42,7 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
                 ImageUrl = aboutData.ImageUrl,
                 HighlightedText = aboutData.HighlightedText
             },
+            InstagramPhotos = instagramList,
             Experts = expertList,
             SubscribeInfo = subscribeData is null ? null : new SubscribeUIVM
             {

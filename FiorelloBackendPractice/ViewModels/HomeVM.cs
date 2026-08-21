@@ -2,6 +2,7 @@ using FiorelloBackendPractice.ViewModels.About;
 using FiorelloBackendPractice.ViewModels.Blog;
 using FiorelloBackendPractice.ViewModels.Category;
 using FiorelloBackendPractice.ViewModels.Expert;
+using FiorelloBackendPractice.ViewModels.Instagram;
 using FiorelloBackendPractice.ViewModels.Subscribe;
 using FiorelloBackendPractice.Views.Product;
 
@@ -15,4 +16,5 @@ public class HomeVM
     public AboutUIVM AboutInfo { get; set; }
     public IEnumerable<ExpertUIVM> Experts { get; set; }
     public SubscribeUIVM? SubscribeInfo { get; set; }
+    public IEnumerable<InstagramUIVM> InstagramPhotos { get; set; } = [];
 }

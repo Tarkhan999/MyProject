@@ -21,4 +21,5 @@ public class AppDbContext : IdentityDbContext<AppUser>
 public DbSet<Expert> Experts { get; set; }
 public DbSet<SubscribeInfo> SubscribeInfos { get; set; }
 public DbSet<Subscriber> Subscribers { get; set; }
+public DbSet<Instagram> Instagrams { get; set; }
 }

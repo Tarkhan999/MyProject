@@ -163,12 +163,23 @@ ViewData["Title"] = "Home Page";
     <!-- INSTAGRAM -->
     <section id="instagram" class="position-relative overflow-hidden" style="background-color: #0d0805;">
         <div class="owl-carousel instagram" style="opacity: 0.85;">
-            <div><img src="~/img/normal_005.jpg" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt=""></div>
-            <div><img src="~/img/normal_005.jpg" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt=""></div>
-            <div><img src="~/img/gettyimages-2151794290-2048x2048.jpg" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt=""></div>
-            <div><img src="~/img/gettyimages-2151794290-2048x2048.jpg" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt=""></div>
-            <div><img src="~/img/gettyimages-2151794290-2048x2048.jpg" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt=""></div>
-            <div><img src="~/img/normal_005.jpg" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt=""></div>
+        
+            @* Veritabanından gelen fotoğrafları döngüye alıyoruz *@
+            @if (Model.InstagramPhotos != null && Model.InstagramPhotos.Any())
+            {
+                foreach (var photo in Model.InstagramPhotos)
+                {
+                    <div>
+                        <img src="~/img/@photo.ImageUrl" class="img-fluid w-100 object-fit-cover" style="height: 350px; border: 1px solid #0d0805;" alt="Instagram">
+                    </div>
+                }
+            }
+            else
+            {
+                @* Eğer veritabanında henüz fotoğraf yoksa boş kalmasın diye uyarı veya default görsel *@
+                <div class="text-white p-5 text-center w-100">Henüz Instagram fotoğrafı yüklenmedi.</div>
+            }
+        
         </div>
         <div class="hastag position-absolute top-50 start-50 translate-middle fw-bold py-3 px-5 shadow-lg rounded-pill" style="z-index: 2; letter-spacing: 2px; background-color: #0d0805; border: 2px solid #00704A; color: #ffffff;">
             <i class="bi bi-instagram me-2" style="color: #CBA258;"></i>#STARBUCKS
