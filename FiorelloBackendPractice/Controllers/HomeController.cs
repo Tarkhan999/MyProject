@@ -3,6 +3,7 @@ using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels;
 using FiorelloBackendPractice.ViewModels.About;
 using FiorelloBackendPractice.ViewModels.Blog;
+using FiorelloBackendPractice.ViewModels.Expert;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -15,6 +16,12 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
     {
         IEnumerable<BlogUIVM> blogs = await blogService.GetAllAsync(3);
         var aboutData = await dbContext.Abouts.FirstOrDefaultAsync();
+        var expertList=await dbContext.Experts.Select(e=>new ExpertUIVM
+        {
+            FullName = e.FullName,
+            Position = e.Position,
+            ImageUrl = e.ImageUrl
+        }).ToListAsync();
 
         HomeVM homeVm = new()
         {
@@ -26,7 +33,9 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
                 PointText = aboutData.PointText,
                 ImageUrl = aboutData.ImageUrl,
                 HighlightedText = aboutData.HighlightedText
-            }
+            },
+            Experts = expertList
+            
         };
 
         return View(homeVm);

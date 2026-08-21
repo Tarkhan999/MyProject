@@ -91,51 +91,23 @@
             </div>
             
             <div class="row g-4 justify-content-center">
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
-                        <div class="img mx-auto" style="width: 130px; height: 130px;">
-                            <img src="~/img/normal_005.jpg" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
-                        </div>
-                        <div class="text mt-4">
-                            <h6 class="fw-bold mb-2 text-white">CRYSTAL BROOKS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Head Barista</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
-                        <div class="img mx-auto" style="width: 130px; height: 130px;">
-                            <img src="~/img/normal_005.jpg" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
-                        </div>
-                        <div class="text mt-4">
-                            <h6 class="fw-bold mb-2 text-white">SHIRLEY HARRIS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Store Manager</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
-                        <div class="img mx-auto" style="width: 130px; height: 130px;">
-                            <!-- Güncellenen Satır: -->
-                            <img src="/img/normal_005.jpg" asp-append-version="true" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="Amanda Watkins">
-                        </div>
-                        <div class="text mt-4">
-                            <h6 class="fw-bold mb-2 text-white">AMANDA WATKINS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Latte Artist</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
-                        <div class="img mx-auto" style="width: 130px; height: 130px;">
-                            <img src="~/img/normal_005.jpg" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="">
-                        </div>
-                        <div class="text mt-4">
-                            <h6 class="fw-bold mb-2 text-white">AMANDA WATKINS</h6>
-                            <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">Latte Artist</span>
-                        </div>
-                    </div>
-                </div>
+             @if (Model.Experts != null)
+             {
+                 foreach (var item in Model.Experts)
+                 {
+                     <div class="col-sm-6 col-md-4 col-lg-3">
+                         <div class="item text-center card border-0 shadow-lg rounded-4 h-100 py-4 px-2" style="background-color: #140d0a; border: 1px solid rgba(0, 112, 74, 0.3) !important;">
+                             <div class="img mx-auto" style="width: 130px; height: 130px;">
+                                 <img src="~/img/@item.ImageUrl" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid #00704A;" alt="@item.FullName">
+                             </div>
+                             <div class="text mt-4">
+                                 <h6 class="fw-bold mb-2 text-white">@item.FullName</h6>
+                                 <span class="badge rounded-pill px-3 py-1" style="background-color: rgba(0, 112, 74, 0.2); color: #CBA258; border: 1px solid #00704A;">@item.Position</span>
+                             </div>
+                         </div>
+                     </div>
+                 }
+             }
             </div>
         </div>
     </section>

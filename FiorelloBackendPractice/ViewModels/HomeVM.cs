@@ -1,7 +1,7 @@
 using FiorelloBackendPractice.ViewModels.About;
 using FiorelloBackendPractice.ViewModels.Blog;
 using FiorelloBackendPractice.ViewModels.Category;
-
+using FiorelloBackendPractice.ViewModels.Expert;
 using FiorelloBackendPractice.Views.Product;
 
 namespace FiorelloBackendPractice.ViewModels;
@@ -12,5 +12,5 @@ public class HomeVM
     public IEnumerable<CategoryUIVM> Categories { get; set; }
     public IEnumerable<ProductUIVM> Products { get; set; }
     public AboutUIVM AboutInfo { get; set; }
-   
+    public IEnumerable<ExpertUIVM> Experts { get; set; }
 }
