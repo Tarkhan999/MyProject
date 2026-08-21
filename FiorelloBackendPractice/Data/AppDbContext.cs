@@ -19,4 +19,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Setting> Settings { get; set; }
     public DbSet<About> Abouts { get; set; }
 public DbSet<Expert> Experts { get; set; }
+public DbSet<SubscribeInfo> SubscribeInfos { get; set; }
+public DbSet<Subscriber> Subscribers { get; set; }
 }

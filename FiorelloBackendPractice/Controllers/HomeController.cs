@@ -1,9 +1,11 @@
 using FiorelloBackendPractice.Data;
+using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.Services.Interfaces;
 using FiorelloBackendPractice.ViewModels;
 using FiorelloBackendPractice.ViewModels.About;
 using FiorelloBackendPractice.ViewModels.Blog;
 using FiorelloBackendPractice.ViewModels.Expert;
+using FiorelloBackendPractice.ViewModels.Subscribe;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -16,7 +18,8 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
     {
         IEnumerable<BlogUIVM> blogs = await blogService.GetAllAsync(3);
         var aboutData = await dbContext.Abouts.FirstOrDefaultAsync();
-        var expertList=await dbContext.Experts.Select(e=>new ExpertUIVM
+        var subscribeData = await dbContext.SubscribeInfos.FirstOrDefaultAsync();
+        var expertList = await dbContext.Experts.Select(e => new ExpertUIVM
         {
             FullName = e.FullName,
             Position = e.Position,
@@ -34,11 +37,69 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
                 ImageUrl = aboutData.ImageUrl,
                 HighlightedText = aboutData.HighlightedText
             },
-            Experts = expertList
-            
+            Experts = expertList,
+            SubscribeInfo = subscribeData is null ? null : new SubscribeUIVM
+            {
+                Title = subscribeData.Title,
+                Description = subscribeData.Description,
+                BackgroundImageUrl = subscribeData.BackgroundImageUrl
+            }
         };
 
         return View(homeVm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CheckEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+        {
+            return Json(new { success = false, message = "Lütfen geçerli bir e-posta adresi girin." });
+        }
+
+        // AspNetUsers (Identity) veritabanı tablosunda e-posta kontrolü
+        bool isExist = await dbContext.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower());
+
+        if (isExist)
+        {
+            return Json(new { 
+                success = true, 
+                exists = true, 
+                message = "Hesabınız bulundu! Giriş sayfasına yönlendiriliyorsunuz..." 
+            });
+        }
+
+        return Json(new { 
+            success = true, 
+            exists = false, 
+            message = "Hesabınız bulunamadı. Kayıt olma sayfasına yönlendiriliyorsunuz..." 
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Subscribe(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+        {
+            return Json(new { success = false, message = "Lütfen geçerli bir e-posta adresi girin." });
+        }
+
+        bool isExist = await dbContext.Subscribers.AnyAsync(s => s.Email.ToLower() == email.ToLower());
+        
+        if (isExist)
+        {
+            return Json(new { success = false, message = "Bu e-posta adresi zaten kayıtlı!" });
+        }
+
+        Subscriber newSubscriber = new()
+        {
+            Email = email
+        };
+
+        await dbContext.Subscribers.AddAsync(newSubscriber);
+        await dbContext.SaveChangesAsync();
+
+        return Json(new { success = true, message = "Aramıza hoş geldin! Kahve kulübüne başarıyla katıldın ☕" });
     }
 
     [HttpPost]
