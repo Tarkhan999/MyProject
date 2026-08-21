@@ -219,7 +219,7 @@
                             <a class="nav-link premium-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
                         </li>
                     }
-                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="About" asp-action="Index">About</a></li>
+                    
                     <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Blog" asp-action="Index">Blog</a></li>
 
                     <li class="nav-item account-wrapper ml-3">
@@ -269,7 +269,7 @@
                 <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
             }
             
-            <li><a class="nav-link p-0" asp-controller="About" asp-action="Index">About Us</a></li>
+           
             <li><a class="nav-link p-0" asp-controller="Blog" asp-action="Index">Blog</a></li>
             <li class="mt-2 border-top pt-3" style="border-color: rgba(251, 248, 241, 0.1) !important;"></li>
             @if (User.Identity is null || !User.Identity.IsAuthenticated)
