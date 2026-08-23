@@ -148,70 +148,92 @@ productImages.FirstOrDefault().IsMain = true;
 
         if (product == null) return NotFound();
 
-        // Ekrana sadece mevcut resmi gönderiyoruz
-        return View(new ProductEditVM
+        var categories=await _dbContext.Categories.ToListAsync();
+        ViewBag.Caegories=categories.Select(c=>new SelectListItem
         {
+            Value = c.Id.ToString(),
+            Text = c.Name
+        }).ToList();
+        var model = new ProductEditVM
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            Description = product.Description,
+            CategoryId = product.CategoryId,
             Image = product.Images.FirstOrDefault(m => m.IsMain)?.Image
+
+        };
+        return View(model);
+    }
+
+   [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(int id, ProductEditVM request)
+{
+    if (id != request.Id) return BadRequest();
+
+ 
+    if (!ModelState.IsValid)
+    {
+        var categories = await _dbContext.Categories.ToListAsync();
+        ViewBag.Categories = categories.Select(c => new SelectListItem
+        {
+            Value = c.Id.ToString(),
+            Text = c.Name
+        }).ToList();
+        return View(request);
+    }
+
+    var product = await _dbContext.Products
+        .Include(m => m.Images)
+        .FirstOrDefaultAsync(m => m.Id == id);
+
+    if (product == null) return NotFound();
+
+  
+    product.Name = request.Name;
+    product.Price = request.Price;
+    product.Description = request.Description;
+    product.CategoryId = request.CategoryId;
+
+
+    if (request.NewImage != null)
+    {
+        if (!request.NewImage.ContentType.Contains("image/"))
+        {
+            ModelState.AddModelError("NewImage", "Lütfen geçerli bir resim dosyası seçin.");
+            var categoriesForError = await _dbContext.Categories.ToListAsync();
+            ViewBag.Categories = categoriesForError.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList();
+            request.Image = product.Images.FirstOrDefault(m => m.IsMain)?.Image;
+            return View(request);
+        }
+
+        var oldMainImage = product.Images.FirstOrDefault(m => m.IsMain);
+        if (oldMainImage != null)
+        {
+            string oldFilePath = Path.Combine(_env.WebRootPath, "img", oldMainImage.Image);
+            if (System.IO.File.Exists(oldFilePath)) System.IO.File.Delete(oldFilePath);
+            product.Images.Remove(oldMainImage); 
+        }
+
+        string fileName = Guid.NewGuid().ToString() + "-" + request.NewImage.FileName;
+        string newFilePath = Path.Combine(_env.WebRootPath, "img", fileName);
+        
+        using (FileStream stream = new(newFilePath, FileMode.Create))
+        {
+            await request.NewImage.CopyToAsync(stream);
+        }
+
+        product.Images.Add(new ProductImage
+        {
+            Image = fileName,
+            IsMain = true
         });
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, ProductEditVM request)
-    {
-        // 1. Ürünü resimleriyle birlikte bul
-        var product = await _dbContext.Products
-            .Include(m => m.Images)
-            .FirstOrDefaultAsync(m => m.Id == id);
-
-        if (product == null) return NotFound();
-
-        // 2. Kullanıcı yeni bir resim yüklemiş mi kontrol et
-        if (request.NewImage != null)
-        {
-            // Resim formatı kontrolü
-            if (!request.NewImage.ContentType.Contains("image/"))
-            {
-                ModelState.AddModelError("NewImage", "Lütfen geçerli bir resim dosyası seçin.");
-                request.Image = product.Images.FirstOrDefault(m => m.IsMain)?.Image;
-                return View(request);
-            }
-
-            // 3. Eski ana resmi bul, hem klasörden hem de veritabanından sil
-            var oldMainImage = product.Images.FirstOrDefault(m => m.IsMain);
-            if (oldMainImage != null)
-            {
-                string oldFilePath = Path.Combine(_env.WebRootPath, "img", oldMainImage.Image);
-                if (System.IO.File.Exists(oldFilePath))
-                {
-                    System.IO.File.Delete(oldFilePath);
-                }
-                
-                // Eski resmi veritabanından tamamen kaldır
-                product.Images.Remove(oldMainImage); 
-            }
-
-            // 4. Yeni resmi sunucuya kaydet
-            string fileName = Guid.NewGuid().ToString() + "-" + request.NewImage.FileName;
-            string newFilePath = Path.Combine(_env.WebRootPath, "img", fileName);
-            
-            using (FileStream stream = new(newFilePath, FileMode.Create))
-            {
-                await request.NewImage.CopyToAsync(stream);
-            }
-
-            // 5. Yeni resmi Ana Resim (IsMain = true) olarak ürüne ekle
-            product.Images.Add(new ProductImage
-            {
-                Image = fileName,
-                IsMain = true
-            });
-
-            // 6. Değişiklikleri kaydet
-            await _dbContext.SaveChangesAsync();
-        }
-
-        // Resim seçilmişse günceller, seçilmemişse hiçbir şey yapmadan Index'e döner
-        return RedirectToAction(nameof(Index));
-    }
+    
+    await _dbContext.SaveChangesAsync();
+    return RedirectToAction(nameof(Index));
+}
 }

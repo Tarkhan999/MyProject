@@ -1,40 +1,77 @@
-@model FiorelloBackendPractice.Views.Product.ProductEditVM
+@model FiorelloBackendPractice.ViewModels.Product.ProductEditVM
 
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <!-- Form daha fazla alan içerdiği için col-md-6 yerine col-lg-8 veya 10 kullanmak daha iyi olur -->
+        <div class="col-lg-9 col-md-11">
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-primary text-white py-3">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-image me-2"></i>Edit Product Image</h5>
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Product</h5>
                 </div>
                 
                 <div class="card-body p-4">
-                    <!-- Resim yükleyeceğimiz için enctype="multipart/form-data" KESİNLİKLE OLMALI -->
                     <form asp-action="Edit" method="post" enctype="multipart/form-data">
                         
-                        <!-- Kullanıcı görmese de arka planda Id ve eski resim adını tutmalıyız -->
                         <input type="hidden" asp-for="Id" />
                         <input type="hidden" asp-for="Image" />
 
-                        <div class="mb-4 text-center">
-                            <label class="form-label text-secondary fw-semibold d-block mb-3">Current Image</label>
-                            @if (!string.IsNullOrEmpty(Model.Image))
-                            {
-                                <img src="~/img/@Model.Image" class="rounded-3 shadow-sm border" style="width: 200px; height: 200px; object-fit: cover;" alt="Current Product Image" />
-                            }
-                            else
-                            {
-                                <div class="text-muted fst-italic">No image found.</div>
-                            }
+                        <div class="row">
+                            <!-- SOL SÜTUN: Ürün Bilgileri -->
+                            <div class="col-md-7">
+                                <div class="mb-3">
+                                    <label asp-for="Name" class="form-label text-secondary fw-semibold">Product Name</label>
+                                    <input asp-for="Name" class="form-control" placeholder="Enter product name" />
+                                    <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="Price" class="form-label text-secondary fw-semibold">Price ($)</label>
+                                        <!-- Fiyat olduğu için type="number" ve step="0.01" ekledik -->
+                                        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                                        <span asp-validation-for="Price" class="text-danger small mt-1 d-block"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="CategoryId" class="form-label text-secondary fw-semibold">Category</label>
+                                        <!-- ViewBag'den gelen kategoriler burada listeleniyor -->
+                                        <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                            <option value="">-- Select a Category --</option>
+                                        </select>
+                                        <span asp-validation-for="CategoryId" class="text-danger small mt-1 d-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label text-secondary fw-semibold">Description</label>
+                                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter product description"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
+
+                            <!-- SAĞ SÜTUN: Resim İşlemleri -->
+                            <div class="col-md-5">
+                                <div class="mb-4 text-center p-3 border rounded shadow-sm bg-light">
+                                    <label class="form-label text-secondary fw-semibold d-block mb-3">Current Main Image</label>
+                                    @if (!string.IsNullOrEmpty(Model.Image))
+                                    {
+                                        <img src="~/img/@Model.Image" class="rounded-3 shadow-sm border img-fluid" style="max-height: 200px; object-fit: contain;" alt="Current Product Image" />
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted fst-italic">No image found.</div>
+                                    }
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="NewImage" class="form-label text-secondary fw-semibold">Select New Image (Optional)</label>
+                                    <input asp-for="NewImage" class="form-control" accept="image/*" />
+                                    <span asp-validation-for="NewImage" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label asp-for="NewImage" class="form-label text-secondary fw-semibold">Select New Image</label>
-                            <input asp-for="NewImage" class="form-control" accept="image/*" />
-                            <span asp-validation-for="NewImage" class="text-danger small mt-1 d-block"></span>
-                        </div>
-
-                        <div class="d-flex justify-content-between mt-4">
+                        <!-- Alt Butonlar -->
+                        <div class="d-flex justify-content-between mt-4 border-top pt-4">
                             <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">
                                 <i class="bi bi-arrow-left me-1"></i> Back to List
                             </a>
