@@ -1,0 +1,65 @@
+@model FiorelloBackendPractice.Models.SliderInfo
+<!-- Kendi backendindeki modelinin adını buraya yaz (Örn: SliderInfoUpdateVM vb.) -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary mb-0">
+            <i class="bi bi-pencil-square me-2"></i>Slider Bilgilerini & İmzasını Düzenle
+        </h2>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="bi bi-arrow-left me-1"></i> Geri Dön
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-lg rounded-4 p-4">
+        <!-- Resim yükleme olacağı için enctype="multipart/form-data" ŞART -->
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            
+            <!-- Id'yi gizli olarak gönderiyoruz -->
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="row">
+                <!-- Sol Taraf: Yazılar -->
+                <div class="col-md-7">
+                    <div class="mb-4">
+                        <label asp-for="Title" class="form-label fw-bold text-secondary">Ana Başlık (Title)</label>
+                        <input asp-for="Title" class="form-control form-control-lg shadow-sm" placeholder="Örn: I Love Coffee!" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label fw-bold text-secondary">Açıklama (Description)</label>
+                        <textarea asp-for="Description" class="form-control shadow-sm" rows="4" placeholder="Örn: Ben Her Günümü Kahveyle Açıyorum"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Sağ Taraf: Küçük İmza/Logo Fotoğrafı -->
+                <div class="col-md-5">
+                    <div class="mb-4 text-center p-3 border rounded shadow-sm bg-light">
+                        <label class="form-label fw-bold text-secondary d-block">Mevcut İmza/Logo</label>
+                        
+                        <!-- Mevcut resmi göster (Veritabanındaki resim yolu) -->
+                        <img src="~/img/@Model.SignImage" class="img-fluid rounded mb-3" style="max-height: 120px; object-fit: contain; filter: drop-shadow(2px 4px 6px black);" alt="Current Signature" />
+                        
+                        <!-- Eski resmin adını gizli tutuyoruz, yeni resim seçmezse bu silinmesin diye -->
+                        <input type="hidden" asp-for="SignImage" />
+                        
+                        <label class="form-label fw-bold text-secondary d-block mt-3">Yeni Fotoğraf Yükle (İsteğe Bağlı)</label>
+                        <!-- Backend'de IFormFile tipinde 'Photo' adında karşılamalısın -->
+                        <input type="file" name="file" class="form-control shadow-sm" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end mt-3">
+                <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm">
+                    <i class="bi bi-save me-1"></i> Güncelle
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
