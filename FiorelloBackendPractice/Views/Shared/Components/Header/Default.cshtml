@@ -1,7 +1,7 @@
 @model HeaderVM
 
 <style>
-
+    /* --- TEMEL HEADER TASARIMI --- */
     header.premium-header {
         background-color: #0a0a0c;
         border-bottom: 2px solid #00704A;
@@ -11,6 +11,7 @@
         top: 0;
         z-index: 1050;
         width: 100%;
+        height: 120px;
     }
 
     .header-left-group {
@@ -36,10 +37,11 @@
         color: #FBF8F1;
     }
 
+    /* --- MASAÜSTÜ MENÜ LİNKLERİ --- */
     .premium-nav-link {
         color: #FBF8F1 !important;
-        font-size: 13px;
-        font-weight: 600;
+        font-size: 12px;
+        font-weight: 300;
         letter-spacing: 1px;
         text-transform: uppercase;
         padding: 8px 16px !important;
@@ -50,6 +52,7 @@
         color: #00a862 !important;
     }
 
+    /* --- HESAP (ACCOUNT) DROPDOWN --- */
     .account-wrapper {
         position: relative;
     }
@@ -117,6 +120,7 @@
         padding-left: 25px;
     }
 
+    /* --- SEPET (CART) BUTONU --- */
     .cart-btn-premium {
         display: flex;
         align-items: center;
@@ -173,10 +177,20 @@
         margin-left: 4px;
     }
 
+    /* --- MOBİL MENÜ & ANİMASYON (YENİ EKLENEN KISIM) --- */
     .mobile-navbar-premium {
         background: #0a0a0c;
         border-left: 2px solid #00704A;
         z-index: 2000;
+        /* Sağdan kayma animasyonu başlangıç durumu */
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        display: block !important;
+    }
+
+    /* Menü açıldığında JS tarafından eklenecek sınıf */
+    .mobile-navbar-premium.menu-active {
+        transform: translateX(0);
     }
 
     .mobile-navbar-premium a {
@@ -191,12 +205,33 @@
     .mobile-navbar-premium a:hover {
         color: #00a862 !important;
     }
-</style>
 
+    /* --- MOBİL MENÜ ARKA PLAN KARARTMASI (OVERLAY) --- */
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 10, 12, 0.7);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        z-index: 1999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+    }
+
+    .mobile-menu-overlay.overlay-active {
+        opacity: 1;
+        visibility: visible;
+    }
+</style>
 
 <header class="premium-header">
     <div class="container">
         <nav class="navbar navbar-expand-lg d-flex align-items-center justify-content-between p-0">
+            <!-- Sol Grup: Logo ve Telefon -->
             <div class="header-left-group">
                 <a class="navbar-brand m-0 p-0" asp-controller="Home" asp-action="Index">
                     <img src="~/img/@Model?.Setting?.HeaderLogo" alt="Logo" style="height: 44px; width: auto; object-fit: contain;">
@@ -208,14 +243,17 @@
                 </div>
             </div>
 
-            <button class="navbar-toggler" type="button" id="mobile-navbar-show" style="border: none; outline: none; padding: 0;">
+            <!-- Mobil Menü Açma Butonu (aria-label eklendi) -->
+            <button class="navbar-toggler" type="button" id="mobile-navbar-show" aria-label="Mobil menüyü aç" style="border: none; outline: none; padding: 0;">
                 <i class="fas fa-bars" style="color: #00a862; font-size: 24px;"></i>
             </button>
 
+            <!-- Masaüstü Navigasyon -->
             <div class="collapse navbar-collapse d-none d-lg-block">
                 <ul class="navbar-nav ml-auto align-items-center gap-1">
                     <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+                    
+                    @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
                     {
                         <li class="nav-item">
                             <a class="nav-link premium-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
@@ -224,6 +262,7 @@
                     
                     <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Blog" asp-action="Index">Blog</a></li>
 
+                    <!-- Hesap Dropdown -->
                     <li class="nav-item account-wrapper ml-3">
                         @if (User.Identity is null || !User.Identity.IsAuthenticated)
                         {
@@ -246,13 +285,14 @@
                         }
                     </li>
 
+                    <!-- Sepet Butonu -->
                     <li class="nav-item ml-4 shop-cart">
                         <a asp-controller="Basket" asp-action="Index" class="cart-btn-premium">
                             <div class="cart-icon-wrapper">
                                 <i class="fas fa-shopping-bag"></i>
-                                <sup class="cart-badge">@Model?.BasketCount</sup>
+                                <sup class="cart-badge">@(Model?.BasketCount ?? 0)</sup>
                             </div>
-                            <span class="cart-text">CART <span class="cart-price">($@Model?.ProductPrice)</span></span>
+                            <span class="cart-text">CART <span class="cart-price">($@(Model?.ProductPrice ?? 0))</span></span>
                         </a>
                     </li>
                 </ul>
@@ -260,20 +300,22 @@
         </nav>
     </div>
 
-    <div class="mobile-navbar mobile-navbar-premium position-fixed top-0 right-0 h-100 p-4 shadow-lg" style="display:none; width:280px;">
+    <!-- Mobil Menü Konteyneri (display:none silindi, JS/CSS yönetecek) -->
+    <div class="mobile-navbar mobile-navbar-premium position-fixed top-0 right-0 h-100 p-4 shadow-lg" style="width:280px;">
         <div class="d-flex justify-content-end mb-4">
-            <i class="fas fa-times fa-lg" id="mobile-navbar-close" style="cursor: pointer; color: #FBF8F1; font-size: 24px;"></i>
+            <i class="fas fa-times fa-lg" id="mobile-navbar-close" aria-label="Mobil menüyü kapat" style="cursor: pointer; color: #FBF8F1; font-size: 24px;"></i>
         </div>
         <ul class="list-unstyled d-flex flex-column" style="gap: 20px;">
             <li><a class="nav-link p-0" asp-controller="Home" asp-action="Index">Home</a></li>
-            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && !User.IsInRole("Member"))
+            
+            @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && !User.IsInRole("Member"))
             {
                 <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
             }
             
-           
             <li><a class="nav-link p-0" asp-controller="Blog" asp-action="Index">Blog</a></li>
             <li class="mt-2 border-top pt-3" style="border-color: rgba(251, 248, 241, 0.1) !important;"></li>
+            
             @if (User.Identity is null || !User.Identity.IsAuthenticated)
             {
                 <li><a class="nav-link p-0" asp-controller="Account" asp-action="Login">Login</a></li>
@@ -287,3 +329,45 @@
         </ul>
     </div>
 </header>
+
+<!-- MOBİL MENÜ VE OVERLAY İÇİN JAVASCRIPT KONTROLÜ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const openBtn = document.getElementById("mobile-navbar-show");
+        const closeBtn = document.getElementById("mobile-navbar-close");
+        const mobileMenu = document.querySelector(".mobile-navbar-premium");
+
+        // Sayfada birden fazla overlay oluşmasını engellemek için kontrol edip yaratıyoruz
+        let overlay = document.querySelector(".mobile-menu-overlay");
+        if (!overlay) {
+            overlay = document.createElement("div");
+            overlay.classList.add("mobile-menu-overlay");
+            document.body.appendChild(overlay);
+        }
+
+        // Menüyü Açma Fonksiyonu
+        function openMobileMenu() {
+            if(mobileMenu && overlay) {
+                mobileMenu.classList.add("menu-active");
+                overlay.classList.add("overlay-active");
+                document.body.style.overflow = "hidden"; // Arka plan kaymasını (scroll) kapatır
+            }
+        }
+
+        // Menüyü Kapatma Fonksiyonu
+        function closeMobileMenu() {
+            if(mobileMenu && overlay) {
+                mobileMenu.classList.remove("menu-active");
+                overlay.classList.remove("overlay-active");
+                document.body.style.overflow = ""; // Scroll'u tekrar serbest bırakır
+            }
+        }
+
+        // Tetikleyiciler (Click Events)
+        if (openBtn) openBtn.addEventListener("click", openMobileMenu);
+        if (closeBtn) closeBtn.addEventListener("click", closeMobileMenu);
+        
+        // Kullanıcı menü dışındaki karanlık alana tıklarsa menüyü kapat
+        if (overlay) overlay.addEventListener("click", closeMobileMenu);
+    });
+</script>

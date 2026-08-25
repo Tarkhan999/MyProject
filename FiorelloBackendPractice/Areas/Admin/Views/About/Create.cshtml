@@ -1,0 +1,38 @@
+@model FiorelloBackendPractice.ViewModels.About.AboutCreateVM
+
+<div class="container mt-5">
+    <h2>Yeni About Ekle</h2>
+    <hr />
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="Photo" class="form-label">Görsel</label>
+            <input asp-for="Photo" class="form-control" type="file" accept="image/*" />
+            <span asp-validation-for="Photo" class="text-danger"></span>
+        </div>
+        
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Başlık</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="HighlightedText" class="form-label">Yeşil Vurgulu Metin (Örn: Cappucino)</label>
+            <input asp-for="HighlightedText" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Açıklama</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PointText" class="form-label">Madde Metni (Örn: Green)</label>
+            <input asp-for="PointText" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
