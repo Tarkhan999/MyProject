@@ -1,0 +1,34 @@
+@model FiorelloBackendPractice.ViewModels.Subscribe.SubscribeInfoUpdateVM
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Abonelik İçeriğini Güncelle</h4>
+        
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="mb-4">
+                <label class="d-block mb-2 text-muted small">Mevcut Arka Plan Resmi</label>
+                <img src="~/img/@Model.BackgroundImageUrl" style="max-width:300px; border-radius:10px;" class="shadow-sm" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Başlık (Örn: Join The Coffee Club!)</label>
+                <input asp-for="Title" class="form-control rounded-3" />
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Açıklama (Örn: Get special offers...)</label>
+                <textarea asp-for="Description" class="form-control rounded-3" rows="3"></textarea>
+            </div>
+            
+            <div class="mb-4">
+                <label asp-for="Photo" class="form-label">Yeni Arka Plan Resmi (Değiştirmeyecekseniz boş bırakın)</label>
+                <input asp-for="Photo" class="form-control rounded-3" accept="image/*" />
+            </div>
+
+            <button type="submit" class="btn btn-warning rounded-3 px-4 text-white">Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary rounded-3 px-4 ms-2">İptal</a>
+        </form>
+    </div>
+</div>
