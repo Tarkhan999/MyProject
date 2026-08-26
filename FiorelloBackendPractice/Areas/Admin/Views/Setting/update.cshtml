@@ -1,0 +1,37 @@
+@model FiorelloBackendPractice.ViewModels.Setting.SettingUpdateVM
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4 fw-bold text-white">Site Ayarlarını Düzenle</h4>
+
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-4">
+                <label class="d-block mb-2 text-muted small">Mevcut Logo</label>
+                <img src="~/img/@Model.ExistingHeaderLogo" style="max-width:120px; background:#000; padding:8px; border-radius:8px;" class="shadow-sm" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="HeaderLogoFile" class="form-label text-light">Yeni Header Logo (Değiştirmeyecekseniz boş bırakın)</label>
+                <input asp-for="HeaderLogoFile" class="form-control rounded-3" accept="image/*" />
+                <span asp-validation-for="HeaderLogoFile" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label text-light">Telefon Numarası</label>
+                <input asp-for="Phone" class="form-control rounded-3" placeholder="Örn: 0105350199" />
+                <span asp-validation-for="Phone" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label text-light">E-Posta Adresi</label>
+                <input asp-for="Email" class="form-control rounded-3" placeholder="Örn: info@starbucks.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-warning rounded-3 px-4 text-dark fw-bold">Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary rounded-3 px-4 ms-2">İptal</a>
+        </form>
+    </div>
+</div>
