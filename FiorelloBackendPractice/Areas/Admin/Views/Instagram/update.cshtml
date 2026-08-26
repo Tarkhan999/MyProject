@@ -1,0 +1,25 @@
+@model FiorelloBackendPractice.ViewModels.Instagram.InstagramUpdateVM
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4 fw-bold text-white">Instagram Görselini Düzenle</h4>
+
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-4">
+                <label class="d-block mb-2 text-muted small">Mevcut Görsel</label>
+                <img src="~/img/@Model.ImageUrl" style="max-width:250px; border-radius:10px;" class="shadow-sm" />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Photo" class="form-label text-light">Yeni Görsel (Değiştirmeyecekseniz boş bırakın)</label>
+                <input asp-for="Photo" class="form-control rounded-3" accept="image/*" />
+                <span asp-validation-for="Photo" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-warning rounded-3 px-4 text-dark fw-bold">Değişiklikleri Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary rounded-3 px-4 ms-2">İptal</a>
+        </form>
+    </div>
+</div>

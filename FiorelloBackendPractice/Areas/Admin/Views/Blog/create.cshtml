@@ -1,0 +1,35 @@
+@model FiorelloBackendPractice.ViewModels.Blog.BlogCreateVM
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Yeni Blog Ekle</h4>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Başlık</label>
+                <input asp-for="Title" class="form-control rounded-3" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Açıklama</label>
+                <textarea asp-for="Description" class="form-control rounded-3" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Link" class="form-label">Link (İsteğe Bağlı)</label>
+                <input asp-for="Link" class="form-control rounded-3" placeholder="#" />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Photo" class="form-label">Görsel Seç</label>
+                <input asp-for="Photo" class="form-control rounded-3" accept="image/*" />
+                <span asp-validation-for="Photo" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary rounded-3 px-4">Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary rounded-3 px-4 ms-2">İptal</a>
+        </form>
+    </div>
+</div>
