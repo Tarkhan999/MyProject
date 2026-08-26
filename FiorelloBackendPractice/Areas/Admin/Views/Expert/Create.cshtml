@@ -1,0 +1,34 @@
+@model FiorelloBackendPractice.ViewModels.Expert.ExpertCreateVM
+
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Yeni Uzman Ekle</h4>
+        
+        <!-- Resim yükleneceği için enctype multipart/form-data olmak ZORUNDA -->
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label">Ad Soyad</label>
+                <input asp-for="FullName" class="form-control rounded-3" placeholder="Örn: John Doe" />
+                <span asp-validation-for="FullName" class="text-danger small"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Position" class="form-label">Pozisyon</label>
+                <input asp-for="Position" class="form-control rounded-3" placeholder="Örn: Floral Designer" />
+                <span asp-validation-for="Position" class="text-danger small"></span>
+            </div>
+            
+            <div class="mb-4">
+                <label asp-for="Photo" class="form-label">Uzman Resmi</label>
+                <input asp-for="Photo" class="form-control rounded-3" accept="image/*" />
+                <span asp-validation-for="Photo" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary rounded-3 px-4">Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary rounded-3 px-4 ms-2">İptal</a>
+        </form>
+    </div>
+</div>
+

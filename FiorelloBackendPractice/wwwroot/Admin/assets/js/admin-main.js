@@ -16,6 +16,7 @@ document.addEventListener("click", function (e) {
             }
         });
     }
+    
 
     // Category Silme
     if (e.target.classList.contains("delete-btn")) {

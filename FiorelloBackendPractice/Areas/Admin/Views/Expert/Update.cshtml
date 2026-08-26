@@ -1,0 +1,40 @@
+@model FiorelloBackendPractice.ViewModels.Expert.ExpertUpdateVM
+
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Uzman Güncelle</h4>
+        
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="mb-3 text-center">
+                <label class="d-block mb-2 text-muted small">Mevcut Resim</label>
+                <img src="~/img/@Model.ImageUrl" style="width:150px; height:150px; object-fit:cover; border-radius:50%;" class="shadow-sm" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label">Ad Soyad</label>
+                <input asp-for="FullName" class="form-control rounded-3" />
+                <span asp-validation-for="FullName" class="text-danger small"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Position" class="form-label">Pozisyon</label>
+                <input asp-for="Position" class="form-control rounded-3" />
+                <span asp-validation-for="Position" class="text-danger small"></span>
+            </div>
+            
+            <div class="mb-4">
+                <label asp-for="Photo" class="form-label">Yeni Resim (Değiştirmek istemiyorsanız boş bırakın)</label>
+                <input asp-for="Photo" class="form-control rounded-3" accept="image/*" />
+                <span asp-validation-for="Photo" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-warning rounded-3 px-4 text-white">Değişiklikleri Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary rounded-3 px-4 ms-2">İptal</a>
+        </form>
+    </div>
+</div>
+
