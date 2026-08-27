@@ -1,0 +1,38 @@
+@model FiorelloBackendPractice.ViewModels.Category.CategoryVM
+
+<div class="container mt-5">
+    <div class="card border-0 shadow rounded-4" style="background-color: #191c24;">
+        <div class="card-body p-5 text-center">
+            
+            <!-- Uyarı İkonu -->
+            <div class="mb-4">
+                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 5rem;"></i>
+            </div>
+            
+            <h3 class="card-title fw-bold text-white mb-3">Kategoriyi Silmek İstediğinize Emin Misiniz?</h3>
+            
+            <p class="text-light fs-5 mb-4">
+                <strong class="text-danger">@Model.Name</strong> adlı kategoriyi kalıcı olarak silmek üzeresiniz. Bu işlem geri alınamaz!
+                <br />
+                <span class="text-muted fs-6 mt-2 d-block">
+                    * Eğer bu kategoriye bağlı ürünler (@Model.Name) varsa, veritabanı ilişkilerinize (Cascade Delete) bağlı olarak o ürünler de silinebilir veya hata verebilir.
+                </span>
+            </p>
+
+            <!-- Silme Formu -->
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="submit" class="btn btn-danger btn-lg rounded-3 px-5 fw-bold shadow-sm">
+                        <i class="bi bi-trash-fill me-2"></i> Evet, Kalıcı Olarak Sil
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg rounded-3 px-5 fw-bold shadow-sm">
+                        İptal ve Geri Dön
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

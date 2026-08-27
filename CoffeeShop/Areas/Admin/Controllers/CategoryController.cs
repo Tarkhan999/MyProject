@@ -41,14 +41,29 @@ public class CategoryController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
-    [HttpPost]
-    
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var category=await _categoryService.GetByIdAsync(id);
+        var category = await _categoryService.GetByIdAsync(id);
+        if (category == null) return NotFound();
+
+        return View(new CategoryVM
+        {
+            Id = category.Id,
+            Name = category.Name
+        });
+    }
+
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var category = await _categoryService.GetByIdAsync(id);
+        if (category == null) return NotFound();
+
         await _categoryService.DeleteAsync(category);
-        return Ok();
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
