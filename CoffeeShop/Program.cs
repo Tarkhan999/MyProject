@@ -5,6 +5,10 @@ using FiorelloBackendPractice.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -43,7 +47,7 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICategoryService, CategoyService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISettingService, SettingService>();
-
+Stripe.StripeConfiguration.ApiKey= builder.Configuration["Stripe:SecretKey"];
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

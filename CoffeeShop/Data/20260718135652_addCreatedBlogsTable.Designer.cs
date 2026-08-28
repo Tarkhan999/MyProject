@@ -25,7 +25,7 @@ namespace FiorelloBackendPractice.Data
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Blog", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Slider", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +77,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.SliderInfo", b =>
+            modelBuilder.Entity("CoffeeShop.Models.SliderInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -25,7 +25,7 @@ namespace FiorelloBackendPractice.Data
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.About", b =>
+            modelBuilder.Entity("CoffeeShop.Models.About", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Abouts");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.AppUser", b =>
+            modelBuilder.Entity("CoffeeShop.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -127,7 +127,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Blog", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,7 +162,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Category", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,7 +179,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Expert", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Expert", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -204,7 +204,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Experts");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Product", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,7 +233,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.ProductImage", b =>
+            modelBuilder.Entity("CoffeeShop.Models.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -258,7 +258,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Setting", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -283,7 +283,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Slider", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +300,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.SliderInfo", b =>
+            modelBuilder.Entity("CoffeeShop.Models.SliderInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -325,7 +325,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("SliderInfos");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.SubscribeInfo", b =>
+            modelBuilder.Entity("CoffeeShop.Models.SubscribeInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -350,7 +350,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("SubscribeInfos");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Subscriber", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Subscriber", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -503,9 +503,9 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Product", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Product", b =>
                 {
-                    b.HasOne("FiorelloBackendPractice.Models.Category", "Category")
+                    b.HasOne("CoffeeShop.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -514,9 +514,9 @@ namespace FiorelloBackendPractice.Data
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.ProductImage", b =>
+            modelBuilder.Entity("CoffeeShop.Models.ProductImage", b =>
                 {
-                    b.HasOne("FiorelloBackendPractice.Models.Product", "Product")
+                    b.HasOne("CoffeeShop.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -536,7 +536,7 @@ namespace FiorelloBackendPractice.Data
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
+                    b.HasOne("CoffeeShop.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -545,7 +545,7 @@ namespace FiorelloBackendPractice.Data
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
+                    b.HasOne("CoffeeShop.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -560,7 +560,7 @@ namespace FiorelloBackendPractice.Data
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
+                    b.HasOne("CoffeeShop.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -569,19 +569,19 @@ namespace FiorelloBackendPractice.Data
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
+                    b.HasOne("CoffeeShop.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Category", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("FiorelloBackendPractice.Models.Product", b =>
+            modelBuilder.Entity("CoffeeShop.Models.Product", b =>
                 {
                     b.Navigation("Images");
                 });

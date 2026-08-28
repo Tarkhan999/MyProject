@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiorelloBackendPractice", "FiorelloBackendPractice\FiorelloBackendPractice.csproj", "{44A7552F-AAE8-460B-BBF9-3389798081D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop", "CoffeeShop\CoffeeShop.csproj", "{44A7552F-AAE8-460B-BBF9-3389798081D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

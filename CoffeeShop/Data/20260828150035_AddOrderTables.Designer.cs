@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FiorelloBackendPractice.Data
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260817181241_addCreatedIdentityTable")]
-    partial class addCreatedIdentityTable
+    [Migration("20260828150035_AddOrderTables")]
+    partial class AddOrderTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,40 @@ namespace FiorelloBackendPractice.Data
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CoffeeShop.Models.AppUser", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.About", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HighlightedText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PointText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Abouts");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -94,7 +127,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Blog", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,7 +162,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Category", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,7 +179,110 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Product", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Expert", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Experts");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Instagram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Instagrams");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -175,7 +311,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.ProductImage", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,7 +336,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Setting", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -225,7 +361,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Slider", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,7 +378,7 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.SliderInfo", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.SliderInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -265,6 +401,51 @@ namespace FiorelloBackendPractice.Data
                     b.HasKey("Id");
 
                     b.ToTable("SliderInfos");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.SubscribeInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BackgroundImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubscribeInfos");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Subscriber", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -400,9 +581,28 @@ namespace FiorelloBackendPractice.Data
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Product", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.OrderItem", b =>
                 {
-                    b.HasOne("CoffeeShop.Models.Category", "Category")
+                    b.HasOne("FiorelloBackendPractice.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FiorelloBackendPractice.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Product", b =>
+                {
+                    b.HasOne("FiorelloBackendPractice.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -411,9 +611,9 @@ namespace FiorelloBackendPractice.Data
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.ProductImage", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.ProductImage", b =>
                 {
-                    b.HasOne("CoffeeShop.Models.Product", "Product")
+                    b.HasOne("FiorelloBackendPractice.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -433,7 +633,7 @@ namespace FiorelloBackendPractice.Data
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CoffeeShop.Models.AppUser", null)
+                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -442,7 +642,7 @@ namespace FiorelloBackendPractice.Data
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CoffeeShop.Models.AppUser", null)
+                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,7 +657,7 @@ namespace FiorelloBackendPractice.Data
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CoffeeShop.Models.AppUser", null)
+                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -466,19 +666,24 @@ namespace FiorelloBackendPractice.Data
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("CoffeeShop.Models.AppUser", null)
+                    b.HasOne("FiorelloBackendPractice.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Category", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("CoffeeShop.Models.Product", b =>
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("FiorelloBackendPractice.Models.Product", b =>
                 {
                     b.Navigation("Images");
                 });

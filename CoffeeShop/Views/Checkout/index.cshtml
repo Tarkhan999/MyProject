@@ -1,0 +1,22 @@
+@model FiorelloBackendPractice.ViewModels.Order.OrderCreateVM
+
+<div class="container my-5" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">Delivery Details</h2>
+    
+    <!-- Eğer formda bir hata varsa burada kırmızı ile yazacak -->
+    <div asp-validation-summary="All" class="text-danger fw-bold text-center mb-3"></div>
+
+    <form asp-controller="Checkout" asp-action="Pay" method="post">
+        <div class="mb-3">
+            <label class="form-label">City</label>
+            <input asp-for="City" class="form-control" placeholder="New York" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea asp-for="Address" class="form-control" rows="3" placeholder="Street, Building, Apartment..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success w-100 btn-lg rounded-pill mt-3">
+            Proceed to Payment
+        </button>
+    </form>
+</div>
