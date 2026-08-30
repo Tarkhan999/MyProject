@@ -1,6 +1,5 @@
 @model List<FiorelloBackendPractice.ViewModels.Expert.ExpertVM>
 
-
 <div class="card border-0 shadow-sm rounded-4">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -28,7 +27,13 @@
                         <td class="fw-bold">@item.FullName</td>
                         <td>@item.Position</td>
                         <td>
-                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-sm btn-warning rounded-3"><i class="bi bi-pencil"></i> Güncelle</a>
+                            <!-- Detay butonu buraya eklendi -->
+                            <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white rounded-3 me-1"><i class="bi bi-eye"></i> Detay</a>
+                            
+                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-sm btn-warning rounded-3 me-1">
+                                <i class="bi bi-pencil"></i> Güncelle
+                            </a>
+                            
                             <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-sm btn-danger rounded-3" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="bi bi-trash"></i> Sil</button>
                             </form>

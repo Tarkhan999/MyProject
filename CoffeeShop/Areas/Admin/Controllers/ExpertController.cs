@@ -131,4 +131,13 @@ public class ExpertController : Controller
         await _dbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> Detail(int? id)
+    {
+        if (id is null) return BadRequest();
+    
+        var expert = await _dbContext.Experts.FirstOrDefaultAsync(e => e.Id == id);
+        if (expert is null) return NotFound();
+
+        return View(expert);
+    }
 }

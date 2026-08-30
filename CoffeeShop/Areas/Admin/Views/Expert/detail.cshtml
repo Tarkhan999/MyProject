@@ -1,0 +1,44 @@
+@model FiorelloBackendPractice.Models.Expert
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h5 class="mb-0 text-white">Barista Detayı</h5>
+            <a asp-action="Index" class="btn btn-outline-light"><i class="bi bi-arrow-left me-1"></i> Geri Dön</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="~/img/@Model.ImageUrl" class="img-fluid rounded-circle shadow-lg mb-4" style="width: 200px; height: 200px; object-fit: cover; border: 3px solid #CBA258;" alt="@Model.FullName" />
+            </div>
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-dark table-borderless">
+                        <tbody>
+                            <tr>
+                                <th style="width: 150px; color: #CBA258;">ID:</th>
+                                <td>@Model.Id</td>
+                            </tr>
+                            <tr>
+                                <th style="color: #CBA258;">Ad Soyad:</th>
+                                <td class="fs-5 text-white">@Model.FullName</td>
+                            </tr>
+                            <tr>
+                                <th style="color: #CBA258;">Pozisyon:</th>
+                                <td><span class="badge bg-success fs-6">@Model.Position</span></td>
+                            </tr>
+                            <tr>
+                                <th style="color: #CBA258;">Görsel Yolu:</th>
+                                <td class="text-muted">@Model.ImageUrl</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4">
+                    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-pencil me-1"></i> Düzenle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

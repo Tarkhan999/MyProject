@@ -81,6 +81,15 @@ public class AboutController : Controller
         };
         return View(vm);
     }
+    [HttpGet]
+    public async Task<IActionResult> Detail()
+    {
+        var about = await _dbContext.Abouts.FirstOrDefaultAsync();
+    
+        if (about == null) return NotFound("Hakkımızda verisi bulunamadı.");
+    
+        return View(about);
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]

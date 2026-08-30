@@ -2,6 +2,7 @@ namespace FiorelloBackendPractice.ViewModels.About;
 
 public class AboutUIVM
 {
+    public int Id { get; set; }
     public string Title { get; set; }
     public string HighlightedText { get; set; }
     public string Description { get; set; }

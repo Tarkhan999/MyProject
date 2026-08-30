@@ -25,7 +25,7 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
             ImageUrl = i.ImageUrl
         }).ToListAsync();
         var expertList = await dbContext.Experts.Select(e => new ExpertUIVM
-        {
+        {Id=e.Id,
             FullName = e.FullName,
             Position = e.Position,
             ImageUrl = e.ImageUrl
@@ -36,6 +36,7 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
             Blogs = blogs,
             AboutInfo = aboutData is null ? null : new AboutUIVM
             {
+                Id = aboutData.Id,
                 Title = aboutData.Title,
                 Description = aboutData.Description,
                 PointText = aboutData.PointText,
@@ -53,6 +54,22 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
         };
 
         return View(homeVm);
+    }
+
+    public async Task<IActionResult> ExpertDetail(int? id)
+    {
+        if(id is null)return BadRequest("ID gönderilmedi.");
+        var expert=await dbContext.Experts.FirstOrDefaultAsync(e => e.Id == id);
+        if (expert is null) return NotFound("Barista bulunamadı.");
+
+        return View(expert);
+    }
+    public async Task<IActionResult> AboutDetail(int? id)
+    {
+        if(id is null)return BadRequest("ID gönderilmedi.");
+        var aboutData=await dbContext.Abouts.FirstOrDefaultAsync(a => a.Id == id);
+        if(aboutData is null)return NotFound("İlgili içerik bulunamadı.");
+        return View(aboutData);
     }
 
     [HttpPost]

@@ -1,0 +1,66 @@
+@model FiorelloBackendPractice.Models.About
+
+@{
+    ViewData["Title"] = "Hakkımızda Detay";
+}
+
+<!-- Sayfaya özel koyu tema kapsayıcısı -->
+<section class="min-vh-100 py-5 d-flex align-items-center" style="background-color: #121212; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="container mt-4">
+        
+        <!-- Geri Dön Butonu -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-light rounded-pill px-4 py-2" style="border-color: rgba(255,255,255,0.2); transition: all 0.3s ease;">
+                    <i class="bi bi-arrow-left me-2"></i> Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+
+        <!-- Ana İçerik Kartı (Glassmorphism Etkisi) -->
+        <div class="row align-items-center rounded-4 p-4 p-lg-5 shadow-lg" style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05);">
+            
+            <!-- Sol Taraf: Görsel -->
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="position-relative">
+                    <!-- Arkadaki dekoratif gölge/kutu -->
+                    <div class="position-absolute w-100 h-100 rounded-4" style="background: linear-gradient(45deg, #00704A, #CBA258); opacity: 0.15; transform: translate(20px, 20px); z-index: 0;"></div>
+                    
+                    <img src="~/img/@Model.ImageUrl" class="img-fluid rounded-4 position-relative z-1 object-fit-cover w-100 shadow" 
+                         style="min-height: 450px; border: 1px solid rgba(255,255,255,0.1);" 
+                         alt="About Image Detail">
+                </div>
+            </div>
+            
+            <!-- Sağ Taraf: Metinler -->
+            <div class="col-lg-6 ps-lg-5 text-white">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge text-uppercase px-3 py-2" style="background-color: rgba(0, 112, 74, 0.2); color: #00d28a; border: 1px solid #00704A; letter-spacing: 1px;">
+                        Hikayemiz
+                    </span>
+                </div>
+                
+                <h1 class="fw-bold display-5 mb-4" style="line-height: 1.2;">
+                    @Model.Title <br />
+                    <span style="color: #00d28a; text-shadow: 0 0 15px rgba(0,210,138,0.3);">@Model.HighlightedText</span>
+                </h1>
+                
+                <p class="fs-5 mb-5" style="line-height: 1.8; color: #a0a0a0;">
+                    @Model.Description
+                </p>
+                
+                <!-- Öne Çıkan Nokta (Quote tarzı) -->
+                <div class="p-4 rounded-4 mt-4 position-relative overflow-hidden" style="background: rgba(203, 162, 88, 0.05); border-left: 4px solid #CBA258;">
+                    <!-- Dekoratif İkon -->
+                    <i class="bi bi-quote position-absolute" style="font-size: 5rem; color: rgba(203, 162, 88, 0.1); top: -20px; right: 10px;"></i>
+                    
+                    <div class="d-flex align-items-center position-relative z-1">
+                        <i class="bi bi-star-fill fs-3 me-3" style="color: #CBA258; filter: drop-shadow(0 0 8px rgba(203,162,88,0.6));"></i>
+                        <p class="m-0 fs-5 text-light fst-italic">@Model.PointText</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
