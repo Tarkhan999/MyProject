@@ -1,70 +1,363 @@
 @model SliderVCVM
 
 <style>
-    /* 1. ID Çakışmasını önlemek için id="slider" yerine class kullanıyoruz */
+    /* ========================================================
+       1. KAPSAYICI & LÜKS SİNEMATİK EFEKTLER
+       ======================================================== */
     .hero-slider-section {
         position: relative;
         width: 100%;
-        height: 100vh; /* Kapsayıcıyı tam ekran yap */
-        overflow: hidden; 
+        height: 100vh;
+        background-color: #050505;
+        overflow: hidden;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
     }
 
-    /* 2. ESAS SORUN BURADAYDI: max-height ve 60vh kısıtlamaları kaldırıldı */
+    .hero-slider-section .owl-carousel,
+    .hero-slider-section .owl-carousel .owl-stage-outer,
+    .hero-slider-section .owl-carousel .owl-stage,
+    .hero-slider-section .owl-carousel .owl-item {
+        height: 100vh !important;
+    }
+
+    /* ========================================================
+       2. ANA VİDEO
+       ======================================================== */
+    .hero-video-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 1;
+        opacity: 0.85; 
+        pointer-events: none;
+    }
+
+    .vignette-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(5,5,5,0.85) 100%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    /* ========================================================
+       3. SLIDER GÖRSELLERİ 
+       ======================================================== */
     .slider-image {
-        width: 100vw !important; /* Ekran genişliği */
-        height: 110vh !important; /* Ekran yüksekliği (60vh ve 600px kısıtlaması iptal) */
-        object-fit: cover !important; 
-        object-position: center !important; 
-        filter: brightness(0.6); 
+        width: 100% !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        object-position: center !important;
         display: block;
+        opacity: 0.35 !important; 
+        mix-blend-mode: hard-light; 
     }
 
+    /* ========================================================
+       4. PREMIUM GLASSMORPHISM (İÇERİK KARTI)
+       ======================================================== */
     .slider-context {
         position: absolute;
         top: 50%;
         left: 0;
         width: 100%;
-        transform: translateY(-50%); 
-        z-index: 10; 
-        pointer-events: none; 
+        transform: translateY(-50%);
+        z-index: 10;
+        pointer-events: none;
     }
-    
+
     .slider-context * {
-        pointer-events: auto; 
+        pointer-events: auto;
+    }
+
+    .glass-text-box {
+        background: rgba(10, 10, 10, 0.4);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-radius: 30px;
+        padding: 50px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-left: 6px solid #00704A; 
+        transform: translateX(-50px);
+        opacity: 0;
+        animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+    }
+
+    @@keyframes slideInLeft {
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    .hero-title {
+        font-size: 4.5rem;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        color: #ffffff;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        margin-bottom: 15px;
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        color: #d1d1d1;
+        margin-bottom: 40px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding-bottom: 25px;
+    }
+
+    /* ========================================================
+       5. YÜKLENEN PROFİL & VİDEO KONTROL BUTONU
+       ======================================================== */
+    .signature-frame {
+        position: relative;
+        width: 160px;
+        height: 220px; 
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        background: #000;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .signature-frame::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border-radius: 20px;
+        border: 2px solid transparent;
+        background: linear-gradient(135deg, #00704A, #CBA258) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        opacity: 0.7;
+    }
+
+    .signature-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+    }
+
+    .signature-frame:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 30px 50px rgba(0, 112, 74, 0.3);
+    }
+
+    .signature-frame:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Oynatma Butonu Stilleri */
+    .btn-play-glass {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .btn-play-glass:hover {
+        background: rgba(0, 112, 74, 0.7);
+        border-color: #00704A;
+        transform: scale(1.1);
+        color: #CBA258;
+    }
+
+    /* ========================================================
+       6. UX DETAYLARI: SOSYAL AĞLAR VE SCROLL MOUSE
+       ======================================================== */
+    .hero-socials {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        align-items: center;
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards 1s;
+    }
+
+    .hero-socials a {
+        color: rgba(255,255,255,0.4);
+        font-size: 1.4rem;
+        transition: all 0.3s ease;
+    }
+
+    .hero-socials a:hover {
+        color: #CBA258;
+        transform: scale(1.3) translateY(-3px);
+    }
+
+    .social-line {
+        width: 1px;
+        height: 80px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: rgba(255,255,255,0.5);
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards 1.2s;
+    }
+
+    .mouse-icon {
+        width: 24px;
+        height: 40px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 20px;
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .mouse-wheel {
+        width: 4px;
+        height: 8px;
+        background: #00704A;
+        border-radius: 2px;
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: scrollWheel 2s infinite cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @@keyframes scrollWheel {
+        0% { transform: translate(-50%, 0); opacity: 1; }
+        100% { transform: translate(-50%, 18px); opacity: 0; }
+    }
+
+    @@keyframes fadeIn {
+        to { opacity: 1; }
     }
 </style>
 
-<!-- SLIDER START (id yerine class kullanıldı) -->
 <section class="hero-slider-section">
-    <div class="owl-carousel slider h-100">
+    
+    <!-- VİDEO ALANI (id="heroVideo" eklendi) -->
+    <video id="heroVideo" autoplay loop muted playsinline class="hero-video-bg">
+        <source src="~/img/d71adcec8f104b9ab721c7137ee76cb1.mp4" type="video/mp4">
+    </video>
+
+    <!-- KENAR KARARTMA -->
+    <div class="vignette-overlay"></div>
+
+    <!-- OWL CAROUSEL -->
+    <div class="owl-carousel slider h-100 position-relative" style="z-index: 3;">
         @foreach (var item in Model.Sliders)
         {
-            <div class="h-100">
-                <img src="~/img/@item.Image" alt="Slider Image" class="slider-image">
+            <div class="h-100 w-100">
+                <img src="~/img/@item.Image" alt="Hero Image" class="slider-image">
             </div>
         }
     </div>
     
-    <!-- Yazı Alanı (Overlay) -->
+    <!-- İÇERİK KARTI -->
     <div class="slider-context">
-        <div class="container pl-lg-5 ml-lg-3">
+        <div class="container ps-lg-5 ms-lg-4">
             <div class="row">
-                <div class="col-lg-6 col-md-8">
-                    <div class="text">
-                        <h1 class="text-white" style="text-shadow: 2px 2px 5px rgba(0,0,0,0.7); font-weight: bold;">
+                <div class="col-xl-6 col-lg-7 col-md-9">
+                    <div class="glass-text-box">
+                        <h1 class="hero-title">
                             @Model.SliderInfo.Title
                         </h1>
 
-                        <p class="text-white d-none d-sm-block mt-3" style="font-size: 1.1rem; line-height: 1.6; text-shadow: 1px 1px 4px rgba(0,0,0,0.7);">
+                        <p class="hero-subtitle d-none d-sm-block">
                             @Model.SliderInfo.Description
                         </p>
-                    </div>
-                    <div class="img mt-4">
-                        <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature" class="img-fluid" style="max-width: 150px; height: auto;">
+                        
+                        <!-- PORTRE VE VİDEO KONTROL BUTONU YAN YANA -->
+                        <div class="d-flex align-items-center gap-4 mt-2">
+                            <div class="signature-frame">
+                                <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature Highlight">
+                            </div>
+                            
+                            <div class="video-controls d-flex flex-column align-items-center">
+                                <button id="videoToggleBtn" type="button" class="btn-play-glass" aria-label="Play/Pause Video">
+                                    <i class="bi bi-pause-fill" id="videoToggleIcon"></i>
+                                </button>
+                                <span id="videoToggleText" class="mt-2 text-white-50 fw-bold" style="font-size: 0.75rem; letter-spacing: 2px;">DURDUR</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- SOSYAL MEDYA İKONLARI -->
+    <div class="hero-socials d-none d-lg-flex">
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-youtube"></i></a>
+        <div class="social-line"></div>
+    </div>
+
+    <!-- AŞAĞI KAYDIR ANİMASYONU -->
+    <div class="scroll-indicator d-none d-sm-flex">
+        <div class="mouse-icon">
+            <div class="mouse-wheel"></div>
+        </div>
+        Keşfet
+    </div>
 </section>
-<!-- SLIDER END -->
+
+<!-- VİDEO OYNATMA/DURDURMA SCRİPTİ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("heroVideo");
+        const btn = document.getElementById("videoToggleBtn");
+        const icon = document.getElementById("videoToggleIcon");
+        const text = document.getElementById("videoToggleText");
+
+        if (btn && video) {
+            btn.addEventListener("click", function () {
+                if (video.paused) {
+                    video.play();
+                    icon.classList.remove("bi-play-fill");
+                    icon.classList.add("bi-pause-fill");
+                    text.textContent = "DURDUR";
+                } else {
+                    video.pause();
+                    icon.classList.remove("bi-pause-fill");
+                    icon.classList.add("bi-play-fill");
+                    text.textContent = "OYNAT";
+                }
+            });
+        }
+    });
+</script>
