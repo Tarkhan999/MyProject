@@ -1,13 +1,94 @@
 ﻿@model HomeVM
 
 @{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home Page";
 }
 
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
+    /* 0. SLIDER BÜYÜK (HERO) GÖRSEL HİZALAMASI */
+    #slider {
+        position: relative;
+        height: 100vh;
+        width: 100%; /* 200% yerine 100% olmalı */
+        overflow: hidden;
+    }
+
+    #slider .owl-carousel,
+    #slider .owl-carousel .owl-stage-outer,
+    #slider .owl-carousel .owl-item,
+    #slider .owl-carousel .item {
+        height: 100vh !important; /* 250vh çok fazlaydı, resimle (100vh) eşitlendi */
+    }
+
+    /* Sadece ana arka plan görselini hedefler, küçük görseli bozmaz */
+    #slider .owl-carousel .item > img,
+    #slider > section > img,
+    #slider img.bg-img {
+        width: 100% !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block !important;
+    }
+
+    /* Arka plan CSS'den (background-image) geliyorsa diye yedek kural */
+    #slider .owl-carousel .item {
+        background-size: cover !important;
+        background-position: center !important;
+    }
+
+    /* SLIDER İÇİNDEKİ KÜÇÜK GÖRSEL */
+    #slider .img.mt-4 img {
+        width: auto !important;
+        max-width: 280px !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+        animation: floatSignature 5s ease-in-out infinite !important;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+        cursor: pointer !important;
+    }
+
+    #slider .img.mt-4 img:hover {
+        transform: scale(1.08) translateY(-5px) !important;
+        box-shadow: 0 15px 35px rgba(203, 162, 88, 0.4) !important;
+    }
+
+    @@keyframes floatSignature {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+        100% { transform: translateY(0px); }
+    }
+
+    /* 1. Instagram Görselleri Hizalaması */
+    #instagram .owl-carousel img,
+    #instagram img {
+        height: 450px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: 16px;
+    }
+
+    /* 2. About (Hakkımızda) Görsel Hizalaması */
+    #about img {
+        height: 650px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    /* 3. Barista (Experts) Görsel Hizalaması */
+    #experts .img img {
+        width: 200px !important;
+        height: 200px !important;
+        object-fit: cover !important;
+        border-radius: 50% !important;
+    }
+
     /* DİNAMİK HAREKETLİ ARKA PLAN */
     @@keyframes gradientMove {
         0% { background-position: 0% 50%; }
@@ -16,15 +97,82 @@
     }
 
     .animated-bg {
-        background:black;
+        background: transparent;
         background-size: 400% 400%;
         animation: gradientMove 15s ease infinite;
         min-height: 100vh;
     }
 
-    /* GLASSMORPHISM (BUZLU CAM) STANDART SINIFI */
+    /* VİDEO ARKA PLAN STANDARTLARI */
+    .video-bg-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -2;
+        overflow: hidden;
+        background-color: #000;
+    }
+
+    .video-bg-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.35;
+        transform: scale(1.05);
+    }
+
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(13,8,5,0.9) 0%, rgba(13,8,5,0.4) 50%, rgba(13,8,5,0.9) 100%);
+        z-index: -1;
+    }
+
+    /* ANİMASYONLAR */
+    .anim-up {
+        opacity: 0;
+        transform: translateY(120px);
+        transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+    }
+
+    .anim-left {
+        opacity: 0;
+        transform: translateX(-120px);
+        transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+    }
+
+    .anim-right {
+        opacity: 0;
+        transform: translateX(120px);
+        transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+    }
+
+    .anim-up.is-visible, .anim-left.is-visible, .anim-right.is-visible {
+        opacity: 1;
+        transform: translate(0);
+    }
+
+    .stagger-wrap .stagger-item {
+        opacity: 0;
+        transform: translateY(80px);
+        transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stagger-wrap.is-visible .stagger-item:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+    .stagger-wrap.is-visible .stagger-item:nth-child(2) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
+    .stagger-wrap.is-visible .stagger-item:nth-child(3) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+    .stagger-wrap.is-visible .stagger-item:nth-child(4) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
+    .stagger-wrap.is-visible .stagger-item:nth-child(5) { transition-delay: 0.7s; opacity: 1; transform: translateY(0); }
+
     .glass-panel {
-        background:black;
+        background: black;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(203, 162, 88, 0.15);
@@ -37,8 +185,7 @@
         border-color: rgba(0, 112, 74, 0.4);
         transform: translateY(-5px);
     }
-    
-    /* YUMUŞAK YÜZME ANİMASYONU (GÖRSELLER İÇİN) */
+
     @@keyframes float {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-15px); }
@@ -49,15 +196,22 @@
     }
 </style>
 
-<!-- YÜZEN ÇARK BUTONU -->
-<button type="button" data-toggle="modal" data-target="#wheelModal" data-bs-toggle="modal" data-bs-target="#wheelModal" class="btn rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center"
+<!-- VİDEO ARKA PLAN KONTEYNERİ -->
+<div class="video-bg-container">
+    <video autoplay loop muted playsinline>
+        <source src="https://cdn.coverr.co/videos/coverr-pouring-coffee-into-a-cup-2814/1080p.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+</div>
+
+<!-- YÜZEN ÇARK BUTONU (Güncellenmiş) -->
+<button type="button" data-toggle="modal" data-target="#wheelModal" 
+        class="btn rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center"
         style="background-color: rgba(0, 112, 74, 0.8); backdrop-filter: blur(5px); color: white; bottom: 30px; right: 30px; width: 70px; height: 70px; z-index: 999999; border: 2px solid #CBA258; cursor: pointer; transition: all 0.3s ease;"
         onmouseover="this.style.transform='scale(1.1)'; document.getElementById('wheelIcon').style.transform='rotate(180deg)';"
         onmouseout="this.style.transform='scale(1)'; document.getElementById('wheelIcon').style.transform='rotate(0deg)';">
     <i class="bi bi-arrow-repeat display-6" id="wheelIcon" style="transition: transform 0.5s ease; color: #CBA258;"></i>
 </button>
-
-<canvas id="coffeeCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998;"></canvas>
 
 <!-- GÜNÜN KAHVESİ ÇARK MODALI -->
 <div class="modal fade" id="wheelModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(15px); z-index: 9999999;">
@@ -67,26 +221,20 @@
                 <h3 class="fw-bold mb-0" style="color: #FBF8F1;">Günün Kahvesini Seç! 🎯</h3>
             </div>
             <div class="modal-body py-4 d-flex flex-column align-items-center">
-                
-                <!-- Çark Alanı -->
                 <div style="position: relative; width: 300px; height: 300px; margin: 20px auto;">
-                    <!-- İbre (Pointer) -->
                     <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid #CBA258; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));"></div>
-                    <!-- Canvas Çark -->
                     <canvas id="wheelCanvas" width="300" height="300" class="shadow-lg rounded-circle" style="border: 4px solid #00704A; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); background-color: #1e3932;"></canvas>
                 </div>
-
-                <!-- Sonuç Ekranı -->
                 <h4 id="coffeeResult" class="fw-bold mt-2 mb-4" style="min-height: 35px; color: #CBA258; font-size: 1.3rem;">Şansını dene!</h4>
-
                 <div class="d-flex justify-content-center gap-2">
                     <button id="spinBtn" type="button" class="btn px-5 py-2 rounded-pill fw-bold text-white shadow" style="background: linear-gradient(45deg, #00704A, #053b26); border: none; font-size: 1.1rem; z-index: 10;">Çarkı Çevir</button>
-                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-dismiss="modal" data-bs-dismiss="modal" style="background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Kapat</button>
+                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-dismiss="modal" style="background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Kapat</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- KAHVE BREAK MODAL -->
 <div class="modal fade" id="coffeeModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(15px);">
     <div class="modal-dialog modal-dialog-centered">
@@ -101,21 +249,25 @@
                 </p>
                 <div class="d-flex justify-content-center gap-2 mt-4">
                     <a href="#products" onclick="$('#coffeeModal').modal('hide');" class="btn px-4 py-2 rounded-pill fw-bold text-white text-decoration-none shadow" style="background: linear-gradient(45deg, #00704A, #053b26); border: none;">Order Now</a>
-                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-dismiss="modal" data-bs-dismiss="modal" style="background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Close</button>
+                    <button type="button" class="btn px-4 py-2 rounded-pill text-white" data-bs-dismiss="modal" style="background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Close</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- MAIN CONTENT (Animasyonlu Şeffaf Arka Plan İçinde) -->
+<!-- MAIN CONTENT -->
 <main id="mainContent" class="animated-bg" style="clear: both; overflow-x: hidden;">
 
     <!-- SLIDER -->
-    @await Component.InvokeAsync("Slider")
+    <div id="slider" class="anim-up is-visible">
+        @await Component.InvokeAsync("Slider")
+    </div>
 
     <!-- PRODUCTS -->
-    @await Component.InvokeAsync("Product")
+    <div class="anim-up">
+        @await Component.InvokeAsync("Product")
+    </div>
 
     <!-- ABOUT SECTION -->
     @if (Model.AboutInfo != null)
@@ -123,16 +275,15 @@
     <section id="about" style="padding: 80px 0; position: relative;">
         <div class="container my-5 glass-panel p-5">
             <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="col-lg-6 mb-4 mb-lg-0 anim-left">
                     <div class="img position-relative shadow-lg rounded-4 overflow-hidden floating-img" style="border: 2px solid rgba(0, 112, 74, 0.5);">
-                        <!-- Link etiketi eklendi -->
-                        <a asp-controller="Home" asp-action="AboutDetail" asp-route-id="@Model.AboutInfo.Id">
-                            <img src="~/img/@Model.AboutInfo.ImageUrl" class="img-fluid w-100 object-fit-cover" style="min-height: 380px; opacity: 0.9;" alt="About Video">
+                        <a asp-controller="Home" asp-action="AboutDetail" asp-route-id="@Model.AboutInfo.Id" class="d-block w-100 h-100">
+                            <img src="~/img/@Model.AboutInfo.ImageUrl" class="img-fluid" alt="About Image">
                         </a>
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 anim-right">
                     <div class="about-text px-lg-4">
                         <h1 class="fw-bold display-6 mb-4 text-white" style="text-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                             @Model.AboutInfo.Title <span style="color: #00704A;">@Model.AboutInfo.HighlightedText</span> <br>Coffee
@@ -155,7 +306,7 @@
     <!-- EXPERTS SECTION -->
     <section id="experts" class="py-5">
         <div class="container py-4">
-            <div class="row mb-5">
+            <div class="row mb-5 anim-up">
                 <div class="col-lg-6 mx-auto text-center">
                     <h1 class="fw-bold display-6 text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Our Baristas</h1>
                     <p class="fs-6" style="color: #c4c4c4;">Mastering the art of perfect coffee</p>
@@ -163,29 +314,26 @@
                 </div>
             </div>
 
-            <div class="row g-4 justify-content-center">
+            <div class="row g-4 justify-content-center stagger-wrap">
                 @if (Model.Experts != null)
                 {
-                    foreach (var item in Model.Experts)
-                    {
-                        <div class="col-sm-6 col-md-4 col-lg-3">
-                            <!-- Link etiketi eklendi -->
-                            <a asp-controller="Home" asp-action="ExpertDetail" asp-route-id="@item.Id" class="text-decoration-none">
-                                <div class="item text-center glass-panel h-100 py-4 px-3 position-relative overflow-hidden" style="transition: transform 0.3s ease;">
-                            
-                                    <div style="position:absolute; top:-50px; right:-50px; width:100px; height:100px; background:#00704A; filter:blur(60px); opacity:0.4; z-index:0;"></div>
-                            
-                                    <div class="img mx-auto position-relative" style="width: 130px; height: 130px; z-index:1;">
-                                        <img src="~/img/@item.ImageUrl" class="img-fluid rounded-circle shadow h-100 w-100 object-fit-cover" style="border: 3px solid rgba(203, 162, 88, 0.8);" alt="@item.FullName">
-                                    </div>
-                                    <div class="text mt-4 position-relative" style="z-index:1;">
-                                        <h6 class="fw-bold mb-2 text-white">@item.FullName</h6>
-                                        <span class="badge rounded-pill px-3 py-1" style="background: rgba(0, 112, 74, 0.3); color: #CBA258; border: 1px solid rgba(0, 112, 74, 0.5); backdrop-filter: blur(4px);">@item.Position</span>
-                                    </div>
-                                </div>
-                            </a>
+                foreach (var item in Model.Experts)
+                {
+                <div class="col-sm-6 col-md-4 col-lg-3 stagger-item">
+                    <a asp-controller="Home" asp-action="ExpertDetail" asp-route-id="@item.Id" class="text-decoration-none">
+                        <div class="item text-center glass-panel h-100 py-4 px-3 position-relative overflow-hidden" style="transition: transform 0.3s ease;">
+                            <div style="position:absolute; top:-50px; right:-50px; width:100px; height:100px; background:#00704A; filter:blur(60px); opacity:0.4; z-index:0;"></div>
+                            <div class="img mx-auto position-relative" style="width: 200px; height: 200px; z-index:1;">
+                                <img src="~/img/@item.ImageUrl" class="shadow" style="border: 3px solid rgba(203, 162, 88, 0.8);" alt="@item.FullName">
+                            </div>
+                            <div class="text mt-4 position-relative" style="z-index:1;">
+                                <h6 class="fw-bold mb-2 text-white">@item.FullName</h6>
+                                <span class="badge rounded-pill px-3 py-1" style="background: rgba(0, 112, 74, 0.3); color: #CBA258; border: 1px solid rgba(0, 112, 74, 0.5); backdrop-filter: blur(4px);">@item.Position</span>
+                            </div>
                         </div>
-                    }
+                    </a>
+                </div>
+                }
                 }
             </div>
         </div>
@@ -194,10 +342,9 @@
     <!-- SUBSCRIBE / JOIN US -->
     @if (Model.SubscribeInfo != null)
     {
-    <section id="subscribe" class="py-5 position-relative"
+    <section id="subscribe" class="py-5 position-relative anim-up"
              style="background-image: url('/img/@Model.SubscribeInfo.BackgroundImageUrl'); background-size: cover; background-position: center; background-attachment: fixed;">
 
-        <!-- Koyu Gradient Overlay -->
         <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(13,8,5,1) 0%, rgba(13,8,5,0.6) 50%, rgba(13,8,5,1) 100%);"></div>
 
         <div class="container py-5 position-relative" style="z-index: 1;">
@@ -210,7 +357,6 @@
                         <div class="d-flex justify-content-center">
                             <div class="input-group input-group-lg shadow-lg" style="max-width: 550px; border: 1px solid rgba(203,162,88,0.4); border-radius: 50px; overflow: hidden; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);">
                                 <input type="email" id="subscribeEmail" placeholder="Email Address" class="form-control border-0 px-4 py-3 text-white shadow-none" style="background-color: transparent;" aria-label="Email Address">
-
                                 <button id="subscribeBtn" type="button" class="btn px-4 py-3 fw-bold text-uppercase border-0 text-white" style="background: linear-gradient(45deg, #00704A, #034f36); letter-spacing: 1px; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Continue</button>
                             </div>
                         </div>
@@ -223,7 +369,7 @@
     }
 
     <!-- BLOG -->
-    <section id="blog" class="py-5">
+    <section id="blog" class="py-5 anim-up">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-lg-6 mx-auto text-center">
@@ -232,31 +378,30 @@
                     <div class="mx-auto rounded-pill mt-3" style="width: 60px; height: 3px; background: linear-gradient(90deg, transparent, #CBA258, transparent);"></div>
                 </div>
             </div>
-            <!-- Partial çağrısı değişmedi -->
             <partial name="_BlogPartial" model="@Model.Blogs"/>
         </div>
     </section>
 
     <!-- INSTAGRAM -->
-    <section id="instagram" class="position-relative overflow-hidden py-4">
+    <section id="instagram" class="position-relative overflow-hidden py-4 anim-up">
         <div class="owl-carousel instagram" style="opacity: 0.9;">
             @if (Model.InstagramPhotos != null && Model.InstagramPhotos.Any())
             {
-                foreach (var photo in Model.InstagramPhotos)
-                {
-                    <div class="px-2">
-                        <div class="rounded-4 overflow-hidden" style="border: 2px solid rgba(255,255,255,0.05);">
-                            <img src="~/img/@photo.ImageUrl" class="img-fluid w-100 object-fit-cover" style="height: 350px; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" alt="Instagram">
-                        </div>
-                    </div>
-                }
+            foreach (var photo in Model.InstagramPhotos)
+            {
+            <div class="px-2">
+                <div class="rounded-4 overflow-hidden" style="border: 2px solid rgba(255,255,255,0.05);">
+                    <img src="~/img/@photo.ImageUrl" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+            }
             }
             else
             {
-                <div class="text-white p-5 text-center w-100 glass-panel mx-auto" style="max-width:400px;">Henüz Instagram fotoğrafı yüklenmedi.</div>
+            <div class="text-white p-5 text-center w-100 glass-panel mx-auto" style="max-width:400px;">Henüz Instagram fotoğrafı yüklenmedi.</div>
             }
         </div>
-        
+
         <div class="hastag position-absolute top-50 start-50 translate-middle fw-bold py-3 px-5 shadow-lg rounded-pill" style="z-index: 2; letter-spacing: 2px; background: rgba(13, 8, 5, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(203, 162, 88, 0.5); color: #ffffff;">
             <i class="bi bi-instagram me-2" style="color: #CBA258;"></i>#STARBUCKS
         </div>
@@ -264,14 +409,31 @@
 
 </main>
 
-<!-- SENİN YAZDIĞIN JS KODLARI BURADA AYNEN KALIYOR. HTML ELEMENT ID'LERI KORUNDUĞU İÇİN SORUNSUZ ÇALIŞACAKTIR. -->
 <script>
-    // Sayfa tamamen yüklendiğinde çarkı oluştur
+    document.addEventListener("DOMContentLoaded", function () {
+        const animatedElements = document.querySelectorAll('.anim-up, .anim-left, .anim-right, .stagger-wrap');
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px 0px -10% 0px',
+            threshold: 0.1
+        });
+
+        animatedElements.forEach(el => observer.observe(el));
+    });
+
     window.addEventListener("load", function() {
-        
+
         const canvas = document.getElementById("wheelCanvas");
-        if(!canvas) return; // Canvas yoksa durdur (hata fırlatmasını önler)
-        
+        if(!canvas) return;
+
         const ctx = canvas.getContext("2d");
         const spinBtn = document.getElementById("spinBtn");
         const resultText = document.getElementById("coffeeResult");
@@ -280,7 +442,7 @@
             "Caramel Macchiato", "White Mocha", "Cold Brew",
             "Frappuccino", "Flat White", "Caffe Americano"
         ];
-        
+
         const colors = ["#00704A", "#1e3932", "#00704A", "#1e3932", "#00704A", "#1e3932"];
 
         let currentRotation = 0;
@@ -311,27 +473,23 @@
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#FBF8F1";
                 ctx.font = "bold 16px Arial";
-                ctx.fillText(coffees[i], radius - 20, 5); 
+                ctx.fillText(coffees[i], radius - 20, 5);
                 ctx.restore();
             }
         }
 
-        // Çizimi başlat
         drawWheel();
 
-        // Butona tıklandığında (onclick metodu daha garantilidir)
         spinBtn.onclick = function() {
             if (isSpinning) return;
             isSpinning = true;
             resultText.innerHTML = "Kahveniz seçiliyor... ☕";
             resultText.style.color = "#c4c4c4";
 
-            // En az 5 tam tur + rastgele açı
             const randomDegree = Math.floor(Math.random() * 360);
             const totalDegree = 1800 + randomDegree;
             currentRotation += totalDegree;
 
-            // CSS ile döndür
             canvas.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
@@ -347,6 +505,4 @@
             }, 4000);
         };
     });
-
-    // ... [Eğer varsa particle vs. diğer JS kodlarınız burada kalmaya devam edebilir] ...
 </script>

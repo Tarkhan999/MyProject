@@ -1,28 +1,40 @@
 @model IEnumerable<BlogUIVM>
 
+@{
+// Kartların sırayla animasyonla gelmesi için sayaç
+int delayIndex = 0;
+}
+
 <style>
     /* =========================================
-       SİNEMATİK HERO ALANI (YENİ TARZ)
+       SİNEMATİK HERO ALANI (BÜYÜTÜLMÜŞ & HAREKETLİ)
        ========================================= */
     .cinematic-hero {
         position: relative;
         width: 100%;
-        height: 50vh;
-        min-height: 400px;
-        /* Estetik, karanlık bir kahve çekirdeği/dükkanı arka planı */
-        background-image: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=2000&auto=format&fit=crop');
-        background-size: cover;
-        background-position: center;
+        height: 70vh; /* 50vh'den 70vh'ye çıkarıldı */
+        min-height: 500px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 2rem;
-        margin-bottom: 5rem;
+        margin-bottom: 6rem;
         overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
     }
 
-    /* Fotoğrafı sayfanın karanlık temasına yediren gradient maskesi */
+    /* Arka planı ayrı bir katmana alıp zoom (Ken Burns) animasyonu ekliyoruz */
+    .cinematic-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=2000&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+        animation: heroZoom 15s ease-in-out infinite alternate;
+    }
+
     .cinematic-overlay {
         position: absolute;
         inset: 0;
@@ -35,19 +47,19 @@
         z-index: 2;
         text-align: center;
         padding: 0 2rem;
-        animation: fadeUp 1.2s ease-out forwards;
+        animation: fadeUp 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(40px);
     }
 
-    /* Yeni elit başlık stili */
     .new-style-title {
         color: #FBF8F1;
-        font-size: 4rem;
+        font-size: 5.5rem; /* 4rem'den büyütüldü */
         font-weight: 300;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         margin-bottom: 0.5rem;
-        font-family: 'Georgia', serif; 
+        font-family: 'Georgia', serif;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
     }
 
     .new-style-title strong {
@@ -57,51 +69,63 @@
     }
 
     .new-style-subtitle {
-        color: #888888;
-        font-size: 1rem;
+        color: #aaaaaa;
+        font-size: 1.2rem;
         font-weight: 400;
-        letter-spacing: 5px;
+        letter-spacing: 6px;
         text-transform: uppercase;
         margin-bottom: 1.5rem;
     }
 
     /* =========================================
-       KART TASARIMI
+       KART TASARIMI (BÜYÜTÜLMÜŞ & HAREKETLİ)
        ========================================= */
     .premium-blog-card {
         background-color: transparent;
-        border-radius: 2rem; 
-        transition: transform 0.4s ease;
+        border-radius: 2rem;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         display: flex;
         flex-direction: column;
         height: 100%;
         overflow: hidden;
+
+        /* Başlangıçta gizli, animasyon ile gelecek */
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeUpCard 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     .premium-blog-card:hover {
-        transform: translateY(-8px);
+        transform: translateY(-15px);
     }
 
     .blog-image-wrapper {
         position: relative;
         width: 100%;
-        height: 320px;
-        border-radius: 2rem; 
+        height: 420px; /* 320px'den büyütüldü */
+        border-radius: 2rem;
         overflow: hidden;
         display: block;
-        margin-bottom: 1.5rem;
-        border: 1px solid rgba(0, 112, 74, 0.1);
+        margin-bottom: 1.8rem;
+        border: 1px solid rgba(0, 112, 74, 0.15);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .premium-blog-card:hover .blog-image-wrapper {
+        box-shadow: 0 15px 40px rgba(0, 168, 98, 0.2);
+        border-color: rgba(0, 168, 98, 0.4);
     }
 
     .blog-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.6s ease;
+        transition: transform 0.8s ease;
     }
 
     .premium-blog-card:hover .blog-image {
-        transform: scale(1.05);
+        transform: scale(1.08); /* Hover zoom etkisi artırıldı */
     }
 
     .blog-content {
@@ -111,25 +135,37 @@
 
     .blog-title {
         color: #FBF8F1;
-        font-size: 1.35rem;
+        font-size: 1.6rem; /* 1.35rem'den büyütüldü */
         font-weight: 600;
         margin-bottom: 1rem;
-        transition: color 0.3s ease;
+        transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .premium-blog-card:hover .blog-title {
         color: #00a862;
+        transform: scale(1.02);
     }
 
-    /* Razor Uyarılarını Önlemek İçin @@ Kullanımı */
+    /* =========================================
+       ANİMASYON KEYFRAMES
+       ========================================= */
     @@keyframes fadeUp {
         to { opacity: 1; transform: translateY(0); }
     }
 
+    @@keyframes fadeUpCard {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes heroZoom {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.15); }
+    }
+
     @@media (max-width: 768px) {
-        .new-style-title { font-size: 2.8rem; }
-        .cinematic-hero { border-radius: 0; height: 40vh; margin-bottom: 3rem; }
-        .blog-image-wrapper { height: 260px; }
+        .new-style-title { font-size: 3.2rem; }
+        .cinematic-hero { border-radius: 0; height: 50vh; margin-bottom: 4rem; }
+        .blog-image-wrapper { height: 320px; }
     }
 </style>
 
@@ -147,22 +183,24 @@
     <div class="row g-5">
         @foreach (var item in Model)
         {
-            <div class="col-md-6 col-lg-4">
-                <article class="premium-blog-card">
-                    
-                    <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id" class="blog-image-wrapper" aria-label="@item.Title okumak için tıkla">
-                        <img src="~/img/@item.Image" 
-                             class="blog-image" 
-                             alt="@item.Title" 
-                             loading="lazy" />
-                    </a>
+        <div class="col-md-6 col-lg-4">
+            <!-- delayIndex kullanılarak her karta sıralı (staggered) giriş animasyonu eklendi -->
+            <article class="premium-blog-card" style="animation-delay: @(delayIndex * 0.15)s;">
 
-                    <div class="blog-content">
-                        <h5 class="blog-title">@item.Title</h5>
-                    </div>
-                    
-                </article>
-            </div>
+                <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id" class="blog-image-wrapper" aria-label="@item.Title okumak için tıkla">
+                    <img src="~/img/@item.Image"
+                         class="blog-image"
+                         alt="@item.Title"
+                         loading="lazy" />
+                </a>
+
+                <div class="blog-content">
+                    <h5 class="blog-title">@item.Title</h5>
+                </div>
+
+            </article>
+        </div>
+        delayIndex++;
         }
     </div>
 </div>

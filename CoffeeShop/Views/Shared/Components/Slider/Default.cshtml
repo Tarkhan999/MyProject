@@ -1,47 +1,45 @@
 @model SliderVCVM
 
 <style>
-    /* Slider ana kapsayıcısı - Taşmaları kesin olarak engeller */
-    #slider {
+    /* 1. ID Çakışmasını önlemek için id="slider" yerine class kullanıyoruz */
+    .hero-slider-section {
         position: relative;
         width: 100%;
+        height: 100vh; /* Kapsayıcıyı tam ekran yap */
         overflow: hidden; 
     }
 
-    /* Görsellerin her ekranda mükemmel oturması için */
+    /* 2. ESAS SORUN BURADAYDI: max-height ve 60vh kısıtlamaları kaldırıldı */
     .slider-image {
-        width: 100%;
-        height: 60vh; /* Ekran yüksekliğinin %60'ını kaplar */
-        min-height: 400px; /* Mobilde çok küçülmesini engeller */
-        max-height: 600px; /* Büyük ekranlarda çok uzamasını engeller */
-        object-fit: cover; /* Resmi ezmeden alanı dolduracak şekilde kırpar */
-        object-position: center; /* Odak noktası hep ortası olur */
-        filter: brightness(0.6); /* Yazıların okunması için karartma */
+        width: 100vw !important; /* Ekran genişliği */
+        height: 110vh !important; /* Ekran yüksekliği (60vh ve 600px kısıtlaması iptal) */
+        object-fit: cover !important; 
+        object-position: center !important; 
+        filter: brightness(0.6); 
+        display: block;
     }
 
-    /* Yazı alanının resmin üzerine ve tam ortaya oturması için */
     .slider-context {
         position: absolute;
         top: 50%;
         left: 0;
         width: 100%;
-        transform: translateY(-50%); /* Tam dikey ortalama */
-        z-index: 10; /* Resimlerin önünde durması için */
-        pointer-events: none; /* Yazı boşluklarının slider'ı kaydırmayı engellememesi için */
+        transform: translateY(-50%); 
+        z-index: 10; 
+        pointer-events: none; 
     }
     
-    /* İçeriklerde tıklanabilirlik isteniyorsa geri açılır */
     .slider-context * {
         pointer-events: auto; 
     }
 </style>
 
-<!-- SLIDER START -->
-<section id="slider">
-    <div class="owl-carousel slider">
+<!-- SLIDER START (id yerine class kullanıldı) -->
+<section class="hero-slider-section">
+    <div class="owl-carousel slider h-100">
         @foreach (var item in Model.Sliders)
         {
-            <div>
+            <div class="h-100">
                 <img src="~/img/@item.Image" alt="Slider Image" class="slider-image">
             </div>
         }
@@ -62,7 +60,6 @@
                         </p>
                     </div>
                     <div class="img mt-4">
-                        <!-- BUNU YAPIŞTIR -->
                         <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature" class="img-fluid" style="max-width: 150px; height: auto;">
                     </div>
                 </div>

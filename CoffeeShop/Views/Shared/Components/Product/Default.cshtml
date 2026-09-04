@@ -196,7 +196,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3 mb-5 pb-4 product-wrapper" data-category="@item.CategoryId">
                 <div class="glass-card text-center d-flex flex-column h-100">
                     <!-- DAİRESEL RESİM -->
-                    <div class="circle-img-container" data-toggle="modal" data-target="#imageModal-@item.Id" data-bs-toggle="modal" data-bs-target="#imageModal-@item.Id">
+                    <div class="circle-img-container" data-bs-toggle="modal" data-bs-target="#imageModal-@item.Id">
                         <img src="~/img/@item.MainImage" alt="@item.Name">
                         <div class="img-hover-overlay">
                             <i class="fas fa-search-plus"></i>
@@ -236,7 +236,7 @@
                         style="top: -20px; right: -20px; width: 55px; height: 55px; background: rgba(11,7,5,0.9); backdrop-filter: blur(10px); border: 2px solid #CBA258; color: #CBA258; z-index: 9999; box-shadow: 0 5px 20px rgba(0,0,0,0.8); transition: all 0.3s ease;"
                         onmouseover="this.style.background='#CBA258'; this.style.color='#0b0705'; this.style.transform='rotate(90deg) scale(1.1)';"
                         onmouseout="this.style.background='rgba(11,7,5,0.9)'; this.style.color='#CBA258'; this.style.transform='rotate(0) scale(1)';"
-                        data-dismiss="modal" data-bs-dismiss="modal">
+                        data-bs-dismiss="modal">
                     <i class="fas fa-times fs-4"></i>
                 </button>
 
@@ -248,7 +248,7 @@
 }
 
 <script>
-    // FİLTRELEME İŞLEMİ (Aynı kaldı, sadece animasyon süresi iyileştirildi)
+    // FİLTRELEME İŞLEMİ
     document.addEventListener("DOMContentLoaded", function () {
         const filterButtons = document.querySelectorAll(".category-filter");
         const products = document.querySelectorAll(".product-wrapper");

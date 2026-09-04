@@ -82,10 +82,17 @@ public class SliderController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int? id)
     {
+        if (id == null)
+            return BadRequest(new
+            {
+                message = "Geçersiz işlem: ID bulunamadı."
+            });
+
         var slider = await _context.Sliders.FindAsync(id);
-        if (slider == null) return NotFound();
+        if (slider == null) return NotFound(new { message = "Hata: Silinmek istenen Slider bulunamadı." });
+
         string path = Path.Combine(_env.WebRootPath, "img", slider.Image);
         if (System.IO.File.Exists(path))
         {
@@ -94,7 +101,7 @@ public class SliderController : Controller
 
         _context.Sliders.Remove(slider);
         await _context.SaveChangesAsync();
-        return Ok();
+        return Ok(new { message = "Slider başarıyla silindi." });
     }
 
 
