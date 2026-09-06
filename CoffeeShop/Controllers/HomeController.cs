@@ -10,10 +10,11 @@ using FiorelloBackendPractice.ViewModels.Subscribe;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FiorelloBackendPractice.Controllers;
 
-public class HomeController(IBlogService blogService, AppDbContext dbContext) : Controller
+public class HomeController(IBlogService blogService, AppDbContext dbContext,IWebHostEnvironment env) : Controller
 {
     public async Task<IActionResult> Index()
     {
@@ -56,6 +57,15 @@ public class HomeController(IBlogService blogService, AppDbContext dbContext) : 
         return View(homeVm);
     }
 
+    [HttpGet("Home/StreamVideo{fileName}")]
+    public IActionResult StreamVideo(string fileName)
+    {
+        if(string.IsNullOrEmpty(fileName)) return BadRequest("Video adı geçersiz.");
+        var filePath=Path.Combine(env.WebRootPath,"img",fileName);
+        if(!System.IO.File.Exists(filePath))
+            return NotFound("Video bulunamadı.");
+        return PhysicalFile(filePath, "video/mp4", enableRangeProcessing: true);
+    }
     public async Task<IActionResult> ExpertDetail(int? id)
     {
         if(id is null)return BadRequest("ID gönderilmedi.");

@@ -116,25 +116,25 @@ $(document).ready(function () {
     });
 
     // --- 7. SLIDER / CAROUSEL ---
-    if ($(".slider").length) {
-        $(".slider").owlCarousel({
-            items: 1,
-            loop: true,
-            autoplay: true
-        });
-    }
+    // if ($(".slider").length) {
+    //     $(".slider").owlCarousel({
+    //         items: 1,
+    //         loop: true,
+    //         autoplay: true
+    //     });
+    // }
 
-    if ($(".instagram").length) {
-        $(".instagram").owlCarousel({
-            items: 4,
-            loop: true,
-            autoplay: true,
-            responsive: {
-                0: { items: 1 },
-                576: { items: 2 },
-                768: { items: 3 },
-                992: { items: 4 }
-            }
-        });
-    }
+    // if ($(".instagram").length) {
+    //     $(".instagram").owlCarousel({
+    //         items: 4,
+    //         loop: true,
+    //         autoplay: true,
+    //         responsive: {
+    //             0: { items: 1 },
+    //             576: { items: 2 },
+    //             768: { items: 3 },
+    //             992: { items: 4 }
+    //         }
+    //     });
+    // }
 });

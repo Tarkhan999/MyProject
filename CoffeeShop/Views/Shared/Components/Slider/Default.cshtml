@@ -1,9 +1,10 @@
 @model SliderVCVM
+@{
+    // Videonun her zaman ilk slayt olarak gelmesini garantiler
+    var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(s.Video)).ToList();
+}
 
 <style>
-    /* ========================================================
-       1. KAPSAYICI & LÜKS SİNEMATİK EFEKTLER
-       ======================================================== */
     .hero-slider-section {
         position: relative;
         width: 100%;
@@ -20,19 +21,14 @@
         height: 100vh !important;
     }
 
-    /* ========================================================
-       2. ANA VİDEO
-       ======================================================== */
-    .hero-video-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        z-index: 1;
-        opacity: 0.85; 
-        pointer-events: none;
+    /* VİDEO VE FOTOĞRAFLAR İÇİN ORTAK MEDYA SINIFI */
+    .slider-media {
+        width: 100% !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block;
+        opacity: 0.85;
     }
 
     .vignette-overlay {
@@ -46,22 +42,6 @@
         pointer-events: none;
     }
 
-    /* ========================================================
-       3. SLIDER GÖRSELLERİ 
-       ======================================================== */
-    .slider-image {
-        width: 100% !important;
-        height: 100vh !important;
-        object-fit: cover !important;
-        object-position: center !important;
-        display: block;
-        opacity: 0.35 !important; 
-        mix-blend-mode: hard-light; 
-    }
-
-    /* ========================================================
-       4. PREMIUM GLASSMORPHISM (İÇERİK KARTI)
-       ======================================================== */
     .slider-context {
         position: absolute;
         top: 50%;
@@ -80,8 +60,8 @@
         background: rgba(10, 10, 10, 0.4);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
-        border-radius: 30px;
-        padding: 50px;
+        border-radius: 130px;
+        padding: 30px;
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-left: 6px solid #00704A; 
@@ -95,8 +75,8 @@
     }
 
     .hero-title {
-        font-size: 4.5rem;
-        font-weight: 800;
+        font-size: 2.5rem;
+        font-weight: 600;
         letter-spacing: -1.5px;
         color: #ffffff;
         text-shadow: 0 10px 30px rgba(0,0,0,0.8);
@@ -114,13 +94,10 @@
         padding-bottom: 25px;
     }
 
-    /* ========================================================
-       5. YÜKLENEN PROFİL & VİDEO KONTROL BUTONU
-       ======================================================== */
     .signature-frame {
         position: relative;
-        width: 160px;
-        height: 220px; 
+        width: 350px;
+        height: 250px; 
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
@@ -158,7 +135,6 @@
         transform: scale(1.1);
     }
 
-    /* Oynatma Butonu Stilleri */
     .btn-play-glass {
         width: 60px;
         height: 60px;
@@ -183,9 +159,6 @@
         color: #CBA258;
     }
 
-    /* ========================================================
-       6. UX DETAYLARI: SOSYAL AĞLAR VE SCROLL MOUSE
-       ======================================================== */
     .hero-socials {
         position: absolute;
         right: 40px;
@@ -266,11 +239,6 @@
 </style>
 
 <section class="hero-slider-section">
-    
-    <!-- VİDEO ALANI (id="heroVideo" eklendi) -->
-    <video id="heroVideo" autoplay loop muted playsinline class="hero-video-bg">
-        <source src="~/img/d71adcec8f104b9ab721c7137ee76cb1.mp4" type="video/mp4">
-    </video>
 
     <!-- KENAR KARARTMA -->
     <div class="vignette-overlay"></div>
@@ -279,9 +247,23 @@
     <div class="owl-carousel slider h-100 position-relative" style="z-index: 3;">
         @foreach (var item in Model.Sliders)
         {
-            <div class="h-100 w-100">
-                <img src="~/img/@item.Image" alt="Hero Image" class="slider-image">
-            </div>
+            <!-- 1. Eğer video varsa ilk slayt olarak ekle -->
+            @if (!string.IsNullOrEmpty(item.Video))
+            {
+                <div class="item h-100 w-100 position-relative">
+                    <video autoplay loop muted playsinline class="slider-media video-slide">
+                        <source src="~/img/@item.Video" type="video/mp4">
+                    </video>
+                </div>
+            }
+            
+            <!-- 2. Eğer fotoğraf varsa onu da sonraki slayt olarak ekle -->
+            @if (!string.IsNullOrEmpty(item.Image))
+            {
+                <div class="item h-100 w-100 position-relative">
+                    <img src="~/img/@item.Image" alt="Hero Image" class="slider-media">
+                </div>
+            }
         }
     </div>
     
@@ -291,19 +273,17 @@
             <div class="row">
                 <div class="col-xl-6 col-lg-7 col-md-9">
                     <div class="glass-text-box">
-                        <h1 class="hero-title">
-                            @Model.SliderInfo.Title
-                        </h1>
-
-                        <p class="hero-subtitle d-none d-sm-block">
-                            @Model.SliderInfo.Description
-                        </p>
+                        <h1 class="hero-title">@Model.SliderInfo.Title</h1>
+                        <p class="hero-subtitle d-none d-sm-block">@Model.SliderInfo.Description</p>
                         
                         <!-- PORTRE VE VİDEO KONTROL BUTONU YAN YANA -->
                         <div class="d-flex align-items-center gap-4 mt-2">
-                            <div class="signature-frame">
-                                <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature Highlight">
-                            </div>
+                            @if (!string.IsNullOrEmpty(Model.SliderInfo.SignImage))
+                            {
+                                <div class="signature-frame">
+                                    <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature Highlight">
+                                </div>
+                            }
                             
                             <div class="video-controls d-flex flex-column align-items-center">
                                 <button id="videoToggleBtn" type="button" class="btn-play-glass" aria-label="Play/Pause Video">
@@ -336,28 +316,44 @@
     </div>
 </section>
 
-<!-- VİDEO OYNATMA/DURDURMA SCRİPTİ -->
+<!-- SCRIPT ALANI -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const video = document.getElementById("heroVideo");
         const btn = document.getElementById("videoToggleBtn");
         const icon = document.getElementById("videoToggleIcon");
         const text = document.getElementById("videoToggleText");
 
-        if (btn && video) {
+        if (btn) {
             btn.addEventListener("click", function () {
-                if (video.paused) {
-                    video.play();
-                    icon.classList.remove("bi-play-fill");
-                    icon.classList.add("bi-pause-fill");
-                    text.textContent = "DURDUR";
-                } else {
-                    video.pause();
-                    icon.classList.remove("bi-pause-fill");
-                    icon.classList.add("bi-play-fill");
-                    text.textContent = "OYNAT";
+                const activeVideo = document.querySelector(".owl-item.active .video-slide");
+                if (activeVideo) {
+                    if (activeVideo.paused) {
+                        activeVideo.play();
+                        icon.classList.replace("bi-play-fill", "bi-pause-fill");
+                        text.textContent = "DURDUR";
+                    } else {
+                        activeVideo.pause();
+                        icon.classList.replace("bi-pause-fill", "bi-play-fill");
+                        text.textContent = "OYNAT";
+                    }
                 }
             });
         }
     });
+
+    if (typeof jQuery !== "undefined") {
+        $(document).ready(function(){
+            $(".owl-carousel").owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                autoplayTimeout: 6000, // 6 saniyede bir diğerine geçer
+                smartSpeed: 800, // Kayma animasyonu hızı
+                nav: false,
+                dots: false,
+                mouseDrag: false,
+                touchDrag: false
+            });
+        });
+    }
 </script>
