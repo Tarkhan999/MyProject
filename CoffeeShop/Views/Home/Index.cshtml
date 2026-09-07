@@ -1,13 +1,65 @@
 ﻿@model HomeVM
 
 @{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home Page";
 }
 
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
+    /* --- PRELOADER (Açılış Animasyonu) CSS --- */
+    #editorial-preloader {
+        position: fixed;
+        inset: 0;
+        background-color: #ffffff;
+        z-index: 999999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 1s ease;
+    }
+
+    #editorial-preloader.hide-preloader {
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .preloader-brand-wrapper {
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .preloader-brand {
+        font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+        font-size: 1.5rem;
+        letter-spacing: 0.3em;
+        color: #000000;
+        text-transform: uppercase;
+        transform: translateY(100%);
+        animation: textReveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        animation-delay: 0.2s;
+    }
+
+    .preloader-line {
+        height: 1px;
+        background-color: #000000;
+        width: 0;
+        animation: lineGrow 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        animation-delay: 0.5s;
+    }
+
+    @@keyframes textReveal {
+        to { transform: translateY(0); }
+    }
+
+    @@keyframes lineGrow {
+        to { width: 100px; }
+    }
+
+    /* --- ANA STİLLER --- */
     #mainContent {
         background-color: #ffffff;
         color: #000000;
@@ -84,7 +136,7 @@
         overflow: hidden;
         position: relative;
     }
-    
+
     #about img {
         height: 700px !important;
         width: 100% !important;
@@ -167,7 +219,7 @@
         transform: translateY(20px);
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
-    
+
     .editorial-modal.show .modal-content {
         transform: translateY(0);
     }
@@ -234,7 +286,7 @@
         transform: translateY(50px);
         transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
     }
-    
+
     .stagger-wrap.is-visible .stagger-item:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
     .stagger-wrap.is-visible .stagger-item:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
     .stagger-wrap.is-visible .stagger-item:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -260,13 +312,11 @@
         color: #999999;
     }
 
-    /* --- GÜNCELLENEN SUBSCRIBE ALANI CSS --- */
     #subscribe {
         position: relative;
-       
         background-size: cover;
         background-position: center;
-        background-attachment: fixed; /* Zara tarzı editoryal parallax efekti */
+        background-attachment: fixed;
         color: #ffffff;
     }
     #subscribe .subscribe-overlay {
@@ -282,7 +332,7 @@
     #subscribe .editorial-title {
         color: #ffffff;
     }
-    #subscribe .editorial-subtitle, 
+    #subscribe .editorial-subtitle,
     #subscribe .text-secondary {
         color: #cccccc !important;
     }
@@ -312,6 +362,15 @@
         color: #ffffff;
     }
 </style>
+
+<!-- YÜKLEME EKRANI (PRELOADER) -->
+<div id="editorial-preloader">
+    <div class="preloader-brand-wrapper">
+        <!-- İstersen buraya logonun ismini yaz veya <img src="logo.png"> ekle -->
+        <div class="preloader-brand">THE SELECTION</div>
+    </div>
+    <div class="preloader-line"></div>
+</div>
 
 <button type="button" data-toggle="modal" data-target="#wheelModal" class="btn-editorial-wheel d-flex align-items-center gap-2">
     <i class="bi bi-arrow-repeat fs-6" id="wheelIcon"></i>
@@ -413,54 +472,50 @@
             <div class="row g-4 justify-content-center stagger-wrap">
                 @if (Model.Experts != null)
                 {
-                    foreach (var item in Model.Experts)
-                    {
-                    <div class="col-6 col-md-3 stagger-item">
-                        <a asp-controller="Home" asp-action="ExpertDetail" asp-route-id="@item.Id" class="text-decoration-none text-dark">
-                            <div class="item">
-                                <div class="img mb-4 border border-dark">
-                                    <img src="~/img/@item.ImageUrl" alt="@item.FullName">
-                                </div>
-                                <div class="text text-center mt-3">
-                                    <h6 class="editorial-title mb-2" style="font-size: 1.1rem;">@item.FullName</h6>
-                                    <span class="editorial-subtitle" style="font-size: 0.65rem;">@item.Position</span>
-                                </div>
+                foreach (var item in Model.Experts)
+                {
+                <div class="col-6 col-md-3 stagger-item">
+                    <a asp-controller="Home" asp-action="ExpertDetail" asp-route-id="@item.Id" class="text-decoration-none text-dark">
+                        <div class="item">
+                            <div class="img mb-4 border border-dark">
+                                <img src="~/img/@item.ImageUrl" alt="@item.FullName">
                             </div>
-                        </a>
-                    </div>
-                    }
+                            <div class="text text-center mt-3">
+                                <h6 class="editorial-title mb-2" style="font-size: 1.1rem;">@item.FullName</h6>
+                                <span class="editorial-subtitle" style="font-size: 0.65rem;">@item.Position</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                }
                 }
             </div>
         </div>
     </section>
 
-    <!-- GÜNCELLENEN SUBSCRIBE ALANI -->
     @if (Model.SubscribeInfo != null)
     {
-        <!-- Arka plan görseli backendden (ImageUrl) geliyor -->
-        <section id="subscribe" class="py-5 my-5 border-top border-bottom border-dark" 
-                 style="background-image: url('/img/@Model.SubscribeInfo.BackgroundImageUrl');">
-        
-            <div class="subscribe-overlay"></div>
-        
-            <div class="container py-5 anim-up">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 text-center">
-                        <span class="editorial-subtitle">NEWSLETTER</span>
-                        <h2 class="editorial-title display-6 my-4">@Model.SubscribeInfo.Title</h2>
-                        <p class="text-secondary mb-5" style="font-size: 0.95rem; line-height: 1.6;">@Model.SubscribeInfo.Description</p>
+    <section id="subscribe" class="py-5 my-5 border-top border-bottom border-dark"
+             style="background-image: url('/img/@Model.SubscribeInfo.BackgroundImageUrl');">
+        <div class="subscribe-overlay"></div>
+        <div class="container py-5 anim-up">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <span class="editorial-subtitle">NEWSLETTER</span>
+                    <h2 class="editorial-title display-6 my-4">@Model.SubscribeInfo.Title</h2>
+                    <p class="text-secondary mb-5" style="font-size: 0.95rem; line-height: 1.6;">@Model.SubscribeInfo.Description</p>
 
-                        <div class="d-flex justify-content-center align-items-end">
-                            <div class="w-100 me-4">
-                                <input type="email" id="subscribeEmail" placeholder="EMAIL ADDRESS" class="form-control editorial-input w-100" aria-label="Email Address">
-                            </div>
-                            <button id="subscribeBtn" type="button" class="btn-subscribe px-5 py-2" style="white-space: nowrap;">JOIN</button>
+                    <div class="d-flex justify-content-center align-items-end">
+                        <div class="w-100 me-4">
+                            <input type="email" id="subscribeEmail" placeholder="EMAIL ADDRESS" class="form-control editorial-input w-100" aria-label="Email Address">
                         </div>
-                        <div id="subscribeMessage" class="mt-4 editorial-subtitle" style="min-height: 20px;"></div>
+                        <button id="subscribeBtn" type="button" class="btn-subscribe px-5 py-2" style="white-space: nowrap;">JOIN</button>
                     </div>
+                    <div id="subscribeMessage" class="mt-4 editorial-subtitle" style="min-height: 20px;"></div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     }
 
     <section id="blog" class="py-5 anim-up">
@@ -479,12 +534,12 @@
         <div class="owl-carousel instagram">
             @if (Model.InstagramPhotos != null && Model.InstagramPhotos.Any())
             {
-                foreach (var photo in Model.InstagramPhotos)
-                {
-                <div class="border-end border-dark" style="overflow: hidden;">
-                    <img src="~/img/@photo.ImageUrl" alt="Instagram Editorial">
-                </div>
-                }
+            foreach (var photo in Model.InstagramPhotos)
+            {
+            <div class="border-end border-dark" style="overflow: hidden;">
+                <img src="~/img/@photo.ImageUrl" alt="Instagram Editorial">
+            </div>
+            }
             }
         </div>
 
@@ -496,6 +551,22 @@
 </main>
 
 <script>
+    // PRELOADER KONTROLÜ
+    window.addEventListener('load', function() {
+        const preloader = document.getElementById('editorial-preloader');
+
+        // Sayfa kaynakları yüklendikten sonra ufak bir estetik bekleme süresi (0.8 saniye) ekliyoruz.
+        // Daha hızlı geçsin istersen 800 değerini 200 veya 300 yapabilirsin.
+        setTimeout(() => {
+            preloader.classList.add('hide-preloader');
+
+            // DOM'dan kaldırmak istersen (Animasyon bitince saniye veriyoruz)
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 1000);
+        }, 800);
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         const animatedElements = document.querySelectorAll('.anim-up, .anim-left, .anim-right, .stagger-wrap');
 
@@ -558,7 +629,7 @@
                 ctx.translate(centerX, centerY);
                 ctx.rotate(angle + arcSize / 2);
                 ctx.textAlign = "right";
-                
+
                 ctx.fillStyle = (colors[i] === "#000000") ? "#ffffff" : "#000000";
                 ctx.font = "600 11px 'Helvetica Neue', Arial";
                 ctx.fillText(coffees[i].toUpperCase(), radius - 18, 4);
@@ -573,7 +644,7 @@
             isSpinning = true;
             resultText.innerHTML = "SELECTING...";
             resultText.style.color = "#767676";
-            
+
             spinBtn.style.transform = "scale(0.96)";
             setTimeout(() => { spinBtn.style.transform = "none"; }, 150);
 
