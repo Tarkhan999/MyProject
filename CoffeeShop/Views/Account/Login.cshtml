@@ -1,253 +1,253 @@
 @model LoginVM
 
-<!-- DESIGNER EDITION: PREMIUM LOGIN STYLES -->
 <style>
-    body {
-        background-color: #0a0604 !important;
+    /* =========================================
+       ZARA / EDITORIAL LOGIN SYSTEM
+       ========================================= */
+    .editorial-auth-page {
+        background-color: #ffffff;
+        min-height: 80vh;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
     }
 
-    .premium-card {
-        background: #140d0a;
-        border: 1px solid rgba(0, 112, 74, 0.25);
-        border-radius: 16px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        padding: 3rem !important;
-        position: relative;
-        overflow: hidden;
+    .editorial-auth-container {
+        width: 100%;
+        max-width: 450px;
     }
 
-    .premium-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, transparent, #00704A, transparent);
+    .editorial-auth-header {
+        text-align: center;
+        margin-bottom: 50px;
     }
 
-    .premium-card h3 {
-        color: #FBF8F1;
-        font-weight: 800;
+    .editorial-auth-title {
+        font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+        font-size: 32px;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #000000;
+        margin-bottom: 15px;
+    }
+
+    .editorial-auth-subtitle {
+        font-size: 10px;
+        font-weight: 600;
         letter-spacing: 2px;
         text-transform: uppercase;
-        font-size: 1.8rem;
+        color: #767676;
     }
 
-    .premium-card p.subtitle {
-        color: rgba(251, 248, 241, 0.5);
-        font-size: 0.9rem;
-        margin-bottom: 2.5rem;
+    /* Validation Summary */
+    .editorial-validation-summary {
+        margin-bottom: 30px;
     }
 
-    /* Premium Validation Summary */
-    .premium-validation-summary {
-        margin-bottom: 1.5rem;
+    .editorial-validation-summary:not(:empty) {
+        border-left: 2px solid #000000;
+        padding-left: 15px;
     }
 
-    .premium-validation-summary:not(:empty) {
-        background-color: rgba(231, 76, 60, 0.1); 
-        border-left: 4px solid #e74c3c; 
-        border-radius: 8px;
-        padding: 15px 20px;
-    }
-
-    .premium-validation-summary ul {
+    .editorial-validation-summary ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
     }
 
-    .premium-validation-summary li {
-        color: #e74c3c; 
-        font-size: 0.85rem;
+    .editorial-validation-summary li {
+        color: #000000;
+        font-size: 11px;
         font-weight: 600;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
         margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-    }
-
-    .field-validation-error {
-        font-size: 0.75rem;
-        margin-top: 5px;
-        display: block;
-        color: #e74c3c !important;
-    }
-
-    .designer-label {
-        color: rgba(251, 248, 241, 0.85);
-        font-size: 0.75rem;
-        letter-spacing: 1.5px;
         text-transform: uppercase;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
     }
 
-    .input-wrapper {
+    /* Form Fields */
+    .editorial-form-group {
+        margin-bottom: 35px;
+        position: relative;
+    }
+
+    .editorial-label {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #000000;
+        margin-bottom: 10px;
+    }
+
+    .editorial-input-wrapper {
         position: relative;
         display: flex;
         align-items: center;
     }
 
-    /* Sol İkon (Kullanıcı ve Kilit) */
-    .input-icon-left {
-        position: absolute;
-        left: 18px;
-        color: rgba(251, 248, 241, 0.3);
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        z-index: 2;
+    .editorial-input {
+        width: 100%;
+        background-color: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #e5e5e5 !important;
+        color: #000000 !important;
+        padding: 10px 30px 10px 0 !important;
+        font-size: 13px;
+        border-radius: 0 !important;
+        transition: border-color 0.3s ease;
+        box-shadow: none !important;
     }
 
-    /* Sağ İkon (Göz İkonu) */
+    .editorial-input:focus {
+        outline: none !important;
+        border-bottom-color: #000000 !important;
+        box-shadow: none !important;
+    }
+
     .toggle-password {
         position: absolute;
-        right: 18px;
-        color: rgba(251, 248, 241, 0.5);
-        font-size: 1.1rem;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #767676;
+        font-size: 14px;
         cursor: pointer;
         transition: color 0.3s ease;
-        z-index: 3;
     }
 
     .toggle-password:hover {
-        color: #00704A;
+        color: #000000;
     }
 
-    .designer-input {
-        background-color: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(251, 248, 241, 0.1) !important;
-        color: #FBF8F1 !important;
-        padding: 14px 45px 14px 50px !important; /* Sağ padding göz ikonu için artırıldı */
-        border-radius: 10px;
-        height: 55px;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
+    .field-validation-error {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #767676 !important;
+        margin-top: 8px;
+        text-transform: uppercase;
+    }
+
+    /* Forgot Password */
+    .editorial-forgot-password {
+        display: block;
+        text-align: right;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #767676;
+        text-decoration: none;
+        margin-top: -20px;
+        margin-bottom: 35px;
+        transition: color 0.3s ease;
+    }
+
+    .editorial-forgot-password:hover {
+        color: #000000;
+    }
+
+    /* Button */
+    .editorial-btn {
         width: 100%;
+        background-color: #000000;
+        color: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 0;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 18px;
+        transition: all 0.3s ease;
     }
 
-    .input-wrapper:focus-within .input-icon-left {
-        color: #00704A;
+    .editorial-btn:hover {
+        background-color: #ffffff;
+        color: #000000;
     }
 
-    .designer-input:focus {
-        background-color: rgba(255, 255, 255, 0.06) !important;
-        border-color: #00704A !important;
-        box-shadow: 0 0 0 4px rgba(0, 112, 74, 0.15) !important;
-    }
-
-    .designer-input::placeholder {
-        color: rgba(251, 248, 241, 0.2) !important;
-    }
-
-    .designer-btn {
-        background-color: #00704A;
-        color: #FBF8F1;
-        border-radius: 10px;
-        font-weight: 700;
+    /* Footer Links */
+    .editorial-auth-footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 10px;
+        font-weight: 600;
         letter-spacing: 2px;
         text-transform: uppercase;
-        height: 60px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+        color: #767676;
     }
 
-    .designer-btn:hover {
-        background-color: #005a3b;
-        color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 112, 74, 0.4);
-    }
-
-    .auth-link {
-        color: #00704A;
-        font-weight: 700;
+    .editorial-auth-link {
+        color: #000000;
         text-decoration: none;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
+        border-bottom: 1px solid #000000;
+        padding-bottom: 2px;
+        margin-left: 10px;
+        transition: color 0.3s ease, border-color 0.3s ease;
     }
 
-    .auth-link:hover {
-        color: #FBF8F1;
-    }
-
-    .forgot-password {
-        color: rgba(251, 248, 241, 0.5);
-        font-size: 0.85rem;
-        transition: all 0.3s ease;
-    }
-    
-    .forgot-password:hover {
-        color: #00704A;
-        text-decoration: none;
+    .editorial-auth-link:hover {
+        color: #767676;
+        border-bottom-color: #767676;
     }
 </style>
 
-<!-- FORM BÖLÜMÜ -->
-<div class="container my-5 py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-5">
-            
-            <div class="premium-card">
-                
-                <div class="text-center">
-                    <h3>Welcome Back</h3>
-                    <p class="subtitle">Sign in to continue your premium coffee experience.</p>
-                </div>
-                
-                <form asp-controller="Account" asp-action="Login" method="post">
-                    
-                    <div asp-validation-summary="ModelOnly" class="premium-validation-summary"></div>
-
-                    <!-- Email or Username -->
-                    <div class="mb-4">
-                        <label asp-for="EmailOrUserName" class="form-label designer-label">Email or Username</label>
-                        <div class="input-wrapper">
-                            <i class="far fa-user input-icon-left"></i>
-                            <input asp-for="EmailOrUserName" class="form-control designer-input" placeholder="Enter email or username">
-                        </div>
-                        <span asp-validation-for="EmailOrUserName"></span>
-                    </div>
-
-                    <!-- Password (Göz İkonu Eklendi) -->
-                    <div class="mb-4">
-                        <label asp-for="Password" class="form-label designer-label">Password</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-lock input-icon-left"></i>
-                            <input asp-for="Password" class="form-control designer-input" placeholder="Enter your password" id="passwordInput">
-                            <i class="fas fa-eye toggle-password" id="togglePasswordIcon" title="Show/Hide Password"></i>
-                        </div>
-                        <span asp-validation-for="Password"></span>
-                    </div>
-
-                    <!-- Forgot Password -->
-                    <div class="d-flex justify-content-end align-items-center mb-5">
-                        <a href="#" class="forgot-password">Forgot Password?</a>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn designer-btn w-100 border-0">
-                        Login Now
-                    </button>
-
-                    <!-- Alt Yönlendirme Linki -->
-                    <div class="text-center mt-5">
-                        <span style="color: rgba(251, 248, 241, 0.5); font-size: 0.85rem;">Don't have an account?</span>
-                        <a asp-controller="Account" asp-action="Register" class="auth-link ml-1" style="font-size: 0.85rem;">
-                            REGISTER HERE
-                        </a>
-                    </div>
-                </form>
-
-            </div>
-            
+<div class="editorial-auth-page">
+    <div class="editorial-auth-container">
+        
+        <div class="editorial-auth-header">
+            <h1 class="editorial-auth-title">Log In</h1>
+            <div class="editorial-auth-subtitle">Access your account</div>
         </div>
+        
+        <form asp-controller="Account" asp-action="Login" method="post">
+            
+            <!-- VALIDATION SUMMARY -->
+            <div asp-validation-summary="ModelOnly" class="editorial-validation-summary"></div>
+
+            <!-- Email or Username -->
+            <div class="editorial-form-group">
+                <label asp-for="EmailOrUserName" class="editorial-label">Email or Username</label>
+                <input asp-for="EmailOrUserName" class="editorial-input" autocomplete="off" />
+                <span asp-validation-for="EmailOrUserName"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="editorial-form-group">
+                <label asp-for="Password" class="editorial-label">Password</label>
+                <div class="editorial-input-wrapper">
+                    <input asp-for="Password" class="editorial-input" type="password" id="passwordInput" autocomplete="current-password" />
+                    <i class="fas fa-eye toggle-password" id="togglePasswordIcon" title="Show/Hide Password"></i>
+                </div>
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <!-- Forgot Password -->
+            <a href="#" class="editorial-forgot-password">Forgot Password?</a>
+
+            <!-- Submit Button -->
+            <button type="submit" class="editorial-btn">
+                Log In
+            </button>
+
+            <div class="editorial-auth-footer">
+                Don't have an account?
+                <a asp-controller="Account" asp-action="Register" class="editorial-auth-link">
+                    Register
+                </a>
+            </div>
+        </form>
+
     </div>
 </div>
 
-<!-- ŞİFRE GÖSTER/GİZLE SCRİPTİ -->
 <!-- ŞİFRE GÖSTER/GİZLE SCRİPTİ -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -256,15 +256,12 @@
 
         if (togglePasswordIcon && passwordInput) {
             togglePasswordIcon.addEventListener("click", function () {
-                // Type özelliğini text veya password olarak değiştir
                 const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
                 passwordInput.setAttribute("type", type);
                 
-                // İkonu değiştir (Göz açık / Göz kapalı)
                 this.classList.toggle("fa-eye");
                 this.classList.toggle("fa-eye-slash");
             });
         }
     });
 </script>
-}

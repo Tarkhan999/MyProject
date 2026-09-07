@@ -1,262 +1,224 @@
 @model RegisterVM
 
-<!-- DESIGNER EDITION: PREMIUM REGISTER STYLES -->
 <style>
-    body {
-        background-color: #0a0604 !important; /* En derin kahve/siyah tonu */
+    /* =========================================
+       ZARA / EDITORIAL REGISTER SYSTEM
+       ========================================= */
+    .editorial-auth-page {
+        background-color: #ffffff;
+        min-height: 80vh;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
     }
 
-    .premium-card {
-        background: #140d0a;
-        border: 1px solid rgba(0, 112, 74, 0.25);
-        border-radius: 16px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        padding: 3rem !important;
-        position: relative;
-        overflow: hidden;
+    .editorial-auth-container {
+        width: 100%;
+        max-width: 450px;
     }
 
-    /* Karta çok hafif yeşil bir parlama efekti (Üst kenar) */
-    .premium-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, transparent, #00704A, transparent);
+    .editorial-auth-header {
+        text-align: center;
+        margin-bottom: 50px;
     }
 
-    .premium-card h3 {
-        color: #FBF8F1;
-        font-weight: 800;
+    .editorial-auth-title {
+        font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+        font-size: 32px;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #000000;
+        margin-bottom: 15px;
+    }
+
+    .editorial-auth-subtitle {
+        font-size: 10px;
+        font-weight: 600;
         letter-spacing: 2px;
         text-transform: uppercase;
-        font-size: 1.8rem;
+        color: #767676;
     }
 
-    .premium-card p.subtitle {
-        color: rgba(251, 248, 241, 0.5);
-        font-size: 0.9rem;
-        margin-bottom: 2.5rem;
+    /* Validation Summary */
+    .editorial-validation-summary {
+        margin-bottom: 30px;
     }
 
-    /* =========================================
-       PREMIUM VALIDATION SUMMARY STİLLERİ
-       ========================================= */
-    .premium-validation-summary {
-        margin-bottom: 1.5rem;
+    .editorial-validation-summary:not(:empty) {
+        border-left: 2px solid #000000;
+        padding-left: 15px;
     }
 
-    /* Hata mesajı varsa bu kutu aktif olur */
-    .premium-validation-summary:not(:empty) {
-        background-color: rgba(231, 76, 60, 0.1); 
-        border-left: 4px solid #e74c3c; 
-        border-radius: 8px;
-        padding: 15px 20px;
-    }
-
-    .premium-validation-summary ul {
+    .editorial-validation-summary ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
     }
 
-    .premium-validation-summary li {
-        color: #e74c3c; 
-        font-size: 0.85rem;
+    .editorial-validation-summary li {
+        color: #000000;
+        font-size: 11px;
         font-weight: 600;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
         margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-    }
-
-    .premium-validation-summary li::before {
-        content: '\26A0'; /* Uyarı ikonu ⚠ */
-        margin-right: 8px;
-        font-size: 1rem;
-    }
-
-    .premium-validation-summary li:last-child {
-        margin-bottom: 0;
-    }
-
-    /* Validasyon mesajlarını (input altındaki) daha şık hale getirelim */
-    .field-validation-error {
-        font-size: 0.75rem;
-        margin-top: 5px;
-        display: block;
-        color: #e74c3c !important;
-    }
-
-    .designer-label {
-        color: rgba(251, 248, 241, 0.85);
-        font-size: 0.75rem;
-        letter-spacing: 1.5px;
         text-transform: uppercase;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
     }
 
-    /* İkonlu Input Yapısı */
-    .input-wrapper {
+    /* Form Fields */
+    .editorial-form-group {
+        margin-bottom: 35px;
         position: relative;
-        display: flex;
-        align-items: center;
     }
 
-    .input-wrapper i {
-        position: absolute;
-        left: 18px;
-        color: rgba(251, 248, 241, 0.3);
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-    }
-
-    .designer-input {
-        background-color: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(251, 248, 241, 0.1) !important;
-        color: #FBF8F1 !important;
-        padding: 14px 20px 14px 50px !important; /* İkon için soldan boşluk bırakıldı */
-        border-radius: 10px;
-        height: 55px;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-    }
-
-    /* Inputa tıklandığında hem çerçevenin hem de ikonun yeşil olması */
-    .input-wrapper:focus-within i {
-        color: #00704A;
-    }
-
-    .designer-input:focus {
-        background-color: rgba(255, 255, 255, 0.06) !important;
-        border-color: #00704A !important;
-        box-shadow: 0 0 0 4px rgba(0, 112, 74, 0.15) !important;
-    }
-
-    .designer-input::placeholder {
-        color: rgba(251, 248, 241, 0.2) !important;
-    }
-
-    .designer-btn {
-        background-color: #00704A;
-        color: #FBF8F1;
-        border-radius: 10px;
-        font-weight: 700;
+    .editorial-label {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
         letter-spacing: 2px;
         text-transform: uppercase;
-        height: 60px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+        color: #000000;
+        margin-bottom: 10px;
     }
 
-    .designer-btn:hover {
-        background-color: #005a3b;
-        color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 112, 74, 0.4);
+    .editorial-input {
+        width: 100%;
+        background-color: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #e5e5e5 !important;
+        color: #000000 !important;
+        padding: 10px 0 !important;
+        font-size: 13px;
+        border-radius: 0 !important;
+        transition: border-color 0.3s ease;
+        box-shadow: none !important;
     }
 
-    .auth-link {
-        color: #00704A;
-        font-weight: 700;
-        text-decoration: none;
+    .editorial-input:focus {
+        outline: none !important;
+        border-bottom-color: #000000 !important;
+        box-shadow: none !important;
+    }
+
+    .field-validation-error {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
         letter-spacing: 1px;
-        transition: all 0.3s ease;
+        color: #767676 !important;
+        margin-top: 8px;
+        text-transform: uppercase;
     }
 
-    .auth-link:hover {
-        color: #FBF8F1;
+    /* Button */
+    .editorial-btn {
+        width: 100%;
+        background-color: #000000;
+        color: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 0;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 18px;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .editorial-btn:hover {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* Footer Links */
+    .editorial-auth-footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #767676;
+    }
+
+    .editorial-auth-link {
+        color: #000000;
+        text-decoration: none;
+        border-bottom: 1px solid #000000;
+        padding-bottom: 2px;
+        margin-left: 10px;
+        transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .editorial-auth-link:hover {
+        color: #767676;
+        border-bottom-color: #767676;
     }
 </style>
 
-<!-- FORM BÖLÜMÜ -->
-<div class="container my-5 py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-5">
-            
-            <div class="premium-card">
-                
-                <div class="text-center">
-                    <h3>Create Account</h3>
-                    <p class="subtitle">Join us to experience the premium coffee world.</p>
-                </div>
-                
-                <form asp-controller="Account" asp-action="Register" method="post">
-                    
-                    <!-- ENTEGRE EDİLEN ŞIK VALIDATION SUMMARY KUTUSU -->
-                    <div asp-validation-summary="ModelOnly" class="premium-validation-summary"></div>
-
-                    <!-- Full Name -->
-                    <div class="mb-4">
-                        <label asp-for="FullName" class="form-label designer-label">Full Name</label>
-                        <div class="input-wrapper">
-                            <i class="far fa-id-card"></i>
-                            <input asp-for="FullName" class="form-control designer-input" placeholder="e.g. John Doe">
-                        </div>
-                        <span asp-validation-for="FullName"></span>
-                    </div>
-
-                    <!-- Username -->
-                    <div class="mb-4">
-                        <label asp-for="UserName" class="form-label designer-label">Username</label>
-                        <div class="input-wrapper">
-                            <i class="far fa-user"></i>
-                            <input asp-for="UserName" class="form-control designer-input" placeholder="Choose a unique username">
-                        </div>
-                        <span asp-validation-for="UserName"></span>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="mb-4">
-                        <label asp-for="Email" class="form-label designer-label">Email Address</label>
-                        <div class="input-wrapper">
-                            <i class="far fa-envelope"></i>
-                            <input asp-for="Email" class="form-control designer-input" placeholder="name@example.com">
-                        </div>
-                        <span asp-validation-for="Email"></span>
-                    </div>
-
-                    <!-- Password -->
-                    <div class="mb-4">
-                        <label asp-for="Password" class="form-label designer-label">Password</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-lock"></i>
-                            <input asp-for="Password" class="form-control designer-input" placeholder="Create a strong password">
-                        </div>
-                        <span asp-validation-for="Password"></span>
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div class="mb-5">
-                        <label asp-for="ConfirmPassword" class="form-label designer-label">Confirm Password</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-check-double"></i>
-                            <input asp-for="ConfirmPassword" class="form-control designer-input" placeholder="Repeat your password">
-                        </div>
-                        <span asp-validation-for="ConfirmPassword"></span>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn designer-btn w-100 border-0 mt-2">
-                        Register Now
-                    </button>
-
-                    <!-- Alt Yönlendirme Linki -->
-                    <div class="text-center mt-5">
-                        <span style="color: rgba(251, 248, 241, 0.5); font-size: 0.85rem;">Already have an account?</span>
-                        <a asp-controller="Account" asp-action="Login" class="auth-link ml-1" style="font-size: 0.85rem;">
-                            LOGIN HERE
-                        </a>
-                    </div>
-                </form>
-
-            </div>
-            
+<div class="editorial-auth-page">
+    <div class="editorial-auth-container">
+        
+        <div class="editorial-auth-header">
+            <h1 class="editorial-auth-title">Register</h1>
+            <div class="editorial-auth-subtitle">Create your personal account</div>
         </div>
+        
+        <form asp-controller="Account" asp-action="Register" method="post">
+            
+            <!-- VALIDATION SUMMARY -->
+            <div asp-validation-summary="ModelOnly" class="editorial-validation-summary"></div>
+
+            <!-- Full Name -->
+            <div class="editorial-form-group">
+                <label asp-for="FullName" class="editorial-label">Full Name</label>
+                <input asp-for="FullName" class="editorial-input" autocomplete="off" />
+                <span asp-validation-for="FullName"></span>
+            </div>
+
+            <!-- Username -->
+            <div class="editorial-form-group">
+                <label asp-for="UserName" class="editorial-label">Username</label>
+                <input asp-for="UserName" class="editorial-input" autocomplete="off" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="editorial-form-group">
+                <label asp-for="Email" class="editorial-label">E-Mail</label>
+                <input asp-for="Email" class="editorial-input" type="email" autocomplete="off" />
+                <span asp-validation-for="Email"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="editorial-form-group">
+                <label asp-for="Password" class="editorial-label">Password</label>
+                <input asp-for="Password" class="editorial-input" type="password" autocomplete="new-password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="editorial-form-group">
+                <label asp-for="ConfirmPassword" class="editorial-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="editorial-input" type="password" autocomplete="new-password" />
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+
+            <button type="submit" class="editorial-btn">
+                Create Account
+            </button>
+
+            <div class="editorial-auth-footer">
+                Already registered?
+                <a asp-controller="Account" asp-action="Login" class="editorial-auth-link">
+                    Log in
+                </a>
+            </div>
+        </form>
+
     </div>
 </div>
-

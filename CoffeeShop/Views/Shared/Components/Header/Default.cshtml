@@ -1,55 +1,54 @@
 @model HeaderVM
 
 <style>
-    /* --- TEMEL HEADER TASARIMI --- */
-    header.premium-header {
-        background-color: #0b0705;
-        border-bottom: 2px solid #00704A;
-        padding: 12px 0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    /* =========================================
+       ZARA / EDITORIAL HEADER SYSTEM
+       ========================================= */
+    header.editorial-header {
+        background-color: #ffffff;
+        border-bottom: 1px solid #000000;
+        padding: 15px 0;
+        box-shadow: none;
         position: sticky;
         top: 0;
         z-index: 1050;
         width: 100%;
-        height: 120px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
     .header-left-group {
         display: flex;
         align-items: center;
-        gap: 25px;
+        gap: 30px;
     }
 
     .phone-badge {
         display: flex;
         align-items: center;
         gap: 8px;
-        background: rgba(0, 112, 74, 0.1);
-        border: 1px solid rgba(0, 112, 74, 0.3);
-        padding: 6px 14px;
-        border-radius: 20px;
     }
 
     .phone-badge span {
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: 1px;
-        color: #FBF8F1;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: #000000;
+        text-transform: uppercase;
     }
 
     /* --- MASAÜSTÜ MENÜ LİNKLERİ --- */
-    .premium-nav-link {
-        color: #FBF8F1 !important;
-        font-size: 12px;
-        font-weight: 300;
-        letter-spacing: 1px;
+    .editorial-nav-link {
+        color: #000000 !important;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
         padding: 8px 16px !important;
-        transition: color 0.3s ease;
+        transition: opacity 0.3s ease;
     }
 
-    .premium-nav-link:hover {
-        color: #00a862 !important;
+    .editorial-nav-link:hover {
+        opacity: 0.5;
     }
 
     /* --- HESAP (ACCOUNT) DROPDOWN --- */
@@ -58,21 +57,21 @@
     }
 
     .account-trigger {
-        color: #FBF8F1;
-        font-size: 13px;
+        color: #000000;
+        font-size: 11px;
         font-weight: 600;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
         display: flex;
         align-items: center;
         gap: 6px;
         cursor: pointer;
         padding: 8px 16px;
-        transition: color 0.3s ease;
+        transition: opacity 0.3s ease;
     }
 
     .account-trigger:hover {
-        color: #00a862;
+        opacity: 0.5;
     }
 
     .account-dropdown-menu {
@@ -80,15 +79,15 @@
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #0a0a0c;
-        border: 1px solid #00704A;
-        border-radius: 4px;
+        background-color: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 0;
         min-width: 150px;
         padding: 0;
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+        box-shadow: none;
         margin-top: 10px;
     }
 
@@ -101,12 +100,13 @@
     .account-dropdown-menu a {
         display: block;
         padding: 12px 20px;
-        color: #ffffff !important;
-        font-size: 12px;
+        color: #000000 !important;
+        font-size: 10px;
+        font-weight: 600;
         text-decoration: none;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
-        border-bottom: 1px solid rgba(251, 248, 241, 0.1);
+        border-bottom: 1px solid #000000;
         transition: all 0.3s ease;
     }
 
@@ -115,27 +115,36 @@
     }
 
     .account-dropdown-menu a:hover {
-        background-color: #00704A;
+        background-color: #000000;
         color: #ffffff !important;
-        padding-left: 25px;
     }
 
     /* --- SEPET (CART) BUTONU --- */
-    .cart-btn-premium {
+    .cart-btn-editorial {
         display: flex;
         align-items: center;
-        gap: 12px;
-        background: transparent;
-        border: 1px solid rgba(251, 248, 241, 0.1);
+        gap: 10px;
+        background: #ffffff;
+        border: 1px solid #000000;
         padding: 8px 20px;
-        border-radius: 30px;
+        border-radius: 0;
         text-decoration: none !important;
         transition: all 0.3s ease;
     }
 
-    .cart-btn-premium:hover {
-        background: rgba(0, 112, 74, 0.15);
-        border-color: #00704A;
+    .cart-btn-editorial:hover {
+        background: #000000;
+    }
+
+    .cart-btn-editorial:hover .cart-icon-wrapper i,
+    .cart-btn-editorial:hover .cart-text,
+    .cart-btn-editorial:hover .cart-price {
+        color: #ffffff;
+    }
+
+    .cart-btn-editorial:hover .cart-badge {
+        background: #ffffff;
+        color: #000000;
     }
 
     .cart-icon-wrapper {
@@ -145,65 +154,70 @@
     }
 
     .cart-icon-wrapper i {
-        font-size: 20px;
-        color: #FBF8F1;
+        font-size: 14px;
+        color: #000000;
+        transition: color 0.3s ease;
     }
 
     .cart-badge {
         position: absolute;
-        top: -6px;
-        right: -8px;
-        background: #00704A;
+        top: -8px;
+        right: -12px;
+        background: #000000;
         color: #ffffff;
-        font-size: 11px;
-        font-weight: 700;
-        width: 18px;
-        height: 18px;
+        font-size: 9px;
+        font-weight: 600;
+        width: 16px;
+        height: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
+        border-radius: 0;
+        transition: all 0.3s ease;
     }
 
     .cart-text {
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        color: #FBF8F1;
-    }
-
-    .cart-price {
-        color: #00a862;
-        margin-left: 4px;
-    }
-
-    /* --- MOBİL MENÜ & ANİMASYON (YENİ EKLENEN KISIM) --- */
-    .mobile-navbar-premium {
-        background: #0a0a0c;
-        border-left: 2px solid #00704A;
-        z-index: 2000;
-        /* Sağdan kayma animasyonu başlangıç durumu */
-        transform: translateX(100%);
-        transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-        display: block !important;
-    }
-
-    /* Menü açıldığında JS tarafından eklenecek sınıf */
-    .mobile-navbar-premium.menu-active {
-        transform: translateX(0);
-    }
-
-    .mobile-navbar-premium a {
-        color: #ffffff !important;
-        font-size: 16px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        font-weight: bold;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: #000000;
         transition: color 0.3s ease;
     }
 
-    .mobile-navbar-premium a:hover {
-        color: #00a862 !important;
+    .cart-price {
+        color: #000000;
+        margin-left: 4px;
+        transition: color 0.3s ease;
+    }
+
+    /* --- MOBİL MENÜ & ANİMASYON --- */
+    .mobile-navbar-editorial {
+        background: #ffffff;
+        border-left: 1px solid #000000;
+        z-index: 2000;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        display: block !important;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .mobile-navbar-editorial.menu-active {
+        transform: translateX(0);
+    }
+
+    .mobile-navbar-editorial a {
+        color: #000000 !important;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+        transition: opacity 0.3s ease;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+
+    .mobile-navbar-editorial a:hover {
+        opacity: 0.5;
     }
 
     /* --- MOBİL MENÜ ARKA PLAN KARARTMASI (OVERLAY) --- */
@@ -213,9 +227,9 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(10, 10, 12, 0.7);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
         z-index: 1999;
         opacity: 0;
         visibility: hidden;
@@ -228,71 +242,71 @@
     }
 </style>
 
-<header class="premium-header">
-    <div class="container">
+<header class="editorial-header">
+    <div class="container px-md-5">
         <nav class="navbar navbar-expand-lg d-flex align-items-center justify-content-between p-0">
             <!-- Sol Grup: Logo ve Telefon -->
             <div class="header-left-group">
                 <a class="navbar-brand m-0 p-0" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/@Model?.Setting?.HeaderLogo" alt="Logo" style="height: 44px; width: auto; object-fit: contain;">
+                    <img src="~/img/@Model?.Setting?.HeaderLogo" alt="Editorial Logo" style="height: 30px; width: auto; object-fit: contain; filter: grayscale(100%);">
                 </a>
 
                 <div class="d-none d-md-flex phone-badge">
-                    <i class="fas fa-phone-alt" style="color: #00a862; font-size: 11px;"></i>
+                    <i class="bi bi-telephone" style="color: #000000; font-size: 12px;"></i>
                     <span>@Model?.Setting?.Phone</span>
                 </div>
             </div>
 
-            <!-- Mobil Menü Açma Butonu (aria-label eklendi) -->
+            <!-- Mobil Menü Açma Butonu -->
             <button class="navbar-toggler" type="button" id="mobile-navbar-show" aria-label="Mobil menüyü aç" style="border: none; outline: none; padding: 0;">
-                <i class="fas fa-bars" style="color: #00a862; font-size: 24px;"></i>
+                <i class="bi bi-list" style="color: #000000; font-size: 28px;"></i>
             </button>
 
             <!-- Masaüstü Navigasyon -->
             <div class="collapse navbar-collapse d-none d-lg-block">
                 <ul class="navbar-nav ml-auto align-items-center gap-1">
-                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link editorial-nav-link" asp-controller="Home" asp-action="Index">HOME</a></li>
                     
                     @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
                     {
                         <li class="nav-item">
-                            <a class="nav-link premium-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                            <a class="nav-link editorial-nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">ADMIN</a>
                         </li>
                     }
                     
-                    <li class="nav-item"><a class="nav-link premium-nav-link" asp-controller="Blog" asp-action="Index">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link editorial-nav-link" asp-controller="Blog" asp-action="Index">JOURNAL</a></li>
 
                     <!-- Hesap Dropdown -->
                     <li class="nav-item account-wrapper ml-3">
                         @if (User.Identity is null || !User.Identity.IsAuthenticated)
                         {
                             <div class="account-trigger">
-                                Account <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+                                ACCOUNT <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
                             </div>
                             <div class="account-dropdown-menu">
-                                <a asp-controller="Account" asp-action="Login">Login</a>
-                                <a asp-controller="Account" asp-action="Register">Register</a>
+                                <a asp-controller="Account" asp-action="Login">LOGIN</a>
+                                <a asp-controller="Account" asp-action="Register">REGISTER</a>
                             </div>
                         }
                         else
                         {
-                            <div class="account-trigger" style="color: #00a862;">
-                                <i class="far fa-user"></i> @User.Identity.Name <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+                            <div class="account-trigger">
+                                @User.Identity.Name.ToUpper() <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
                             </div>
                             <div class="account-dropdown-menu">
-                                <a asp-controller="Account" asp-action="Logout" style="color: #ff4d4d !important;">Logout</a>
+                                <a asp-controller="Account" asp-action="Logout">LOGOUT</a>
                             </div>
                         }
                     </li>
 
                     <!-- Sepet Butonu -->
                     <li class="nav-item ml-4 shop-cart">
-                        <a asp-controller="Basket" asp-action="Index" class="cart-btn-premium">
+                        <a asp-controller="Basket" asp-action="Index" class="cart-btn-editorial">
                             <div class="cart-icon-wrapper">
-                                <i class="fas fa-shopping-bag"></i>
+                                <i class="bi bi-bag"></i>
                                 <sup class="cart-badge">@(Model?.BasketCount ?? 0)</sup>
                             </div>
-                            <span class="cart-text">CART <span class="cart-price">($@(Model?.ProductPrice ?? 0))</span></span>
+                            <span class="cart-text">BAG <span class="cart-price">[$@(Model?.ProductPrice ?? 0)]</span></span>
                         </a>
                     </li>
                 </ul>
@@ -300,31 +314,30 @@
         </nav>
     </div>
 
-    <!-- Mobil Menü Konteyneri (display:none silindi, JS/CSS yönetecek) -->
-    <div class="mobile-navbar mobile-navbar-premium position-fixed top-0 right-0 h-100 p-4 shadow-lg" style="width:280px;">
-        <div class="d-flex justify-content-end mb-4">
-            <i class="fas fa-times fa-lg" id="mobile-navbar-close" aria-label="Mobil menüyü kapat" style="cursor: pointer; color: #FBF8F1; font-size: 24px;"></i>
+    <!-- Mobil Menü Konteyneri -->
+    <div class="mobile-navbar mobile-navbar-editorial position-fixed top-0 right-0 h-100 p-4 shadow-none" style="width:280px;">
+        <div class="d-flex justify-content-end mb-5">
+            <i class="bi bi-x-lg" id="mobile-navbar-close" aria-label="Mobil menüyü kapat" style="cursor: pointer; color: #000000; font-size: 24px;"></i>
         </div>
         <ul class="list-unstyled d-flex flex-column" style="gap: 20px;">
-            <li><a class="nav-link p-0" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a class="nav-link p-0" asp-controller="Home" asp-action="Index">HOME</a></li>
             
             @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && !User.IsInRole("Member"))
             {
-                <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+                <li><a class="nav-link p-0" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">ADMIN</a></li>
             }
             
-            <li><a class="nav-link p-0" asp-controller="Blog" asp-action="Index">Blog</a></li>
-            <li class="mt-2 border-top pt-3" style="border-color: rgba(251, 248, 241, 0.1) !important;"></li>
+            <li><a class="nav-link p-0" asp-controller="Blog" asp-action="Index">JOURNAL</a></li>
             
             @if (User.Identity is null || !User.Identity.IsAuthenticated)
             {
-                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Login">Login</a></li>
-                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Register">Register</a></li>
+                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Login">LOGIN</a></li>
+                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Register">REGISTER</a></li>
             }
             else
             {
-                <li><a class="nav-link p-0" style="color: #00a862 !important;"><i class="far fa-user mr-2"></i>@User.Identity.Name</a></li>
-                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Logout" style="color: #ff4d4d !important;">Logout</a></li>
+                <li><a class="nav-link p-0" style="color: #767676 !important;">@User.Identity.Name.ToUpper()</a></li>
+                <li><a class="nav-link p-0" asp-controller="Account" asp-action="Logout">LOGOUT</a></li>
             }
         </ul>
     </div>
@@ -335,9 +348,8 @@
     document.addEventListener("DOMContentLoaded", function () {
         const openBtn = document.getElementById("mobile-navbar-show");
         const closeBtn = document.getElementById("mobile-navbar-close");
-        const mobileMenu = document.querySelector(".mobile-navbar-premium");
+        const mobileMenu = document.querySelector(".mobile-navbar-editorial");
 
-        // Sayfada birden fazla overlay oluşmasını engellemek için kontrol edip yaratıyoruz
         let overlay = document.querySelector(".mobile-menu-overlay");
         if (!overlay) {
             overlay = document.createElement("div");
@@ -345,29 +357,24 @@
             document.body.appendChild(overlay);
         }
 
-        // Menüyü Açma Fonksiyonu
         function openMobileMenu() {
             if(mobileMenu && overlay) {
                 mobileMenu.classList.add("menu-active");
                 overlay.classList.add("overlay-active");
-                document.body.style.overflow = "hidden"; // Arka plan kaymasını (scroll) kapatır
+                document.body.style.overflow = "hidden"; 
             }
         }
 
-        // Menüyü Kapatma Fonksiyonu
         function closeMobileMenu() {
             if(mobileMenu && overlay) {
                 mobileMenu.classList.remove("menu-active");
                 overlay.classList.remove("overlay-active");
-                document.body.style.overflow = ""; // Scroll'u tekrar serbest bırakır
+                document.body.style.overflow = ""; 
             }
         }
 
-        // Tetikleyiciler (Click Events)
         if (openBtn) openBtn.addEventListener("click", openMobileMenu);
         if (closeBtn) closeBtn.addEventListener("click", closeMobileMenu);
-        
-        // Kullanıcı menü dışındaki karanlık alana tıklarsa menüyü kapat
         if (overlay) overlay.addEventListener("click", closeMobileMenu);
     });
 </script>

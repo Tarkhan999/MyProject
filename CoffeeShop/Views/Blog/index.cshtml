@@ -1,193 +1,191 @@
 @model IEnumerable<BlogUIVM>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
 <style>
-    /* --- UX/UI DESIGNER PREMIUM STYLES --- */
-    @@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-
-    .ux-blog-page {
-        background-color: #050505;
+    /* =========================================
+       ZARA / MINIMALIST EDITORIAL (REFINED)
+       ========================================= */
+    .editorial-blog-page {
+        background-color: #ffffff;
         min-height: 100vh;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #000000;
         overflow-x: hidden;
+        padding-top: 80px; /* Space added since Hero is removed */
     }
 
-    /* Kahve İkonu Pulse Animasyonu */
-    @@keyframes softPulse {
-        0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 112, 74, 0.4)); }
-        50% { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(0, 168, 98, 0.7)); }
-        100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 112, 74, 0.4)); }
-    }
-
-    .hero-icon {
-        animation: softPulse 3s infinite ease-in-out;
-    }
-
-    /* Kartların Sırayla Belirmesi */
-    @@keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(40px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .ux-card-wrapper {
-        animation: fadeInUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    /* Grid & Cards Animation */
+    .editorial-grid-item {
         opacity: 0;
+        transform: translateY(40px);
+        animation: revealUp 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     }
 
-    .ux-card-wrapper:nth-child(1) { animation-delay: 0.1s; }
-    .ux-card-wrapper:nth-child(2) { animation-delay: 0.2s; }
-    .ux-card-wrapper:nth-child(3) { animation-delay: 0.3s; }
-    .ux-card-wrapper:nth-child(4) { animation-delay: 0.4s; }
-    .ux-card-wrapper:nth-child(5) { animation-delay: 0.5s; }
-    .ux-card-wrapper:nth-child(6) { animation-delay: 0.6s; }
-
-    .ux-blog-card {
-        background: linear-gradient(145deg, #121212 0%, #0a0a0a 100%);
-        border: 1px solid rgba(0, 112, 74, 0.2);
-        border-radius: 24px;
-        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-        overflow: hidden;
+    .editorial-blog-card {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        margin-bottom: 70px;
+        display: block;
+        text-decoration: none !important;
         position: relative;
     }
 
-    .ux-blog-card:hover {
-        transform: translateY(-12px);
-        border-color: rgba(0, 168, 98, 0.6);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 112, 74, 0.2);
-    }
-
-    .ux-img-container {
-        height: 280px;
-        position: relative;
+    /* Image Wrapper with Deep Parallax & Filter Hover */
+    .editorial-img-container {
+        width: 100%;
+        height: 500px;
         overflow: hidden;
+        margin-bottom: 25px;
+        position: relative;
+        background-color: #fafafa;
     }
 
-    .ux-img-container img {
-        object-fit: cover;
+    .editorial-img-container img {
         width: 100%;
         height: 100%;
-        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        object-fit: cover;
+        filter: grayscale(100%) brightness(0.9);
+        transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1s ease;
+        will-change: transform, filter;
     }
 
-    .ux-blog-card:hover .ux-img-container img {
-        transform: scale(1.12) rotate(-1deg);
+    .editorial-blog-card:hover .editorial-img-container img {
+        filter: grayscale(0%) brightness(1.05);
+        transform: scale(1.04);
     }
 
-    .ux-img-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, #121212 0%, transparent 50%);
-        pointer-events: none;
+    /* Meta Data */
+    .editorial-meta {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: #999999;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: color 0.4s ease;
     }
 
-    .ux-glass-badge {
-        background: rgba(10, 10, 12, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(0, 168, 98, 0.3);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    /* Typography */
+    .editorial-title {
+        font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+        font-size: 22px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #000000;
+        margin-bottom: 18px;
+        line-height: 1.35;
+        transition: color 0.4s ease;
     }
 
-    .ux-btn-read {
-        background: transparent;
-        color: #00a862;
-        border: 1px solid #00704A;
-        transition: all 0.3s ease;
-        position: relative;
+    .editorial-desc {
+        font-size: 13px;
+        color: #666666;
+        line-height: 1.8;
+        margin-bottom: 25px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         overflow: hidden;
-        z-index: 1;
+        font-weight: 300;
+        transition: color 0.4s ease;
     }
 
-    .ux-btn-read::before {
+    /* Animated Underline Button */
+    .editorial-btn-read {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #000000;
+        position: relative;
+        padding-bottom: 8px;
+    }
+
+    .editorial-btn-read::after {
         content: '';
         position: absolute;
-        top: 0; left: 0; width: 0%; height: 100%;
-        background: #00704A;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        z-index: -1;
-    }
-
-    .ux-blog-card:hover .ux-btn-read::before {
+        bottom: 0;
+        left: 0;
         width: 100%;
-    }
-    
-    .ux-blog-card:hover .ux-btn-read {
-        color: #ffffff;
-        box-shadow: 0 0 15px rgba(0, 112, 74, 0.5);
-    }
-
-    .ux-btn-read i {
-        transition: transform 0.3s ease;
+        height: 1px;
+        background-color: #000000;
+        transform: scaleX(0);
+        transform-origin: right center;
+        transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     }
 
-    .ux-blog-card:hover .ux-btn-read i {
-        transform: translateX(5px);
+    /* Hover States for Text */
+    .editorial-blog-card:hover .editorial-meta {
+        color: #000000;
+    }
+
+    .editorial-blog-card:hover .editorial-title {
+        color: #555555;
+    }
+
+    .editorial-blog-card:hover .editorial-desc {
+        color: #333333;
+    }
+
+    .editorial-blog-card:hover .editorial-btn-read::after {
+        transform: scaleX(1);
+        transform-origin: left center;
+    }
+
+    /* Keyframe Animations */
+    @@keyframes revealUp {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 
-<div class="ux-blog-page">
-    <div class="text-center py-5 position-relative" style="background: radial-gradient(circle at top, rgba(0,112,74,0.15) 0%, transparent 60%); border-bottom: 1px solid rgba(0,112,74,0.2);">
-        <i class="bi bi-cup-hot-fill hero-icon" style="font-size: 6rem; color: #00a862;"></i>
-        
-        <div class="mt-4 mb-3">
-            <span class="badge rounded-pill px-4 py-2 fw-semibold" style="background: rgba(0, 112, 74, 0.1); color: #00a862; border: 1px solid rgba(0, 112, 74, 0.4); letter-spacing: 1px;">
-                <i class="bi bi-stars me-1"></i> Kahve Kültürü ve Trendler
-            </span>
-        </div>
-        
-        <h1 class="display-4 fw-bold text-white mb-3" style="letter-spacing: -1px;">Blogumuza <span style="color: #00a862;">Hoş Geldiniz</span></h1>
-        <div class="mx-auto mt-4" style="width: 60px; height: 4px; background: linear-gradient(90deg, transparent, #00a862, transparent); border-radius: 50px;"></div>
-        
-        <p class="mt-4 fs-5 mx-auto" style="color: #9e9ea7; max-width: 650px; font-weight: 300; line-height: 1.8;">
-            Kahve çekirdeklerinin dili, en yeni demleme yöntemleri ve birbirinden lezzetli tariflerle ilham dolu bir yolculuğa çıkın.
-        </p>
-    </div>
-
-    <div class="container py-5">
-        <div class="row pb-5 g-4">
+<div class="editorial-blog-page">
+    <div class="container px-md-5">
+        <div class="row g-5 pb-5">
+            @{ var index = 0; }
             @foreach (var item in Model)
             {
-                <div class="col-md-6 col-lg-4 d-flex ux-card-wrapper">
-                    <article class="ux-blog-card w-100 d-flex flex-column">
-                        <div class="ux-img-container">
-                            <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id" class="d-block w-100 h-100">
-                                <img src="~/img/@item.Image" alt="@item.Title" />
-                            </a>
-                            <div class="ux-img-overlay"></div>
-                            
-                            <div class="position-absolute top-0 start-0 m-3 z-2">
-                                <span class="ux-glass-badge badge rounded-pill px-3 py-2 text-white fw-medium d-flex align-items-center gap-2">
-                                    <i class="bi bi-calendar3" style="color: #00a862;"></i> 
-                                    @(item.DateCreated is DateTime dt ? dt.ToString("dd MMM yyyy") : item.DateCreated)
-                                </span>
-                            </div>
+            /* Staggered animation delay based on grid column */
+            var delay = (index % 3) * 0.2;
+
+            <div class="col-md-6 col-lg-4 editorial-grid-item" style="animation-delay: @(delay)s;">
+                <article class="w-100">
+                    <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id" class="editorial-blog-card">
+                        <div class="editorial-img-container">
+                            <img src="~/img/@item.Image" alt="@item.Title" loading="lazy" />
                         </div>
 
-                        <div class="card-body p-4 d-flex flex-column flex-grow-1 z-2">
-                            <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id" class="text-decoration-none">
-                                <h2 class="card-title fw-bold text-white mb-3 fs-4" style="line-height: 1.4; transition: color 0.3s;" onmouseover="this.style.color='#00a862'" onmouseout="this.style.color='white'">
-                                    @item.Title
-                                </h2>
-                            </a>
-                            
-                            <p class="card-text mb-4" style="color: #a1a1aa; font-weight: 300; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                @item.Description
-                            </p>
-
-                            <div class="mt-auto pt-4 d-flex justify-content-between align-items-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
-                                <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.Id" class="btn ux-btn-read btn-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2">
-                                    Oku <i class="bi bi-arrow-right"></i>
-                                </a>
-                                
-                                <div class="d-flex align-items-center gap-2" style="background: rgba(0, 112, 74, 0.08); border: 1px solid rgba(0, 112, 74, 0.2); padding: 6px 14px; border-radius: 20px;">
-                                    <i class="bi bi-eye" style="color: #00a862;"></i> 
-                                    <small class="fw-semibold text-light">@item.ViewsCount</small>
-                                </div>
-                            </div>
+                        <div class="editorial-meta">
+                            <span>@(item.DateCreated is DateTime dt ? dt.ToString("dd.MM.yyyy") : item.DateCreated)</span>
+                            <span>VIEWS: @item.ViewsCount</span>
                         </div>
-                    </article>
-                </div>
+
+                        <h2 class="editorial-title">
+                            @item.Title
+                        </h2>
+
+                        <p class="editorial-desc">
+                            @item.Description
+                        </p>
+
+                        <div>
+                            <span class="editorial-btn-read">Read Article</span>
+                        </div>
+                    </a>
+                </article>
+            </div>
+            index++;
             }
         </div>
     </div>

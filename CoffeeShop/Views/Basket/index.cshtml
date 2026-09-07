@@ -1,79 +1,255 @@
 @model BasketUIVM
 
-<div class="container mt-5 mb-5">
-    
-    @if (Model.Items.Count > 0)
-    {
-        <table class="table table-bordered table-striped text-center">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Name</th>
-                <th scope="col">Count</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-                <th scope="col">Operations</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td class="align-middle">
-                        <img src="~/img/@item.ProductImage" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;"/>
-                    </td>
-                    <td class="align-middle">@item.ProductName</td>
-                    
-                    <!-- COUNT KISMI -->
-                    <td class="align-middle">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <!-- Azaltma Butonu (-) -->
-                            <button class="btn btn-sm btn-outline-danger decrease-basket-btn" data-id="@item.ProductId" style="width: 35px;">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            
-                            <!-- Miktar -->
-                            <span class="mx-3 font-weight-bold" style="font-size: 1.1rem;">@item.ProductCount</span>
-                            
-                            <!-- Artırma Butonu (+) -->
-                            <button class="btn btn-sm btn-outline-success increase-basket-btn" data-id="@item.ProductId" style="width: 35px;">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </td>
-                    
-                    <td class="align-middle">@item.CategoryName</td>
-                    <td class="align-middle">$@item.ProductPrice</td>
-                    <td class="align-middle">
-                        <button data-id="@item.ProductId" class="btn btn-danger delete-basket-btn">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
+<style>
+    /* =========================================
+       ZARA / EDITORIAL BASKET SYSTEM
+       ========================================= */
+    .editorial-cart-page {
+        background-color: #ffffff;
+        min-height: 70vh;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #000000;
+        padding: 60px 0;
+        text-transform: uppercase;
+    }
+
+    .cart-title {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        border-bottom: 1px solid #000000;
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+    }
+
+    /* Cart Items Layout */
+    .cart-item {
+        display: flex;
+        padding: 25px 0;
+        border-bottom: 1px solid #e5e5e5;
+        gap: 30px;
+    }
+
+    .cart-img-wrapper {
+        width: 120px;
+        flex-shrink: 0;
+    }
+
+    .cart-img-wrapper img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        filter: grayscale(20%);
+    }
+
+    .cart-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .cart-details-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .cart-category {
+        font-size: 10px;
+        color: #767676;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .cart-name {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .cart-price {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    /* Quantity & Actions */
+    .cart-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .qty-control {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #000000;
+    }
+
+    .qty-btn {
+        background: transparent;
+        border: none;
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        cursor: pointer;
+        color: #000000;
+        transition: background 0.2s;
+    }
+
+    .qty-btn:hover {
+        background: #f5f5f5;
+    }
+
+    .qty-value {
+        width: 40px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .delete-btn-minimal {
+        background: transparent;
+        border: none;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #767676;
+        text-decoration: underline;
+        padding: 0;
+        transition: color 0.3s;
+    }
+
+    .delete-btn-minimal:hover {
+        color: #000000;
+    }
+
+    /* Summary Section */
+    .cart-summary {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .cart-total-box {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+    }
+
+    .checkout-btn {
+        background-color: #000000;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        padding: 16px 45px;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+        border: 1px solid #000000;
+    }
+
+    .checkout-btn:hover {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* Empty State */
+    .empty-cart-state {
+        text-align: center;
+        padding: 80px 0;
+    }
+
+    .empty-cart-text {
+        font-size: 12px;
+        letter-spacing: 2px;
+        color: #767676;
+        margin-bottom: 30px;
+    }
+
+    .continue-shopping-btn {
+        display: inline-block;
+        border-bottom: 1px solid #000000;
+        color: #000000;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-decoration: none;
+        padding-bottom: 3px;
+    }
+
+    .continue-shopping-btn:hover {
+        color: #767676;
+        border-bottom-color: #767676;
+    }
+</style>
+
+<div class="editorial-cart-page">
+    <div class="container px-md-5">
         
-      
-            <div class="d-flex justify-content-between align-items-center mt-4 p-3 bg-light rounded shadow-sm">
-                <h3 class="m-0">Total: <span class="text-success">$@Model.Total</span></h3>
+        <h1 class="cart-title">ALIŞVERİŞ ÇANTASI</h1>
+        
+        @if (Model.Items.Count > 0)
+        {
+            <div class="cart-items-container">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="cart-item">
+                        <div class="cart-img-wrapper">
+                            <img src="~/img/@item.ProductImage" alt="@item.ProductName" />
+                        </div>
+                        
+                        <div class="cart-details">
+                            <div class="cart-details-top">
+                                <div>
+                                    <div class="cart-category">@item.CategoryName</div>
+                                    <div class="cart-name">@item.ProductName</div>
+                                </div>
+                                <div class="cart-price">$@item.ProductPrice</div>
+                            </div>
+                            
+                            <div class="cart-actions">
+                                <div class="qty-control">
+                                    <!-- JS mantığı için aynı class ve data-id kullanıldı -->
+                                    <button class="qty-btn decrease-basket-btn" data-id="@item.ProductId">-</button>
+                                    <span class="qty-value">@item.ProductCount</span>
+                                    <button class="qty-btn increase-basket-btn" data-id="@item.ProductId">+</button>
+                                </div>
+                                
+                                <button data-id="@item.ProductId" class="delete-btn-minimal delete-basket-btn">
+                                    SİL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            <div class="cart-summary">
+                <div class="cart-total-box">
+                    TOPLAM: $@Model.Total
+                </div>
     
-                <!-- Yeni Checkout Butonu -->
-                <a asp-controller="Checkout" asp-action="Index" class="btn btn-success btn-lg px-5 fw-bold rounded-pill">
-                    <i class="fas fa-credit-card me-2"></i> Proceed to Checkout
+                <a asp-controller="Checkout" asp-action="Index" class="checkout-btn">
+                    SİPARİŞİ TAMAMLA
                 </a>
             </div>
-       
-    }
-    else
-    {
-        <div class="alert alert-warning text-center" role="alert">
-            Your cart is currently empty! 
-            <br />
-            <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Continue Shopping</a>
-        </div>
-    }
+        }
+        else
+        {
+            <div class="empty-cart-state">
+                <div class="empty-cart-text">ALIŞVERİŞ ÇANTANIZ ŞU AN BOŞ.</div>
+                <a asp-controller="Home" asp-action="Index" class="continue-shopping-btn">
+                    ALIŞVERİŞE DEVAM ET
+                </a>
+            </div>
+        }
+    </div>
 </div>
+
 <!-- Önce jQuery yüklenmeli -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 

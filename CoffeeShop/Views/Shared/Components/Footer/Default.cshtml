@@ -1,74 +1,61 @@
 @model SettingUIVM
 
 <style>
-    /* Gradient Üst Çizgi Parlaması */
-    .footer-top-glow {
-        height: 3px;
-        background: linear-gradient(90deg, #0a0a0c 0%, #00a862 50%, #0a0a0c 100%);
-        width: 100%;
-        box-shadow: 0 -2px 15px rgba(0, 168, 98, 0.4);
-    }
-
-    /* Padding artırılarak eski ferah genişlik (boy ve en) geri getirildi */
-    .premium-footer {
-        background-color: #0a0a0c;
-        padding: 70px 0 30px 0;
-        color: #FBF8F1;
+    /* =========================================
+       ZARA / EDITORIAL FOOTER SYSTEM
+       ========================================= */
+    .editorial-footer {
+        background-color: #ffffff;
+        padding: 80px 0 40px 0;
+        color: #000000;
         margin-top: auto;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        border-top: 1px solid #000000;
     }
 
     .footer-brand {
-        font-size: 28px;
-        font-weight: 800;
+        font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+        font-size: 24px;
+        font-weight: 400;
         letter-spacing: 2px;
-        color: #ffffff;
-        margin-bottom: 15px;
+        text-transform: uppercase;
+        color: #000000;
+        margin-bottom: 20px;
         display: inline-block;
     }
 
     .footer-text {
-        color: #9ca3af;
-        font-size: 14px;
-        line-height: 1.6;
-        margin-bottom: 25px;
+        color: #767676;
+        font-size: 12px;
+        line-height: 1.8;
+        margin-bottom: 30px;
         padding-right: 15px;
+        letter-spacing: 0.5px;
     }
 
     .footer-heading {
-        color: #ffffff;
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 1.5px;
+        color: #000000;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2px;
         text-transform: uppercase;
         margin-bottom: 25px;
-        position: relative;
-        padding-bottom: 10px;
-    }
-
-    .footer-heading::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 2px;
-        width: 35px;
-        background-color: #00a862;
     }
 
     /* Linkler */
     .footer-link {
-        color: #9ca3af;
+        color: #767676;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
         display: block;
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
+        margin-bottom: 12px;
+        transition: color 0.3s ease;
     }
 
     .footer-link:hover {
-        color: #00a862;
-        padding-left: 8px;
+        color: #000000;
         text-decoration: none;
     }
 
@@ -78,114 +65,59 @@
         align-items: center;
         gap: 15px;
         margin-bottom: 15px;
-        color: #9ca3af;
-        font-size: 14px;
+        color: #767676;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
     }
 
     .footer-contact-item i {
-        color: #00a862;
-        font-size: 16px;
-        width: 20px;
-        text-align: center;
-    }
-
-    /* Genişletilmiş Bülten Kutusu */
-    .newsletter-wrapper {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 25px;
-        width: 100%;
-        max-width: 400px;
-    }
-
-    .newsletter-input {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 12px 15px;
-        border-radius: 6px;
-        color: #fff;
+        color: #000000;
         font-size: 14px;
-        outline: none;
-        transition: all 0.3s ease;
-    }
-
-    .newsletter-input:focus {
-        border-color: #00a862;
-        background: rgba(255, 255, 255, 0.08);
-    }
-
-    .newsletter-input::placeholder {
-        color: #6b7280;
-    }
-
-    .newsletter-btn {
-        background: #00704A;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        padding: 0 20px;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-    }
-
-    .newsletter-btn:hover {
-        background: #00a862;
+        width: 15px;
+        text-align: center;
     }
 
     /* Sosyal Medya İkonları */
     .social-icons-wrapper {
         display: flex;
-        gap: 12px;
+        gap: 20px;
     }
 
     .social-icon-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #FBF8F1;
+        color: #000000;
         text-decoration: none;
-        font-size: 15px;
-        transition: all 0.3s ease;
+        font-size: 16px;
+        transition: opacity 0.3s ease;
     }
 
     .social-icon-btn:hover {
-        background: #00a862;
-        color: #ffffff;
-        transform: translateY(-3px);
+        opacity: 0.5;
+        color: #000000;
     }
 
-    /* Harita Genişliği ve Yüksekliği Artırıldı */
+    /* Harita - Keskin Kenar ve Siyah/Beyaz */
     .footer-map-container {
         width: 100%;
-        height: 160px; /* Eski ferah boyutuna geri çekildi */
-        border-radius: 8px;
+        height: 160px;
+        border-radius: 0;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: 20px;
+        border: 1px solid #000000;
+        margin-top: 25px;
     }
 
     .footer-map-container iframe {
         width: 100%;
         height: 100%;
         border: 0;
-        /* Siyah Tema Uyumlu Harita Filtresi */
-        filter: invert(90%) hue-rotate(180deg) grayscale(30%) contrast(110%);
+        filter: grayscale(100%) contrast(120%);
     }
 
     /* Alt Telif Çizgisi */
     .footer-bottom {
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        padding-top: 25px;
-        margin-top: 50px; /* Üst kısımla arasına daha geniş boşluk eklendi */
+        border-top: 1px solid #e0e0e0;
+        padding-top: 30px;
+        margin-top: 60px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -194,39 +126,36 @@
     }
 
     .footer-bottom-text {
-        color: #6b7280;
-        font-size: 13.5px;
+        color: #767676;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
     }
 
     .footer-bottom-links a {
-        color: #6b7280;
+        color: #767676;
         text-decoration: none;
-        font-size: 13.5px;
-        margin-left: 20px;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-left: 25px;
         transition: color 0.3s ease;
     }
 
     .footer-bottom-links a:hover {
-        color: #00a862;
+        color: #000000;
     }
 </style>
 
-<div class="footer-top-glow"></div>
-
-<footer class="premium-footer">
-    <!-- Container genişliğini koruyan Bootstrap yapısı -->
-    <div class="container">
-        <!-- Sütun aralıklarını açık tutan 4 - 2 - 2 - 4 dizilimi -->
+<footer class="editorial-footer">
+    <div class="container px-md-5">
         <div class="row mb-4">
-
-            <!-- 1. Sütun: Marka & Bülten -->
+            <!-- 1. Sütun: Marka -->
             <div class="col-lg-4 col-md-12 mb-5 mb-lg-0">
-                <span class="footer-brand">StarBucks.</span>
+                <span class="footer-brand">STARBUCKS</span>
                 <p class="footer-text">
-                    Yaşam alanlarınıza şıklık ve zarafet katan özel tasarımlar.
+                    ÖZEL TASARIMLAR. YAŞAM ALANLARINIZA ŞIKLIK VE ZARAFET KATAN DETAYLAR.
                 </p>
-
-                
 
                 <div class="social-icons-wrapper">
                     <a href="#" class="social-icon-btn"><i class="fab fa-instagram"></i></a>
@@ -238,32 +167,32 @@
 
             <!-- 2. Sütun: Menü -->
             <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
-                <h6 class="footer-heading">Menü</h6>
+                <h6 class="footer-heading">MENÜ</h6>
                 <ul class="list-unstyled mb-0">
-                    <li><a asp-controller="Home" asp-action="Index" class="footer-link">Ana Sayfa</a></li>
-                  <li><a asp-controller="Blog" asp-action="Index" class="footer-link">Blog</a></li>
-                    <li><a asp-controller="Basket" asp-action="Index" class="footer-link">Sepetim</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" class="footer-link">ANA SAYFA</a></li>
+                    <li><a asp-controller="Blog" asp-action="Index" class="footer-link">JOURNAL</a></li>
+                    <li><a asp-controller="Basket" asp-action="Index" class="footer-link">SEPETİM</a></li>
                 </ul>
             </div>
 
             <!-- 3. Sütun: Destek -->
             <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
-                <h6 class="footer-heading">Destek</h6>
+                <h6 class="footer-heading">DESTEK</h6>
                 <ul class="list-unstyled mb-0">
-                    <li><a asp-controller="Account" asp-action="Login" class="footer-link">Hesabım</a></li>
-                    <li><a href="#" class="footer-link">Sipariş Takibi</a></li>
-                    <li><a href="#" class="footer-link">İade Koşulları</a></li>
+                    <li><a asp-controller="Account" asp-action="Login" class="footer-link">HESABIM</a></li>
+                    <li><a href="#" class="footer-link">SİPARİŞ TAKİBİ</a></li>
+                    <li><a href="#" class="footer-link">İADE KOŞULLARI</a></li>
                     <li><a href="#" class="footer-link">S.S.S.</a></li>
                 </ul>
             </div>
 
             <!-- 4. Sütun: İletişim & Harita -->
             <div class="col-lg-4 col-md-12">
-                <h6 class="footer-heading">Bize Ulaşın</h6>
+                <h6 class="footer-heading">BİZE ULAŞIN</h6>
 
                 <div class="footer-contact-item">
                     <i class="fas fa-map-marker-alt"></i>
-                    <span>Lefkoşa / Kıbrıs</span> <!-- Adres metnini güncelledim -->
+                    <span>LEFKOŞA / KIBRIS</span>
                 </div>
 
                 <div class="d-flex gap-4 flex-wrap mb-3">
@@ -273,11 +202,10 @@
                     </div>
                     <div class="footer-contact-item mb-0">
                         <i class="fas fa-envelope"></i>
-                        <a href="mailto:@Model?.Email" class="text-decoration-none" style="color: #9ca3af;">@Model?.Email</a>
+                        <a href="mailto:@Model?.Email" class="text-decoration-none" style="color: #767676;">@Model?.Email</a>
                     </div>
                 </div>
 
-                <!-- Çalışan Hatasız ve Geniş Harita -->
                 <div class="footer-map-container">
                     <iframe
                         src="https://maps.google.com/maps?q=Lefkosa,%20Kibris&t=&z=14&ie=UTF8&iwloc=&output=embed"
@@ -286,18 +214,17 @@
                     </iframe>
                 </div>
             </div>
-
         </div>
 
         <!-- Alt Telif Kısmı -->
         <div class="footer-bottom">
             <div class="footer-bottom-text">
-                &copy; @DateTime.Now.Year <strong style="color: #00a862;">Tarkan999</strong>. Tüm hakları saklıdır.
+                &copy; @DateTime.Now.Year <strong style="color: #000000; font-weight: 600;">TARKAN999</strong>. TÜM HAKLARI SAKLIDIR.
             </div>
             <div class="footer-bottom-links">
-                <a href="#">Gizlilik Politikası</a>
-                <a href="#">Kullanıcı Sözleşmesi</a>
-                <a href="#">Çerez Politikası</a>
+                <a href="#">GİZLİLİK POLİTİKASI</a>
+                <a href="#">KULLANICI SÖZLEŞMESİ</a>
+                <a href="#">ÇEREZ POLİTİKASI</a>
             </div>
         </div>
     </div>
