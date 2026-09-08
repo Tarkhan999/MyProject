@@ -1,4 +1,4 @@
-@model SliderEditVM
+@model FiorelloBackendPractice.ViewModels.Slider.SliderEditVM
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -9,7 +9,7 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-primary bg-opacity-10 border-0 p-4 text-center">
                     <h3 class="fw-bold text-primary mb-0">
-                        <i class="bi bi-pencil-square me-2"></i>Edit Slider
+                        <i class="bi bi-pencil-square me-2"></i>Edit Slider Media
                     </h3>
                 </div>
 
@@ -18,21 +18,37 @@
 
                     <form method="post" asp-action="Edit" enctype="multipart/form-data">
                         
-                        <!-- Mevcut Resim Gösterimi -->
+                        <!-- Mevcut Medya Gösterimi (Resim veya Video) -->
                         <div class="text-center mb-4 p-3 bg-light rounded-4 border">
-                            <label class="form-label fw-bold text-secondary d-block mb-3">Current Image</label>
-                            <img src="~/img/@Model.Image" alt="Slider Image" class="img-fluid rounded-3 shadow-sm border border-2 border-white" style="max-height: 200px; object-fit: cover;" />
-                            <input asp-for="Image" type="hidden" />
+                            <label class="form-label fw-bold text-secondary d-block mb-3">Current Media</label>
+                            
+                            @if (!string.IsNullOrEmpty(Model.Video))
+                            {
+                                <video src="~/img/@Model.Video" 
+                                       class="img-fluid rounded-3 shadow-sm border border-2 border-white" 
+                                       style="max-height: 200px; object-fit: cover;" 
+                                       autoplay loop muted playsinline></video>
+                                <input asp-for="Video" type="hidden" />
+                            }
+                            else if (!string.IsNullOrEmpty(Model.Image))
+                            {
+                                <img src="~/img/@Model.Image" 
+                                     alt="Slider Image" 
+                                     class="img-fluid rounded-3 shadow-sm border border-2 border-white" 
+                                     style="max-height: 200px; object-fit: cover;" />
+                                <input asp-for="Image" type="hidden" />
+                            }
                         </div>
 
-                        <!-- Yeni Resim Yükleme Alanı -->
+                        <!-- Yeni Medya Yükleme Alanı (NewFile) -->
                         <div class="mb-4">
                             <label class="form-label fw-bold text-primary">
-                                <i class="bi bi-image me-1"></i> Choose New Image (Optional)
+                                <i class="bi bi-cloud-arrow-up me-1"></i> Choose New Media (Optional)
                             </label>
-                            <input asp-for="NewImage" type="file" class="form-control form-control-lg border-primary shadow-sm" accept="image/*" />
-                            <div class="form-text text-muted mt-2">Leave blank if you don't want to change the image.</div>
-                            <span asp-validation-for="NewImage" class="text-danger small mt-1 d-block fw-semibold"></span>
+                            <!-- Hem image hem video seçimine izin veriyoruz -->
+                            <input asp-for="NewFile" type="file" class="form-control form-control-lg border-primary shadow-sm" accept="image/*,video/*" />
+                            <div class="form-text text-muted mt-2">Leave blank if you don't want to change the current media. Supported formats: Images and Videos.</div>
+                            <span asp-validation-for="NewFile" class="text-danger small mt-1 d-block fw-semibold"></span>
                         </div>
 
                         <div class="d-flex gap-3 mt-5">

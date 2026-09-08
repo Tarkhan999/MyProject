@@ -5,6 +5,7 @@ namespace FiorelloBackendPractice.ViewModels.Slider
 {
     public class SliderCreateVM
     {
-        [Required] public List<IFormFile> UploadImages { get; set; }
+      
+        public List<IFormFile> UploadFiles { get; set; }
     }
 }

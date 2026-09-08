@@ -4,39 +4,46 @@
 
 <div class="container mt-5 mb-5">
     
-    <!-- Başlık ve Ekle Butonu Satırı -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-primary mb-0">
-            <i class="bi bi-images me-2"></i>Sliders
+            <i class="bi bi-images me-2"></i>Slider Media
         </h2>
         <a class="btn btn-success rounded-pill px-4 shadow-sm" asp-action="Create">
-            <i class="bi bi-plus-lg me-1"></i> Add New Slider
+            <i class="bi bi-plus-lg me-1"></i> Add New Media
         </a>
     </div>
 
-    <!-- Tablo Kartı -->
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                 <tr>
-                    <th class="py-3 px-4 text-secondary">Slider Image</th>
+                    <th class="py-3 px-4 text-secondary">Preview (Image/Video)</th>
                     <th class="py-3 text-center text-secondary" style="width: 220px;">Actions</th> 
                 </tr>
                 </thead>
                 <tbody>
                 @foreach (var item in Model)
                 {
-                    <!-- DÜZELTME: JavaScript'in ilgili satırı silmesi için id eklendi -->
                     <tr id="slider-row-@item.Id">
                         <td class="px-4 py-3">
-                            <img src="~/img/@item.Image" 
-                                 class="rounded-3 shadow-sm" 
-                                 style="width: 150px; height: 90px; object-fit: cover;" 
-                                 alt="Slider Image" />
+                            <!-- Eğer Video varsa Video Oynatıcı, Yoksa Resim basıyoruz -->
+                            @if (!string.IsNullOrEmpty(item.Video))
+                            {
+                                <video src="~/img/@item.Video" 
+                                       class="rounded-3 shadow-sm" 
+                                       style="width: 150px; height: 90px; object-fit: cover;" 
+                                       autoplay loop muted playsinline></video>
+                            }
+                            else if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="~/img/@item.Image" 
+                                     class="rounded-3 shadow-sm" 
+                                     style="width: 150px; height: 90px; object-fit: cover;" 
+                                     alt="Slider Image" />
+                            }
                         </td>
                         
-                        <!-- Operasyonlar -->
                         <td class="text-center py-3">
                             <div class="btn-group shadow-sm rounded-pill" role="group">
                                 <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark px-3" title="Detail">
@@ -60,8 +67,8 @@
         {
             <div class="text-center py-5 text-muted">
                 <i class="bi bi-image-alt fs-1 mb-3 d-block text-secondary"></i>
-                <h5>No sliders found</h5>
-                <p>Click the "Add New Slider" button to upload your first image.</p>
+                <h5>No media found</h5>
+                <p>Click the "Add New Media" button to upload your first image or video.</p>
             </div>
         }
     </div>
@@ -74,7 +81,7 @@
         function deleteSlider(id) {
             Swal.fire({
                 title: 'Emin misiniz?',
-                text: "Bu resmi sildiğinizde geri alamazsınız!",
+                text: "Bu medyayı sildiğinizde geri alamazsınız!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -92,17 +99,14 @@
                     })
                     .then(async response => {
                         if (response.ok) {
-                            Swal.fire('Silindi!', 'Slider başarıyla silindi.', 'success');
+                            Swal.fire('Silindi!', 'Medya başarıyla silindi.', 'success');
                             
-                            // DOM'dan ilgili satırı animasyonla kaldırma
                             const row = document.getElementById(`slider-row-${id}`);
                             if (row) {
                                 row.style.transition = "opacity 0.4s ease, transform 0.4s ease";
                                 row.style.opacity = "0";
                                 row.style.transform = "translateX(-20px)";
-                                setTimeout(() => {
-                                    row.remove();
-                                }, 400); 
+                                setTimeout(() => { row.remove(); }, 400); 
                             }
                         } else {
                             const errorData = await response.json();

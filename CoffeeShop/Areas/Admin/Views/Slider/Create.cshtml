@@ -1,4 +1,4 @@
-@model SliderCreateVM
+@model FiorelloBackendPractice.ViewModels.Slider.SliderCreateVM
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -9,7 +9,7 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-success bg-opacity-10 border-0 p-4 text-center">
                     <h3 class="fw-bold text-success mb-0">
-                        <i class="bi bi-cloud-arrow-up me-2"></i>Upload New Slider
+                        <i class="bi bi-cloud-arrow-up me-2"></i>Upload New Media
                     </h3>
                 </div>
 
@@ -19,10 +19,13 @@
                     <form method="post" asp-action="Create" enctype="multipart/form-data">
                         
                         <div class="mb-4">
-                            <label class="form-label fw-semibold text-secondary">Select Images</label>
-                            <input asp-for="UploadImages" type="file" class="form-control form-control-lg shadow-sm" accept="image/*" multiple />
-                            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i>You can select multiple images.</div>
-                            <span asp-validation-for="UploadImages" class="text-danger small mt-1 d-block fw-semibold"></span>
+                            <label class="form-label fw-semibold text-secondary">Select Media (Images / Videos)</label>
+                            
+                            <!-- İsim UploadFiles yapıldı ve accept kısmına video eklendi -->
+                            <input asp-for="UploadFiles" type="file" class="form-control form-control-lg shadow-sm" accept="image/*,video/*" multiple />
+                            
+                            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i>You can select multiple images or videos.</div>
+                            <span asp-validation-for="UploadFiles" class="text-danger small mt-1 d-block fw-semibold"></span>
                         </div>
 
                         <div class="d-flex gap-3 mt-5">
