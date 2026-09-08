@@ -1,7 +1,7 @@
 @model SliderVCVM
 @{
-// Videonun her zaman ilk slayt olarak gelmesini garantiler
-var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(s.Video)).ToList();
+    // Videonun her zaman ilk slayt olarak gelmesini garantiler
+    var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(s.Video)).ToList();
 }
 
 <style>
@@ -17,6 +17,7 @@ var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
+    /* Owl Carousel Yükseklikleri (display: block zorlaması kaldırıldı) */
     .hero-slider-section .owl-carousel,
     .hero-slider-section .owl-carousel .owl-stage-outer,
     .hero-slider-section .owl-carousel .owl-stage,
@@ -240,26 +241,24 @@ var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(
     <!-- EDITORIAL OVERLAY -->
     <div class="editorial-overlay"></div>
 
-    <!-- OWL CAROUSEL -->
-    <div class="owl-carousel slider h-100 position-relative" style="z-index: 3;">
-        <!-- Mantıksal düzeltme: Doğru sıralanmış 'orderedSliders' listesi üzerinden dönülüyor -->
+    <!-- OWL CAROUSEL (id="heroSliderCarousel" eklendi) -->
+    <div id="heroSliderCarousel" class="owl-carousel slider h-100 position-relative" style="z-index: 3;">
         @foreach (var item in orderedSliders)
         {
-        @if (!string.IsNullOrEmpty(item.Video))
-        {
-        <div class="item h-100 w-100 position-relative">
-            <video autoplay loop muted playsinline class="slider-media video-slide">
-                <source src="~/img/@item.Video" type="video/mp4">
-            </video>
-        </div>
-        }
-
-        @if (!string.IsNullOrEmpty(item.Image))
-        {
-        <div class="item h-100 w-100 position-relative">
-            <img src="~/img/@item.Image" alt="Editorial Image" class="slider-media">
-        </div>
-        }
+            @if (!string.IsNullOrEmpty(item.Video))
+            {
+                <div class="item h-100 w-100 position-relative">
+                    <video autoplay loop muted playsinline class="slider-media video-slide">
+                        <source src="~/img/@item.Video" type="video/mp4">
+                    </video>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(item.Image))
+            {
+                <div class="item h-100 w-100 position-relative">
+                    <img src="~/img/@item.Image" alt="Editorial Image" class="slider-media">
+                </div>
+            }
         }
     </div>
 
@@ -268,15 +267,15 @@ var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(
         <div class="container px-md-5">
             <div class="row">
                 <div class="col-xl-7 col-lg-8 col-md-10">
-                    <h1 class="hero-editorial-title">@Model.SliderInfo.Title</h1>
-                    <p class="hero-editorial-subtitle d-none d-sm-block">@Model.SliderInfo.Description</p>
+                    <h1 class="hero-editorial-title">@Model.SliderInfo?.Title</h1>
+                    <p class="hero-editorial-subtitle d-none d-sm-block">@Model.SliderInfo?.Description</p>
 
                     <div class="d-flex align-items-end gap-5 mt-5">
-                        @if (!string.IsNullOrEmpty(Model.SliderInfo.SignImage))
+                        @if (Model.SliderInfo != null && !string.IsNullOrEmpty(Model.SliderInfo.SignImage))
                         {
-                        <div class="signature-frame">
-                            <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature Detail">
-                        </div>
+                            <div class="signature-frame">
+                                <img src="~/img/@Model.SliderInfo.SignImage" alt="Signature Detail">
+                            </div>
                         }
 
                         <div class="video-controls d-flex flex-column align-items-center mb-3">
@@ -310,14 +309,14 @@ var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(
 
 <!-- SCRIPT ALANI -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener('load', function () {
         const btn = document.getElementById("videoToggleBtn");
         const icon = document.getElementById("videoToggleIcon");
         const text = document.getElementById("videoToggleText");
 
         if (btn) {
             btn.addEventListener("click", function () {
-                const activeVideo = document.querySelector(".owl-item.active .video-slide");
+                const activeVideo = document.querySelector("#heroSliderCarousel .owl-item.active .video-slide");
                 if (activeVideo) {
                     if (activeVideo.paused) {
                         activeVideo.play();
@@ -331,11 +330,9 @@ var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(
                 }
             });
         }
-    });
 
-    if (typeof jQuery !== "undefined") {
-        $(document).ready(function(){
-            $(".owl-carousel").owlCarousel({
+        if (window.jQuery && window.jQuery.fn.owlCarousel) {
+            window.jQuery("#heroSliderCarousel").owlCarousel({
                 items: 1,
                 loop: true,
                 autoplay: true,
@@ -343,9 +340,9 @@ var orderedSliders = Model.Sliders.OrderByDescending(s => !string.IsNullOrEmpty(
                 smartSpeed: 1000,
                 nav: false,
                 dots: false,
-                mouseDrag: false,
-                touchDrag: false
+                mouseDrag: true,
+                touchDrag: true
             });
-        });
-    }
+        }
+    });
 </script>

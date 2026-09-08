@@ -3,20 +3,121 @@
 <div class="container my-5" style="max-width: 500px;">
     <h2 class="mb-4 text-center">Delivery Details</h2>
     
-    <!-- Eğer formda bir hata varsa burada kırmızı ile yazacak -->
-    <div asp-validation-summary="All" class="text-danger fw-bold text-center mb-3"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger fw-bold text-center mb-3"></div>
 
     <form asp-controller="Checkout" asp-action="Pay" method="post">
+        
+        <!-- AB Ülkeleri ve Bayrakları -->
+        <div class="mb-3">
+            <label class="form-label">Country</label>
+            <select asp-for="Country" class="form-select" id="countrySelect" required>
+                
+                <option value="">Select a country...</option>
+                <option value="Turkey">🇹🇷 Turkey</option>
+                <option value="Austria">🇦🇹 Austria</option>
+                <option value="Belgium">🇧🇪 Belgium</option>
+                <option value="Bulgaria">🇧🇬 Bulgaria</option>
+                <option value="Croatia">🇭🇷 Croatia</option>
+                <option value="Cyprus">🇨🇾 Cyprus</option>
+                <option value="Czech Republic">🇨🇿 Czech Republic</option>
+                <option value="Denmark">🇩🇰 Denmark</option>
+                <option value="Estonia">🇪🇪 Estonia</option>
+                <option value="Finland">🇫🇮 Finland</option>
+                <option value="France">🇫🇷 France</option>
+                <option value="Germany">🇩🇪 Germany</option>
+                <option value="Greece">🇬🇷 Greece</option>
+                <option value="Hungary">🇭🇺 Hungary</option>
+                <option value="Ireland">🇮🇪 Ireland</option>
+                <option value="Italy">🇮🇹 Italy</option>
+                <option value="Latvia">🇱🇻 Latvia</option>
+                <option value="Lithuania">🇱🇹 Lithuania</option>
+                <option value="Luxembourg">🇱🇺 Luxembourg</option>
+                <option value="Malta">🇲🇹 Malta</option>
+                <option value="Netherlands">🇳🇱 Netherlands</option>
+                <option value="Poland">🇵🇱 Poland</option>
+                <option value="Portugal">🇵🇹 Portugal</option>
+                <option value="Romania">🇷🇴 Romania</option>
+                <option value="Slovakia">🇸🇰 Slovakia</option>
+                <option value="Slovenia">🇸🇮 Slovenia</option>
+                <option value="Spain">🇪🇸 Spain</option>
+                <option value="Sweden">🇸🇪 Sweden</option>
+            </select>
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+
         <div class="mb-3">
             <label class="form-label">City</label>
-            <input asp-for="City" class="form-control" placeholder="New York" required />
+            <select asp-for="City" class="form-select" id="citySelect" required disabled>
+                <option value="">First select a country...</option>
+            </select>
+            <span asp-validation-for="City" class="text-danger"></span>
         </div>
+
         <div class="mb-3">
             <label class="form-label">Address</label>
             <textarea asp-for="Address" class="form-control" rows="3" placeholder="Street, Building, Apartment..." required></textarea>
+            <span asp-validation-for="Address" class="text-danger"></span>
         </div>
+
         <button type="submit" class="btn btn-success w-100 btn-lg rounded-pill mt-3">
             Proceed to Payment
         </button>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const countrySelect = document.getElementById("countrySelect");
+        const citySelect = document.getElementById("citySelect");
+
+        // Tüm AB Ülkelerinin Seçili Şehirleri
+        const euCities = {
+            "Turkey": ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Adana", "Gaziantep", "Konya"],
+            "Austria": ["Vienna", "Salzburg", "Graz", "Linz"],
+            "Belgium": ["Brussels", "Antwerp", "Ghent", "Bruges"],
+            "Bulgaria": ["Sofia", "Plovdiv", "Varna", "Burgas"],
+            "Croatia": ["Zagreb", "Split", "Dubrovnik", "Zadar"],
+            "Cyprus": ["Nicosia", "Limassol", "Larnaca", "Paphos"],
+            "Czech Republic": ["Prague", "Brno", "Ostrava", "Plzeň"],
+            "Denmark": ["Copenhagen", "Aarhus", "Odense", "Aalborg"],
+            "Estonia": ["Tallinn", "Tartu", "Narva", "Pärnu"],
+            "Finland": ["Helsinki", "Espoo", "Tampere", "Vantaa"],
+            "France": ["Paris", "Marseille", "Lyon", "Toulouse"],
+            "Germany": ["Berlin", "Munich", "Hamburg", "Frankfurt"],
+            "Greece": ["Athens", "Thessaloniki", "Patras", "Heraklion"],
+            "Hungary": ["Budapest", "Debrecen", "Szeged", "Miskolc"],
+            "Ireland": ["Dublin", "Cork", "Galway", "Limerick"],
+            "Italy": ["Rome", "Milan", "Naples", "Turin"],
+            "Latvia": ["Riga", "Daugavpils", "Liepāja", "Jelgava"],
+            "Lithuania": ["Vilnius", "Kaunas", "Klaipėda", "Šiauliai"],
+            "Luxembourg": ["Luxembourg City", "Esch-sur-Alzette", "Differdange"],
+            "Malta": ["Valletta", "Birkirkara", "Mosta", "Sliema"],
+            "Netherlands": ["Amsterdam", "Rotterdam", "The Hague", "Utrecht"],
+            "Poland": ["Warsaw", "Kraków", "Łódź", "Wrocław"],
+            "Portugal": ["Lisbon", "Porto", "Braga", "Coimbra"],
+            "Romania": ["Bucharest", "Cluj-Napoca", "Timișoara", "Iași"],
+            "Slovakia": ["Bratislava", "Košice", "Prešov", "Žilina"],
+            "Slovenia": ["Ljubljana", "Maribor", "Kranj", "Celje"],
+            "Spain": ["Madrid", "Barcelona", "Valencia", "Seville"],
+            "Sweden": ["Stockholm", "Gothenburg", "Malmö", "Uppsala"]
+        };
+
+        countrySelect.addEventListener("change", function () {
+            const selectedCountry = this.value;
+            citySelect.innerHTML = '<option value="">Select a city...</option>';
+            
+            if (selectedCountry && euCities[selectedCountry]) {
+                citySelect.disabled = false; 
+                euCities[selectedCountry].forEach(function (city) {
+                    const option = document.createElement("option");
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            } else {
+                citySelect.disabled = true; 
+                citySelect.innerHTML = '<option value="">First select a country...</option>';
+            }
+        });
+    });
+</script>
