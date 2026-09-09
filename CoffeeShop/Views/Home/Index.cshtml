@@ -551,6 +551,9 @@ ViewData["Title"] = "Home Page";
 </main>
 
 <script>
+    
+    
+    
     // PRELOADER KONTROLÜ
     window.addEventListener('load', function() {
         const preloader = document.getElementById('editorial-preloader');
@@ -587,7 +590,21 @@ ViewData["Title"] = "Home Page";
 
         animatedElements.forEach(el => observer.observe(el));
     });
-
+    // DOMContentLoaded veya jQuery ready içine ekleyin
+    $(document).ready(function(){
+        $("#instagram .owl-carousel").owlCarousel({
+            loop: true,
+            margin: 0,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            responsive: {
+                0: { items: 1 },
+                576: { items: 2 },
+                768: { items: 3 },
+                1200: { items: 4 }
+            }
+        });
+    });
     window.addEventListener("load", function() {
         const canvas = document.getElementById("wheelCanvas");
         if(!canvas) return;
@@ -667,4 +684,23 @@ ViewData["Title"] = "Home Page";
             }, 4000);
         };
     });
+    
 </script>
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            $("#instagram .owl-carousel").owlCarousel({
+                loop: true,
+                margin: 0,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                responsive: {
+                    0: { items: 1 },
+                    576: { items: 2 },
+                    768: { items: 3 },
+                    1200: { items: 4 }
+                }
+            });
+        });
+    </script>
+}
