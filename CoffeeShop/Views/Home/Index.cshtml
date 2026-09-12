@@ -550,157 +550,137 @@ ViewData["Title"] = "Home Page";
 
 </main>
 
-<script>
-    
-    
-    
-    // PRELOADER KONTROLÜ
-    window.addEventListener('load', function() {
-        const preloader = document.getElementById('editorial-preloader');
-
-        // Sayfa kaynakları yüklendikten sonra ufak bir estetik bekleme süresi (0.8 saniye) ekliyoruz.
-        // Daha hızlı geçsin istersen 800 değerini 200 veya 300 yapabilirsin.
-        setTimeout(() => {
-            preloader.classList.add('hide-preloader');
-
-            // DOM'dan kaldırmak istersen (Animasyon bitince saniye veriyoruz)
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 1000);
-        }, 800);
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const animatedElements = document.querySelectorAll('.anim-up, .anim-left, .anim-right, .stagger-wrap');
-
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    requestAnimationFrame(() => {
-                        entry.target.classList.add('is-visible');
-                    });
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '0px 0px -10% 0px',
-            threshold: 0.15
-        });
-
-        animatedElements.forEach(el => observer.observe(el));
-    });
-    // DOMContentLoaded veya jQuery ready içine ekleyin
-    $(document).ready(function(){
-        $("#instagram .owl-carousel").owlCarousel({
-            loop: true,
-            margin: 0,
-            autoplay: true,
-            autoplayTimeout: 3000,
-            responsive: {
-                0: { items: 1 },
-                576: { items: 2 },
-                768: { items: 3 },
-                1200: { items: 4 }
-            }
-        });
-    });
-    window.addEventListener("load", function() {
-        const canvas = document.getElementById("wheelCanvas");
-        if(!canvas) return;
-
-        const ctx = canvas.getContext("2d");
-        const spinBtn = document.getElementById("spinBtn");
-        const resultText = document.getElementById("coffeeResult");
-
-        const coffees = [
-            "Caramel Macchiato", "White Mocha", "Cold Brew",
-            "Frappuccino", "Flat White", "Caffe Americano"
-        ];
-
-        const colors = ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"];
-
-        let currentRotation = 0;
-        let isSpinning = false;
-
-        function drawWheel() {
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = centerX;
-            const arcSize = (2 * Math.PI) / coffees.length;
-
-            for (let i = 0; i < coffees.length; i++) {
-                const angle = i * arcSize;
-
-                ctx.beginPath();
-                ctx.fillStyle = colors[i];
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, angle, angle + arcSize);
-                ctx.fill();
-
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = "#000000";
-                ctx.stroke();
-
-                ctx.save();
-                ctx.translate(centerX, centerY);
-                ctx.rotate(angle + arcSize / 2);
-                ctx.textAlign = "right";
-
-                ctx.fillStyle = (colors[i] === "#000000") ? "#ffffff" : "#000000";
-                ctx.font = "600 11px 'Helvetica Neue', Arial";
-                ctx.fillText(coffees[i].toUpperCase(), radius - 18, 4);
-                ctx.restore();
-            }
-        }
-
-        drawWheel();
-
-        spinBtn.onclick = function() {
-            if (isSpinning) return;
-            isSpinning = true;
-            resultText.innerHTML = "SELECTING...";
-            resultText.style.color = "#767676";
-
-            spinBtn.style.transform = "scale(0.96)";
-            setTimeout(() => { spinBtn.style.transform = "none"; }, 150);
-
-            const randomDegree = Math.floor(Math.random() * 360);
-            const totalDegree = 1800 + randomDegree;
-            currentRotation += totalDegree;
-
-            canvas.style.transform = `rotate(${currentRotation}deg)`;
-
-            setTimeout(() => {
-                isSpinning = false;
-
-                const normalizedRotation = currentRotation % 360;
-                const originalTopAngle = (630 - normalizedRotation) % 360;
-                const sliceAngle = 360 / coffees.length;
-                const winnerIndex = Math.floor(originalTopAngle / sliceAngle);
-
-                resultText.innerHTML = `SELECTION: ${coffees[winnerIndex].toUpperCase()}`;
-                resultText.style.color = "#000000";
-            }, 4000);
-        };
-    });
-    
-</script>
 @section Scripts {
     <script>
-        $(document).ready(function(){
-            $("#instagram .owl-carousel").owlCarousel({
-                loop: true,
-                margin: 0,
-                autoplay: true,
-                autoplayTimeout: 3000,
-                responsive: {
-                    0: { items: 1 },
-                    576: { items: 2 },
-                    768: { items: 3 },
-                    1200: { items: 4 }
-                }
+        // 1. Preloader ve Animasyon Kodları
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('editorial-preloader');
+            setTimeout(() => {
+                if(preloader) preloader.classList.add('hide-preloader');
+                setTimeout(() => {
+                    if(preloader) preloader.style.display = 'none';
+                }, 1000);
+            }, 800);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const animatedElements = document.querySelectorAll('.anim-up, .anim-left, .anim-right, .stagger-wrap');
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        requestAnimationFrame(() => {
+                            entry.target.classList.add('is-visible');
+                        });
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px 0px -10% 0px',
+                threshold: 0.15
             });
+
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // 2. Owl Carousel Kodu (jQuery Yüklendikten Sonra Çalışır)
+        $(document).ready(function(){
+            if ($("#instagram .owl-carousel").length) {
+                $("#instagram .owl-carousel").owlCarousel({
+                    loop: true,
+                    margin: 0,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    responsive: {
+                        0: { items: 1 },
+                        576: { items: 2 },
+                        768: { items: 3 },
+                        1200: { items: 4 }
+                    }
+                });
+            }
+        });
+
+        // 3. Çark Kodu (Bootstrap Modal İçin)
+        window.addEventListener("load", function() {
+            const canvas = document.getElementById("wheelCanvas");
+            if(!canvas) return;
+
+            const ctx = canvas.getContext("2d");
+            const spinBtn = document.getElementById("spinBtn");
+            const resultText = document.getElementById("coffeeResult");
+
+            const coffees = [
+                "Caramel Macchiato", "White Mocha", "Cold Brew",
+                "Frappuccino", "Flat White", "Caffe Americano"
+            ];
+
+            const colors = ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"];
+            let currentRotation = 0;
+            let isSpinning = false;
+
+            function drawWheel() {
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const radius = centerX;
+                const arcSize = (2 * Math.PI) / coffees.length;
+
+                for (let i = 0; i < coffees.length; i++) {
+                    const angle = i * arcSize;
+
+                    ctx.beginPath();
+                    ctx.fillStyle = colors[i];
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, radius, angle, angle + arcSize);
+                    ctx.fill();
+
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = "#000000";
+                    ctx.stroke();
+
+                    ctx.save();
+                    ctx.translate(centerX, centerY);
+                    ctx.rotate(angle + arcSize / 2);
+                    ctx.textAlign = "right";
+
+                    ctx.fillStyle = (colors[i] === "#000000") ? "#ffffff" : "#000000";
+                    ctx.font = "600 11px 'Helvetica Neue', Arial";
+                    ctx.fillText(coffees[i].toUpperCase(), radius - 18, 4);
+                    ctx.restore();
+                }
+            }
+
+            drawWheel();
+
+            if(spinBtn) {
+                spinBtn.onclick = function() {
+                    if (isSpinning) return;
+                    isSpinning = true;
+                    
+                    resultText.innerHTML = "SELECTING...";
+                    resultText.style.color = "#767676";
+                    
+                    spinBtn.style.transform = "scale(0.96)";
+                    setTimeout(() => { spinBtn.style.transform = "none"; }, 150);
+
+                    const randomDegree = Math.floor(Math.random() * 360);
+                    const totalDegree = 1800 + randomDegree;
+                    currentRotation += totalDegree;
+
+                    canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+                    setTimeout(() => {
+                        isSpinning = false;
+                        const normalizedRotation = currentRotation % 360;
+                        const originalTopAngle = (630 - normalizedRotation) % 360;
+                        const sliceAngle = 360 / coffees.length;
+                        const winnerIndex = Math.floor(originalTopAngle / sliceAngle);
+
+                        resultText.innerHTML = `SELECTION: ${coffees[winnerIndex].toUpperCase()}`;
+                        resultText.style.color = "#000000";
+                    }, 4000); // 4 Saniye (CSS transition süresi ile aynı olmalı)
+                };
+            }
         });
     </script>
 }
