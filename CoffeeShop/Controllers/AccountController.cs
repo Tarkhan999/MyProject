@@ -1,12 +1,8 @@
 using FiorelloBackendPractice.Helpers.Enums;
 using FiorelloBackendPractice.Models;
 using FiorelloBackendPractice.ViewModels.Account;
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MimeKit;
-using MimeKit.Text;
 
 namespace FiorelloBackendPractice.Controllers;
 
@@ -49,6 +45,7 @@ public class AccountController : Controller
         };
 
         var result = await _userManager.CreateAsync(user, request.Password);
+        
         if (!result.Succeeded)
         {
             foreach (var item in result.Errors)
@@ -58,66 +55,14 @@ public class AccountController : Controller
             return View(request);
         }
 
+        // Kullanıcıya rol ataması
         await _userManager.AddToRoleAsync(user, Roles.Member.ToString());
-        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        var link = Url.Action(nameof(ConfirmEmail), "Account", new
-        {
-            userId = user.Id,
-            token,
-        }, Request.Scheme, Request.Host.ToString());
 
-        // Email Mesajı Oluşturma
-        string senderEmail = _config["SmtpSettings:SenderEmail"];
-        var email = new MimeMessage();
-        email.From.Add(MailboxAddress.Parse(senderEmail));
-        email.To.Add(MailboxAddress.Parse(user.Email));
-        email.Subject = "Email Confirmation";
-        email.Body = new TextPart(TextFormat.Html) { Text = $"<a href='{link}'>Click Here</a>" };
-
-        // Email Gönderme
-        using var smtp = new SmtpClient();
-        smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
-        string smtpServer = _config["SmtpSettings:Server"];
-        int smtpPort = int.Parse(_config["SmtpSettings:Port"] ?? "587");
-        string smtpPassword = _config["SmtpSettings:Password"];
-
-        await smtp.ConnectAsync(smtpServer, smtpPort, SecureSocketOptions.StartTls);
-        await smtp.AuthenticateAsync(senderEmail, smtpPassword);
-        await smtp.SendAsync(email);
-        await smtp.DisconnectAsync(true);
-
-        return RedirectToAction(nameof(VerifyEmail));
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> ConfirmEmail(string userId, string token)
-    {
-        if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
-        {
-            return BadRequest();
-        }
-
-        AppUser user = await _userManager.FindByIdAsync(userId);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        var result = await _userManager.ConfirmEmailAsync(user, token);
-        if (!result.Succeeded)
-        {
-            return BadRequest();
-        }
-
-        await _signInManager.SignInAsync(user, false);
+        // Kayıt başarılı olduğunda kullanıcıyı doğrudan sisteme giriş yaptır
+        await _signInManager.SignInAsync(user, isPersistent: false);
+        
+        // Ana sayfaya yönlendir
         return RedirectToAction("Index", "Home");
-    }
-
-    [HttpGet]
-    public IActionResult VerifyEmail()
-    {
-        return View();
     }
 
     [HttpGet]
@@ -193,7 +138,7 @@ public class AccountController : Controller
                 UserName = _config["AdminSettings:UserName"],
                 Email = myEmail,
                 FullName = _config["AdminSettings:FullName"],
-                EmailConfirmed = true // E-posta onayını aktif eder
+                EmailConfirmed = true 
             };
 
             string adminPassword = _config["AdminSettings:Password"];
@@ -206,6 +151,7 @@ public class AccountController : Controller
 
         return RedirectToAction("Index", "Home");
     }
+    
     [HttpPost]
     public async Task<IActionResult> QuickSubscribeLogin(string email)
     {
@@ -214,17 +160,14 @@ public class AccountController : Controller
             return Json(new { success = false, message = "Email cannot be empty." });
         }
 
-        // 1. Kullanıcıyı email ile veritabanında ara
         var user = await _userManager.FindByEmailAsync(email);
 
         if (user != null)
         {
-            // 2. Kullanıcı bulunduysa ŞİFRESİZ giriş yap (Sadece test projeleri içindir!)
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Json(new { success = true, isLogin = true, message = "Welcome back! Logging you in..." });
         }
 
-        // 3. Kullanıcı yoksa sadece bültene abone olmuş gibi davran
         return Json(new { success = true, isLogin = false, message = "Thank you for subscribing to our club!" });
     }
 }
